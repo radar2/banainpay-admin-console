@@ -1,0 +1,65 @@
+<div class="wp-component">
+    <div class="wp-component-header border-bottom">
+        <div class="d-flex flex-column align-items-start">
+            <div class="">
+                <h2 class="wp-component-title">Historique des paiements</h2>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="wp-component-content">
+        <div class="history">
+
+            <nz-table  class="py-3" #basicTable [nzData]="paymentsList">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Méthode</th>
+                        <th>Type</th>
+                         <th>Etat</th>
+                        <th>Référence</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(payment of basicTable.data; track payment.id) {
+                    <tr>
+                        <td scope="row">{{payment.occurredOn}}</td>
+                        <th scope="row">{{formatAmount(payment.amount)}}</th>
+                        <th>{{payment.paymentMethod}}</th>
+                        <td>{{payment.paymentMethodType}}</td>
+                        <td>
+                            <span *ngIf="payment.state=='PENDING'" class="badge bg-secondary">Initié</span>
+                            <span *ngIf="payment.state=='FAILED'" class="badge bg-danger">Echoué</span>
+                            <span *ngIf="payment.state=='PROCESSING'" class="badge bg-primary">En cours</span>
+                            <span *ngIf="payment.state=='COMPLETED'" class="badge bg-success">Terminé</span>
+
+                        </td>
+                        <td>{{payment.reference}}</td>
+                        
+                        <td>
+                            <a (click)="showDetails(payment.id)" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                aria-controls="offcanvasRight">Voir déteails <i class="typcn typcn-arrow-right"></i></a>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </nz-table>
+        </div>
+
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Détails paiement</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <payment-details [paymentId]="paymentId"></payment-details>
+    </div>
+</div>

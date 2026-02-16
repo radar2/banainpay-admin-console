@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: '/payments/history',
     pathMatch: 'full'
   },
   {
@@ -13,6 +13,19 @@ export const routes: Routes = [
       title: 'Home'
     },
     children: [
+      {
+        path:'payments',
+        loadChildren:() =>import('./payments/payment.route').then(m =>m.routes)
+      },
+      {
+        path:'applications',
+        loadChildren:() => import('./application/application.routes').then(m => m.routes),
+      },
+      {
+        path:'methods',
+        loadChildren:() =>import('./payment-method/payment-method.route').then(m =>m.routes)
+      },
+      
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)

@@ -1,0 +1,94 @@
+<div class="wp-component">
+    <div class="wp-component-header border-bottom">
+        <div class="d-flex flex-column align-items-start">
+            <div class="">
+                <h2 class="wp-component-title">Configurations</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="wp-component-content">
+       <div class="text-end">
+    <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#paramForm">
+        <i class="fa fa-plus"></i> Nouveau paramétre
+    </button>
+</div>
+
+<div class="py-3">
+    <div *ngFor="let configuration of configurations">
+        <div class=" ">
+        <h3>Pays : {{configuration.countryCode}}</h3>
+    </div>
+    <nz-table class="table table-bordered" #basicTable [nzData]="configuration.entries">
+        <thead>
+            <tr>
+                <!-- <th>Code Pays</th> -->
+                <th>Libelle</th>
+                <th>Valeur</th>
+                
+                <th>Crypté</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let c of basicTable.data; track">
+                <!-- <th scope="row">{{c.countryCode}}</th> -->
+                <td>{{c.key}}</td>
+                <td><span *ngIf="!c.encrypted">{{c.value}}</span> </td>
+                
+                <td> {{c.encrypted}}</td>
+                <td>
+                    <span style="cursor: pointer;" class="text-primary"><i class="fa fa-pen"></i></span>
+                    <span style="cursor: pointer;" class="text-danger ms-2"><i class="fa fa-trash"></i></span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="paramForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="paramFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paramFormLabel">Paramètre</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="configForm" class="from">
+            <div class="form-group">
+                <label for="">Pays</label>
+                <select name="" id="" class="form-control" formControlName="countryCode">
+                    <option value="CI">Cote Ivoire</option>
+                    <option value="ML">MALI</option>
+                    <option value="SN">Senegal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Libelle</label>
+                <input type="text" class="form-control" formControlName="key">
+            </div>
+            <div class="form-group">
+                <label for="">Valeur</label>
+                <input type="text" class="form-control" formControlName="value">
+            </div>
+
+            <div class="form-group">
+                <label for="">Crypté la valeur</label>
+                <input class="ms-3" type="checkbox" formControlName="encrypted">
+            </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button (click)="save()" type="button" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+</div>

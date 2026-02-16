@@ -1,5 +1,134 @@
-<app-widgets-dropdown />
-<c-card class="my-4">
+<div class="">
+  <h2 class=""><i class="fa fa-sack-dollar"></i> Soldes </h2>
+</div>
+<div class="row align-items-stretch py-3" style="">
+  <div class="col-md-6 d-flex">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="wallet h-100 ">
+          <span class="lead"> Solde global</span>
+          <h2 class="amount">
+            <!-- {{ convertMoney((balance$ | async)?.amount, (balance$ | async)?.currency) }} -->
+            {{formatAmount(globalBalance? globalBalance.amount: 0)}}
+          </h2>
+          <div>
+            <span class="lastModifiedDate text-primary">Dernière Mise à jours:
+              {{globalBalance?.lastModifiedDate}}</span>
+          </div>
+          <div class="d-flex justify-content-center py-4">
+            <button [routerLink]="['/payments/history']" class="btn btn-sm btn-primary">Historique de paiements <i
+                class="fa fa-arrow-right"></i></button>
+            <button [routerLink]="['/payments/transactions']" class="btn btn-sm btn-secondary ms-2">Historique des
+              transactions <i class="fa fa-arrow-right"></i></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 ">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="text-center wallet">
+          <span class="lead"> Plateforme</span>
+          <h2 class="amount">
+            <!-- {{ convertMoney((balance$ | async)?.amount, (balance$ | async)?.currency) }} -->
+            {{formatAmount(platformBalance? platformBalance.amount: 0)}}
+          </h2>
+          <div>
+            <span class="lastModifiedDate text-primary">Dernière Mise à jours:
+              {{platformBalance?.lastModifiedDate}}</span>
+          </div>
+          <!-- <div class="d-flex justify-content-center">
+            <button [routerLink]="['/payments/history']" class="btn btn-sm btn-primary">Historique  de paiements <i class="fa fa-arrow-right"></i></button>
+            <button [routerLink]="['/payments/transactions']" class="btn btn-sm btn-secondary ms-2">Historique des transactions <i class="fa fa-arrow-right"></i></button>
+        </div> -->
+
+        </div>
+        <hr>
+        <div class="text-center wallet">
+          <span class="lead">Marchands</span>
+          <h2 class="amount">
+            {{formatAmount(marchandBalance? marchandBalance: 0)}}
+          </h2>
+          <div>
+            <span class="lastModifiedDate text-primary">Dernière Mise à jours:
+              {{platformBalance?.lastModifiedDate}}</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6"></div>
+  <div class="col-md-6"></div>
+</div>
+
+
+<div class="pt-4">
+  <h2 class=""> <i class="fa fa-credit-card"></i> Fournisseur de paiement</h2>
+</div>
+<div class=" row  p-2">
+  <div *ngFor="let item of totalPaymentAmountPerProvider" class="col-md-3 py-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+
+          <span class="lead">{{item.provider}}</span>
+          <img [src]="getLogoUrl(item.provider)" alt="" width="50px" height="">
+        </div>
+        <hr>
+        <h3 style="font-weight: bold;">{{item.amount}}</h3>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="pt-4">
+  <h2 class=""> <i class="fa fa-credit-card"></i> Paiements</h2>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+    <div class="card-body">
+         <canvas baseChart
+          [data]="amountOfLastTwelveMonthsChartData"
+          [options]="chartOptions"
+          [type]="'line'">
+        </canvas>
+    </div>
+  </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card" >
+    <div class="card-body">
+         <div class="d-flex justify-content-center" style="height: 300px;">
+          <canvas baseChart 
+          [height]="300"
+          [width]="500"
+          [data]="paymentStateChartData"
+          [options]="paymentStateChartOptions"
+          [type]="'pie'">
+        </canvas>
+         </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+
+<!-- <app-widgets-dropdown class="my-4" /> -->
+
+
+
+<!-- <c-card class="my-4">
   <c-card-body>
     <c-row>
       <c-col sm="5">
@@ -107,9 +236,9 @@
       </c-col>
     </c-row>
   </c-card-footer>
-</c-card>
+</c-card> -->
 
-<app-widgets-brand [withCharts]="true" />
+<!-- <app-widgets-brand [withCharts]="true" />
 
 <c-row class="mt-4">
   <c-col xs>
@@ -392,4 +521,4 @@
       </c-card-body>
     </c-card>
   </c-col>
-</c-row>
+</c-row> -->

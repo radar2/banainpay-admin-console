@@ -1,0 +1,63 @@
+<div class="wp-component">
+    <div class="wp-component-header d-flex justify-content-between">
+       
+        <h3 class="wp-component-title">Historiques Transactions</h3>
+         <a href="#" (click)="goToPaymentHistory()">Historique de paiements <i class="fa fa-arrow-right"></i></a>
+    </div>
+
+     <div class="wp-component-content">
+        <div class="typeDescription py-4">
+            <p><span style="font-weight: 800;">PAYMENT</span>  : <span> Montant de paiement effectué pour une application.</span></p>
+            <p><span style="font-weight: 800;">PROVIDER_FEES </span>  : <span> Montant des frais prélévés par le fournisseur de de paiement.</span></p>
+            <p><span style="font-weight: 800;">PLATFORM_FEES </span>  : <span> Montant des frais prélévés par la plateforme.</span></p>
+
+        </div>
+        <nz-table   #basicTable [nzData]="transactions">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Type</th>
+                   
+                    <th>ID payment</th>
+                     <!-- <th>ID Application</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    <td>10/01/2026</td>
+                    <td>
+                        <span  class="text-success" > + 1000 FCFA</span>
+                    </td>
+                    <th scope="row" class="text-success">PAYMENT</th>
+                    <td>be7749d2-95e0-461e-8881-e644b3583e78</td>
+                </tr>
+                <tr>
+                    <td>10/01/2026</td>
+                    <td>
+                        <span  class="text-danger" > - 100 FCFA</span>
+                    </td>
+                    <th scope="row" class="text-danger">FEES</th>
+                    <td>be7749d2-95e0-461e-8881-e644b3583e78</td>
+                </tr> -->
+           
+                @for(transaction of basicTable.data; track transaction.id) {
+                    <tr>
+                        <td>{{transaction.occurredOn}}</td>
+                        <td> 
+                            @if(transaction.type=='PAYMENT') {
+                                <span class="text-success">+ {{convertMoney(transaction.amount)}}</span>
+                            }@else if(transaction.type=='PLATFORM_FEES' || transaction.type=='PROVIDER_FEES'){
+                                <span class="text-danger">- {{convertMoney(transaction.amount)}}</span>
+                            }                            
+                        </td>
+                        <th scope="row"><span [ngClass]="transaction.type=='PAYMENT'? 'text-success':'text-danger'">{{transaction.type}}</span></th>
+                        <!-- <td>{{transaction.id}}</td> -->
+                        <th scope="row">{{transaction.paymentId}}</th>
+                    </tr>
+            }
+            </tbody>
+        </nz-table>
+     </div>
+    
+</div>

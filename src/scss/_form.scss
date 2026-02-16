@@ -1,0 +1,19 @@
+label {
+    color: #777;
+    font-size: 0.97rem;
+}
+.form-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-control {
+    box-shadow: none !important;
+}
+
+.input-error {
+    label {
+        color: #ff0000;
+    }
+    .form-control { border: 1px solid #ff0000;}
+}

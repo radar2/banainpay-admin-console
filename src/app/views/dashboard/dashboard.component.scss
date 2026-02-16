@@ -5,3 +5,42 @@
     }
   }
 }
+
+
+.wallet h2 {
+    font-size: 40px;
+    font-weight: normal;
+}
+
+.wallet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.lastModifiedDate {
+    font-weight: bold;
+}
+
+.momo {
+  background-color: #f9b117;
+  color: #fff;
+}
+
+.om {
+  background-color: #f37604;
+  color: #fff;
+}
+
+.wave {
+  background-color: #3399ff;
+  color: #fff;
+}
+
+.moov {
+  background-color: #299d52;
+  color: #fff;
+}

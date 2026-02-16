@@ -1,0 +1,68 @@
+<div>
+    <div class=" text-center wallet border-bottom">
+        <span><i class="fa fa-sack-dollar"></i> Solde</span>
+        <h2 class="amount">
+            {{ convertMoney((balance$ | async)?.amount) }}
+        </h2>
+        <div>
+            <span class="lastModifiedDate text-primary">Dernière Mise à jours: {{(balance$ | async)?.lastModifiedDate}}</span>
+        </div>
+        <button [routerLink]="['/applications/details/',application?.id, 'transactions']" class="btn btn-sm btn-outline-secondary">Historique des transactions <i class="fa fa-arrow-right"></i></button>
+    </div>
+
+    <div class="history">
+        <div class="py-3">
+            <h3> Historique de paiements</h3>
+        </div>
+        <nz-table class="py-3" #basicTable [nzData]="paymentsList">
+            <thead>
+                <tr>
+                    
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Fournisseur</th>
+                    <th>Type</th>
+                    <th>Etat</th>
+                    <th>Référence</th>
+                    <th>ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(payment of basicTable.data; track payment.id) {
+                    <tr>
+                        <td>{{payment.occurredOn}}</td>
+                        <th scope="row">{{convertMoney(payment?.amount)}}</th>
+                        <th scope="row">{{payment.paymentMethod | uppercase}}</th>
+                        <th scope="row">{{payment.paymentMethodType}}</th>
+                        <td>
+                            <span *ngIf="payment.state=='PENDING'"  class="badge bg-secondary">Initié</span>
+                            <span *ngIf="payment.state=='FAILED'" class="badge bg-danger">Echoué</span>
+                            <span *ngIf="payment.state=='PROCESSING'" class="badge bg-primary">En cours</span>
+                            <span *ngIf="payment.state=='COMPLETED'" class="badge bg-success">Terminé</span>
+                            
+                        </td>
+                        <td>{{payment.reference}}</td>
+                        <td>{{payment.id}}</td>
+                        <td>
+                            <a (click)="showDetails(payment.id)" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Voir déteails <i class="typcn typcn-arrow-right"></i></a>
+                        </td>
+                    </tr>
+                }
+                 
+            </tbody>
+        </nz-table>
+    </div>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Détails paiement</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+   <payment-details [paymentId]="paymentId"></payment-details>
+  </div>
+</div>
+
+</div>

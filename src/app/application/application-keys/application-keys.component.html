@@ -1,0 +1,128 @@
+<div>
+    <h3><i class="fa fa-lock"></i> Parametres d'authentification de l'application</h3>
+    <div>
+        <p class="alert ">
+            Ces identifiants permettent d’obtenir un Jeton d'acces' via le endpoint d’authentification. <br>
+            Ils doivent être envoyés dans l’en-tête Authorization en utilisant le schéma Basic.
+        </p>
+        <div class="py-3">
+            <button class="btn btn-sm btn-primary">Générer un jeton d'accès</button>
+        </div>
+        <div class="row">
+            <div class=" col-md-6">
+                <label for="">ID de l'application</label> <br>
+                <span>{{application?.id}}</span>
+            </div>
+            <div class="col-md-6 key">
+                <label for="">Clé sécrete</label>
+                <span class="ms-2" (click)="showKey()"><i class="fa fa-eye"></i></span>
+                <!-- <small (click)="showKey()" class="show ">Afficher</small> -->
+                <br>
+                <!-- <input type="text" class="form-control" [value]="key" disabled> -->
+                <span>{{key}}</span>
+
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="webhook py-4">
+        <h3><i class="fa fa-link"></i> Webhook</h3>
+        <p>
+            À chaque évolution du paiement,
+le système déclenchera une requête HTTP POST (webhook) vers l’URL configurée par l’application cliente. <br>
+Le corps de la requete est JSON.
+        </p>
+        <div class=" form-group col-md-7" [ngClass]="{'input-error': webhookUrl.errors && 
+            (webhookUrl.touched || webhookUrl.dirty)}">
+            <label for="">Adresse URL</label> <br>
+            <input [formControl]="webhookUrl" type="text" class="form-control">
+            @if(webhookUrl.errors && webhookUrl.touched || webhookUrl.dirty) {
+                <div>
+                    @if(webhookUrl.hasError('required')) {
+                        <small class="text-danger">L' adresse URL du webhook  est requis.</small>
+                    }
+                </div>
+            }
+        </div>
+       
+    </div>
+
+
+    <!-- <hr class="my-4"> -->
+
+    <div class="feesRate py-4">
+        <h3><i class="fa fa-percent"></i> Taux de frais</h3>
+        <p>
+            Pourcentage des frais prélévés sur chaque paiement.
+        </p>
+        <div class=" form-group col-md-4" [ngClass]="{'input-error': webhookUrl.errors && 
+            (webhookUrl.touched || webhookUrl.dirty)}">
+            <label for="">Taux</label> <br>
+            <input [formControl]="webhookUrl" type="text" class="form-control col-md-3">
+            @if(webhookUrl.errors && webhookUrl.touched || webhookUrl.dirty) {
+                <div>
+                    @if(webhookUrl.hasError('required')) {
+                        <small class="text-danger">Le taux est obligatoire</small>
+                    }
+                </div>
+            }
+        </div>
+        <!-- <div>
+            <button (click)="changeWebhookUrl()" class="btn btn-sm btn-primary">
+                @if(!loading) {
+                    Configurer
+                }@else{
+                    <span class="spinner-border" role="status"></span>
+                }
+            </button>
+        </div> -->
+    </div>
+
+     <div class="feesRate py-4">
+        <h3><i class="fa fa-mobile"></i>Versement</h3>
+        <p>
+            Ce numéro sera utiliser pour recevoir de l'argent
+        </p>
+        <div class=" form-group col-md-4" [ngClass]="{'input-error': webhookUrl.errors && 
+            (webhookUrl.touched || webhookUrl.dirty)}">
+            <label for="">Mode de versement</label> <br>
+           <select name="" id="" class="form-control">
+            <option value="">A la demande</option>
+            <option value="">Chaque jour</option>
+            <option value="">Chaque Semaine</option>
+            <option value="">Chaque Mois</option>
+            <option value="">Chaque Trimestre</option>
+           </select>
+            @if(webhookUrl.errors && webhookUrl.touched || webhookUrl.dirty) {
+                <div>
+                    @if(webhookUrl.hasError('required')) {
+                        <small class="text-danger">Le taux est obligatoire</small>
+                    }
+                </div>
+            }
+        </div>
+        <div class=" form-group col-md-5" [ngClass]="{'input-error': webhookUrl.errors && 
+            (webhookUrl.touched || webhookUrl.dirty)}">
+            <label for="">Numéro mobile</label> <br>
+            <input [formControl]="webhookUrl" type="text" class="form-control col-md-3">
+            @if(webhookUrl.errors && webhookUrl.touched || webhookUrl.dirty) {
+                <div>
+                    @if(webhookUrl.hasError('required')) {
+                        <small class="text-danger">Le taux est obligatoire</small>
+                    }
+                </div>
+            }
+        </div>
+        <div>
+            <button (click)="changeWebhookUrl()" class="btn btn-sm btn-primary">
+                @if(!loading) {
+                    Enregistrer
+                }@else{
+                    <span class="spinner-border" role="status"></span>
+                }
+            </button>
+        </div>
+    </div>
+</div>

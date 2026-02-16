@@ -1,0 +1,49 @@
+<h3>Informations générales</h3>
+<form [formGroup]="applicationForm" action="" class="form">
+    <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('name')?.errors && 
+                (applicationForm.get('name')?.touched || applicationForm.get('name')?.dirty)}">
+        <label for="name">Nom de l'application</label>
+        <input type="text" class="form-control" formControlName="name">
+        @if(applicationForm.get('name')?.errors &&
+        (applicationForm.get('name')?.touched || applicationForm.get('name')?.dirty)) {
+        <div>
+            @if(applicationForm.get('name')?.hasError('required')) {
+            <small class="text-danger">le nom de l'application est réquise.</small>
+            }
+        </div>
+        }
+
+    </div>
+    <div class="form-group form-group col-md-6">
+        <label for="description" >Description</label>
+        <textarea class="form-control" formControlName="description" name="" id="" placeholder="Saisi la description"></textarea>
+    </div>
+    <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('countryCode')?.errors && 
+                (applicationForm.get('countryCode')?.touched || applicationForm.get('countryCode')?.dirty)}">
+        <label for="name">Pays</label>
+        <select name="" id="" class="form-control" formControlName="countryCode">
+            <option value="">Selectionner un pays</option>
+            <option value="CI">Cote d'Ivoire</option>
+            <option value="ML">Mali</option>
+            <option value="RDC">Republique démocratique du Congo</option>
+        </select>
+        @if(applicationForm.get('countryCode')?.errors && (applicationForm.get('countryCode')?.touched ||
+        applicationForm.get('countryCode')?.dirty)) {
+            <div>
+                @if(applicationForm.get('countryCode')?.hasError('required')) {
+                <small class="text-danger">le pays est réquise.</small>
+                }
+            </div>
+            }
+    </div>
+<!-- 
+    <div class="form-group col-md-6">
+        <label for="">Importer une image</label>
+        <input type="file" class="form-control">
+    </div> -->
+
+    <div class="py-3">
+        <button (click)="submit()" class="btn btn-sm btn-primary">
+            Enregistrer <i class="typcn typcn-arrow-right"></i></button>
+    </div>
+</form>

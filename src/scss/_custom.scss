@@ -15,3 +15,55 @@
 .select-week .calendar-row.current {
   cursor: pointer;
 }
+
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+  margin: 0px;
+  // text-transform: uppercase;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+.wp-component {
+  background-color: #fff;
+  &-header {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 75px;
+  }
+  &-title {
+      color: #1c273c;
+      font-weight: 500;
+      font-size: 24px;
+      text-indent: -1px;
+      letter-spacing: -5;
+  }
+  &-content{
+    padding: 20px;
+  }
+
+  p {
+    padding: 10px 0px;
+    margin: 0px;
+    color: #555;
+    font-size: 15px;
+  }
+  
+}

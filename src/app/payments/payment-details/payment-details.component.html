@@ -1,0 +1,107 @@
+<div class="">
+    <div class="text-center">
+        <h2>{{convertMoney(payment?.amount)}}</h2>
+    </div>
+    <table class="table table-borderless align-middle">
+        <tbody>
+            <tr>
+            <td><label for="">Référence</label></td>
+            <td><span style="font-weight: bold;">{{payment?.reference}}</span></td>
+        </tr>
+        <tr>
+            <td><label for="">Status</label></td>
+            <td>
+                <span *ngIf="payment?.state=='PENDING'" class="badge bg-secondary ">Initié</span>
+                <span *ngIf="payment?.state=='FAILED'" class="badge bg-danger">Echoué</span>
+                <span *ngIf="payment?.state=='PROCESSING'" class="badge bg-primary">En cours</span>
+                <span *ngIf="payment?.state=='COMPLETED'" class="badge bg-success">Terminé</span>
+            </td>
+            
+        </tr>
+        <tr>
+            <td><label for="">Date</label></td>
+            <td class="lead">{{payment?.occurredOn}}</td>
+        </tr>
+        <tr>
+            <td><label for="">Montant</label></td>
+            <td class="lead">{{payment?.amount}}</td>
+        </tr>
+        <tr>
+            <td><label for="">Devise</label></td>
+            <td class="lead">{{payment?.currency}}</td>
+        </tr>
+         <tr>
+            <td><label for="">Frais</label></td>
+            <td class="lead">{{payment?.fees?.number}} </td>
+        </tr>
+        <tr>
+            <td><label for="">Application</label></td>
+            <td class="lead">Novelia</td>
+        </tr>
+        <tr>
+            <td><label for="">Raison</label></td>
+            <td class="">{{payment?.reason}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <h4>Details methode de paiement</h4>
+    <table class="table table-borderless">
+        <tbody>
+            
+            <tr>
+                <td><label for="">Fournisseur</label></td>
+                <td>
+                    @if(payment) {
+                       <span style="font-weight: bold;"> {{payment.paymentMethod}}</span> <br>
+                        <img [src]="getLogoUrl(payment.paymentMethod)" width="50px" alt="">
+                    }
+                </td>
+            </tr>
+             <tr>
+                <td><label for="">Type</label></td>
+                <td class="lead">{{payment?.paymentMethodType}}</td>
+            </tr>
+            <tr>
+                <td><label for="">Pays</label></td>
+                <td class="lead"> {{payment?.country}}</td>
+            </tr>
+            
+           
+        </tbody>
+    </table>
+
+    <hr>
+    <div>
+        <h4>Historique</h4>
+        <div>
+           <nz-steps [nzCurrent]="(events.length - 1)" nzStatus="process" nzProgressDot nzDirection="vertical">
+                @for(evt of events; track evt.paymentId) {
+                    @if(evt.state == 'PENDING') {
+                    <nz-step nzTitle="Initiation de paiement" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Montant: ' + evt.amount"></nz-step>
+                    }
+                    @if(evt.state == 'PROCESSING') {
+                    <nz-step nzTitle="Choix de mode paiement" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Fournisseur : ' + evt.provider"></nz-step>
+                    }
+
+                    @if(evt.state == 'COMPLETED') {
+                    <nz-step nzTitle="Terminé" [nzSubtitle]="formatDate(evt.occurredOn)" nzDescription="Paiement efféctué avec succes"></nz-step>
+                    }
+
+                    @if(evt.state == 'FAILED') {
+                    <nz-step nzTitle="Échoué" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="evt.reason"></nz-step>
+                    }
+                    
+        
+                }
+               
+            </nz-steps>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<nz-step nzTitle="EN COURS" nzSubtitle="05/02/2026 11:13:54" nzDescription="Methode de paiement choisi." />
+                <nz-step nzTitle="ECHOUÉ" nzSubtitle="05/02/2026 11:13:54" nzDescription="Paiement échoué." />
+                <nz-step nzTitle="TERMINÉ" nzSubtitle="05/02/2026 11:13:54" nzDescription="Payment terminé" /> -->

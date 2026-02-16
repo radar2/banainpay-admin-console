@@ -1,23 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
-// Import styles with default layout.
 @use "@coreui/coreui/scss/coreui" as * with (
   $enable-deprecation-messages: false
 );
 
 // Import Chart.js custom tooltips styles
 @use "@coreui/chartjs/scss/coreui-chartjs";
+// Import styles with default layout.
+
+
+
 
 // Custom styles for this theme
 @use "theme";
 
 // Some temp fixes
-//@use "fixes";
+//@import "fixes";
 
 // If you want to add custom CSS you can put it here.
 @use "custom";
 
 // Examples
-// We use those styles to show code examples, you should remove them in your application.
+// We import those styles to show code examples, you should remove them in your application.
 @use "examples";
+
+@import './../../node_modules/typicons.font/src/font/typicons.css';
+@import './../../node_modules/@fortawesome/fontawesome-free/css/all.css';
+// @import './../../node_modules/bootstrap/scss/bootstrap.scss';
+
+// Waiepay buttoon style
+@import './bootstrap';
+@import "./button";
+@import "./table";
+@import "./form";
 

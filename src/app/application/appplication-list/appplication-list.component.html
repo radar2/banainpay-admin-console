@@ -1,0 +1,58 @@
+<div class="wp-component">
+    <div class="wp-component-header border-bottom">
+        <h2 class="wp-component-title">Liste des applications</h2>
+    </div>
+
+    <div class="wp-component-content">
+        <div class="d-flex justify-content-end">
+            <button [routerLink]="['/applications/new']" class="btn btn-sm wp-btn btn-primary"><i
+                    class="typcn typcn-plus"></i> Créer une nouvelle application</button>
+        </div>
+        <nz-table class=" my-3" #basicTable [nzData]="applications">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom application</th>
+                    <th>Status</th>
+                    <th>Pays</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (application of basicTable.data; track application.id) {
+                <tr>
+                    <td>{{application.id}}</td>
+                    <th scope="row">{{application.name}}</th>
+                    <td>
+                        <div class="d-flex">
+                            <span class="badge" [ngClass]="application.active ? 'bg-success' : 'bg-danger'">
+                            {{ application.active ? 'Activé' : 'Désactivé' }}
+                        </span>
+                        <div class="dropdown">
+                            <span class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-ellipsis-vertical"></i>
+                            </span>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li (click)="activateApplication(application.id)" *ngIf="!application.active" ><span class="dropdown-item" ><i class="fa fa-check "></i> Activer</span></li>
+                                <li *ngIf="application.active"><span class="dropdown-item" ><i class="fa fa-xmark"></i> Desactiver</span></li>
+                            </ul>
+                        </div>
+                        </div>
+                    </td>
+
+                    <td>{{application.countryCode}}</td>
+                    <td>
+                        <a [routerLink]="['/applications/details', application.id, 'payments']">Voir les details <i class="typcn typcn-arrow-right"></i></a>
+                         
+                        </td>
+                </tr>
+                }
+
+        
+            </tbody>
+        </nz-table>
+
+        
+    </div>
+</div>

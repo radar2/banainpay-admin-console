@@ -1,0 +1,40 @@
+<div>
+    <div class="d-flex justify-content-between">
+        <h3>Liste de methodes de paiements</h3>
+        <!-- <a [routerLink]="['/']" class="nav-link text-primary"><i class="fa fa-plus"></i> Ajouter une méthode</a> -->
+    </div>
+
+    <div class="py-3">
+        <nz-table class="table" #basicTable [nzData]="lists">
+            <thead>
+                <tr>
+                     <th>#</th>
+                    <th>Nom</th>
+                    <th>Fourniseur</th>
+                    <th>Methode</th>
+                    <th>Etat</th>
+                    <!-- <th>Action</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                @for(method of basicTable.data; track method.id) {
+                    <tr>
+                    <td><img width="50px" [src]="getLogo(method.name)" alt=""></td>
+                    <th scope="row">{{method.name}}</th>
+                    <td>{{method.provider}}</td>
+                    <th scope="row" class="text-primary">
+                        <i class="fa fa-wallet"></i>
+                        {{method.type}}
+                        
+                    </th>
+                    <td><span class="badge" [ngClass]="method.enabled? 'bg-success':'bg-danger'">
+                        {{method.enabled? 'Activé':'Désactivé'}}
+                    </span></td>
+                    
+                </tr>
+                }
+            </tbody>
+        </nz-table>
+    </div>
+
+</div>

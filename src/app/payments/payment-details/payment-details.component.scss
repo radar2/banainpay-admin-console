@@ -1,0 +1,116 @@
+.payment-details-card {
+  max-width: 430px;
+  margin: 40px auto;
+  padding: 2rem 2.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 10px rgba(49,53,63,0.09);
+  font-family: 'Inter', Arial, sans-serif;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .section {
+    margin-bottom: 1.2rem;
+
+    label {
+      color: #777;
+      font-size: 0.97rem;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .amount {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #2dbe60;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.34em 1em;
+      border-radius: 1.5em;
+      font-size: 0.89em;
+      font-weight: 600;
+      background: #f3f7f6;
+      color: #00bb5d;
+      letter-spacing: 0.2px;
+    }
+    &.succeeded .badge {
+      background: #d8fee7;
+      color: #12b27e;
+    }
+    &.failed .badge {
+      background: #ffe6e9;
+      color: #db1b47;
+    }
+    &.pending .badge {
+      background: #f6f5c2;
+      color: #d7a50f;
+    }
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.5em 1.2em;
+    border-radius: 2em;
+    font-size: 1em;
+    font-weight: 500;
+    background: none;
+    border: 1.5px solid #8898aa;
+    color: #425466;
+    transition: background 0.2s;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      background: #e6eaf1;
+    }
+  }
+}
+
+
+.payment-card {
+  border-radius: 12px;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #dee2e6;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 40px;
+  margin-bottom: 25px;
+}
+
+.timeline-icon {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.timeline-content {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+

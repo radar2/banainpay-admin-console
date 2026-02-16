@@ -1,0 +1,86 @@
+<div class="wp-component">
+    <div class="wp-component-header border-bottom">
+        <div class="d-flex flex-column align-items-start">
+            <div class="">
+                <h2 class="wp-component-title">Methodes de paiements</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="wp-component-content">
+        <p class="">Liste des methodes de ppaiements enregistrées dans le systeme. <br> Veuillez configurer chaque
+            methode de avec les paremtres d'accèss du fournisseur.</p>
+
+        <div class="py-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                       
+                        <th>Fournisseur</th>
+                        <th>Type</th>
+                        <th>Pays</th>
+                         <th>statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(method of list; track method.id) {
+                    <tr>
+                        <td> <img class="logo" width="50px" [src]="getLogoUrl(method.name)" alt=""></td>
+                        <th scope="row">
+                            {{method.name}}
+                        </th>
+                        
+                        <td>{{method.provider}}</td>
+                        <td>{{method.type}}</td>
+                        <th scope="row">CI</th>
+                        <td>
+                            <span class="badge" [class]="method.enabled? 'bg-success':'bg-danger'">
+                                {{method.enabled? 'Activé':'Désactivé'}}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="dropdown">
+                                <span class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-vertical"></i>
+                                </span>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li *ngIf="!method.enabled"><span class="dropdown-item "><i
+                                                class="fa fa-check "></i> Activer</span></li>
+                                    <li *ngIf="method.enabled"><span class="dropdown-item"><i class="fa fa-xmark"></i>
+                                            Desactiver</span></li>
+                                    <!-- <li data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                        aria-controls="offcanvasRight"><span class="dropdown-item"><i
+                                                class="fa fa-screwdriver-wrench"></i> Configurer</span></li> -->
+
+                                                <li><span class="dropdown-item">
+                                                    <a (click)="gotoConfig(method.id)" class="nav-link"><i
+                                                class="fa fa-screwdriver-wrench"></i> Configurations</a>
+                                                </span></li>
+                                </ul>
+                            </div>
+                        </td>
+                    
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Configuation</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- <app-payment-method-config></app-payment-method-config> -->
+    </div>
+</div>
