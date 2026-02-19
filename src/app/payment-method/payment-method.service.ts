@@ -21,26 +21,32 @@ export class PaymentMethodService {
     }
 
     getFormConfig(): Observable<ConfigForm[]> {
-        return this.httpClient.get<ConfigForm[]>(this.jsonUrl);
+        const url = `${environment.apiUrl}/server-infos/providers`;
+        return this.httpClient.get<ConfigForm[]>(url);
+    }
+
+    getProviderComponents(): Observable<ConfigForm[]> {
+    const url = `${environment.apiUrl}/server-infos/providers/components`;
+    return this.httpClient.get<ConfigForm[]>(url);
     }
 
     public getList():Observable<Method[]> {
         return this.list$;
     }
 
-    public saveConfiguration(data:any, id:string) {
-        console.log(data)
-        let params = new HttpParams()
-        .set("country", data.countryCode)
-        .set("key", data.key)
-        .set("value", data.value)
-        .set("encrypted", data.encrypted);
+    public saveConfiguration(data:any) {
+        // console.log(data)
+        // let params = new HttpParams()
+        // .set("country", data.countryCode)
+        // .set("key", data.key)
+        // .set("value", data.value)
+        // .set("encrypted", data.encrypted);
         
         
-        const url = `${environment.apiUrl}/payment-methods/${id}/configurations`;
+        const url = `${environment.apiUrl}/server-infos`;
 
-        return this.httpClient.post(url, null, {
-            params: params
+        return this.httpClient.post(url, JSON.stringify(data), {
+            headers:{"Content-Type":"application/json"}
         })
     }
 

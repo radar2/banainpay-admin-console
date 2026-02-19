@@ -42,10 +42,6 @@ export const routes:Route[] =[
         //   }
         // ]
 
-      },
-      {
-        path:':p1/config-list',
-        loadComponent:() => import('./payment-method-config-list/payment-method-config-list.component').then(c => c.PaymentMethodConfigListComponent), 
       }
     ]
   }

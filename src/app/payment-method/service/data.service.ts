@@ -12,6 +12,7 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getFormConfig(): Observable<ConfigForm[]> {
+  
     return this.http.get<ConfigForm[]>(this.jsonUrl);
   }
 }

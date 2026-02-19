@@ -43,7 +43,7 @@ export class PaymentMethodConfigComponent {
       countryCode: ['', [Validators.required]],
       providerId: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      providerType: ['', [Validators.required]],
+      providerType: ['', [Validators.required]]
     });
     if (this.p1) {      
       this.loadConfigList(this.p1);
@@ -52,11 +52,7 @@ export class PaymentMethodConfigComponent {
   }
 
   loadConfigList(id:any) {
-    // this.paymentMethodService.getConfigurations(id).subscribe(
-    //     (data:any) => this.configurations = data
-    //   )
-
-      this.paymentMethodService.getFormConfig().subscribe({
+      this.paymentMethodService.getProviderComponents().subscribe({
         next: res => {
           this.list = res;
         },
@@ -171,14 +167,13 @@ export class PaymentMethodConfigComponent {
 
     console.log(payload);
     // console.log(this.configForm.value);
-    return;
+    // return;
 
     if (this.p1) {
-      this.paymentMethodService.saveConfiguration(
-        this.configForm.value, this.p1).subscribe(
+      this.paymentMethodService.saveConfiguration(payload).subscribe(
           (success) => {
               this.configForm.reset();
-              this.loadConfigurations(this.p1);
+              // this.loadConfigurations(this.p1);
               this.closeModal();
           }
         )
