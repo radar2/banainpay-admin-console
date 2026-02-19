@@ -2,7 +2,7 @@ export interface Method {
     id: string,
     name: string,
     description:string,
-    provider:string,
+    providerId:string,
     type:string,
     enabled:boolean
 }

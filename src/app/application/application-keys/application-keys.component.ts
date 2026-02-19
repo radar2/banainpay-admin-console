@@ -4,7 +4,7 @@ import { ApplicationStateService } from '../application-state.service';
 import { ApplicationService } from '../application.service';
 import { switchMap } from 'rxjs';
 import { FormModule } from '@coreui/angular';
-import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Application } from '../application.model';
 
 @Component({
@@ -15,10 +15,6 @@ import { Application } from '../application.model';
 })
 export class ApplicationKeysComponent implements OnInit{
   fb = inject(NonNullableFormBuilder);
-  settingsForm:FormGroup = this.fb.group({
-    webhookUrl: [null, []],
-    rate:[null]
-  })
 
    private state = inject(ApplicationStateService);
 
@@ -26,6 +22,10 @@ export class ApplicationKeysComponent implements OnInit{
   key = '';
   application:Application | null = null;
   webhookUrl = new FormControl('', [Validators.required]);
+  rate = new FormControl('0.0', [Validators.required]);
+  receivingMode = new FormControl('', [Validators.required]);
+  receivingPhoneNumber = new FormControl('', [Validators.required]);
+
   loading = false;
   constructor(private applicationService:ApplicationService) {}
 
@@ -35,10 +35,8 @@ export class ApplicationKeysComponent implements OnInit{
         
         if (data) {
           this.application = data!
-          this.settingsForm.patchValue({
-            "webhookUrl": data.webhookUrl
-          })
-          // this.webhookUrl.patchValue(this.application.webhookUrl);
+          
+          this.webhookUrl.patchValue(this.application.webhookUrl);
         }
       }
     )
@@ -53,6 +51,10 @@ export class ApplicationKeysComponent implements OnInit{
       )
     }
   }
+
+  // requiredPhoneNumberValidator(control:AbstractControl):ValidationErrors | null {
+      
+  // }
 
   changeWebhookUrl() {
     
