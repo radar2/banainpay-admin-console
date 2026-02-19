@@ -1,11 +1,13 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, shareReplay } from "rxjs";
-import { Method } from "./method.model";
+import { ConfigForm, Method } from "./method.model";
 import { environment } from "../../environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class PaymentMethodService {
+    private jsonUrl = 'assets/data.json';
+
     private list$:Observable<Method[]> = new Observable()
     constructor(private httpClient:HttpClient) {
         this.list$ = this.buildRequest();
@@ -16,6 +18,10 @@ export class PaymentMethodService {
         return this.httpClient.get<Method[]>(url).pipe(
             // shareReplay(1)
         )
+    }
+
+    getFormConfig(): Observable<ConfigForm[]> {
+        return this.httpClient.get<ConfigForm[]>(this.jsonUrl);
     }
 
     public getList():Observable<Method[]> {

@@ -1,4 +1,4 @@
-<div class="wp-component">
+<div class="wp-component mb-3">
     <div class="wp-component-header border-bottom">
         <div class="d-flex flex-column align-items-start">
             <div class="">
@@ -11,69 +11,50 @@
     <div class="wp-component-content">
         <p class="">Liste des methodes de ppaiements enregistrées dans le systeme. <br> Veuillez configurer chaque
             methode de avec les paremtres d'accèss du fournisseur.</p>
-
-        <div class="py-3">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nom</th>
-                       
-                        <th>Fournisseur</th>
-                        <th>Type</th>
-                        <th>Pays</th>
-                         <th>statut</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for(method of list; track method.id) {
-                    <tr>
-                        <td> <img class="logo" width="50px" [src]="getLogoUrl(method.name)" alt=""></td>
-                        <th scope="row">
-                            {{method.name}}
-                        </th>
-                        
-                        <td>{{method.provider}}</td>
-                        <td>{{method.type}}</td>
-                        <th scope="row">CI</th>
-                        <td>
-                            <span class="badge" [class]="method.enabled? 'bg-success':'bg-danger'">
-                                {{method.enabled? 'Activé':'Désactivé'}}
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="dropdown">
-                                <span class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-ellipsis-vertical"></i>
-                                </span>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li *ngIf="!method.enabled"><span class="dropdown-item "><i
-                                                class="fa fa-check "></i> Activer</span></li>
-                                    <li *ngIf="method.enabled"><span class="dropdown-item"><i class="fa fa-xmark"></i>
-                                            Desactiver</span></li>
-                                    <!-- <li data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                                        aria-controls="offcanvasRight"><span class="dropdown-item"><i
-                                                class="fa fa-screwdriver-wrench"></i> Configurer</span></li> -->
-
-                                                <li><span class="dropdown-item">
-                                                    <a (click)="gotoConfig(method.id)" class="nav-link"><i
-                                                class="fa fa-screwdriver-wrench"></i> Configurations</a>
-                                                </span></li>
-                                </ul>
-                            </div>
-                        </td>
-                    
-                    </tr>
-                    }
-
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col-md-3" *ngFor="let item of list">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+                <img [src]="getLogoUrl(item.name)" class="logoSize" alt="{{ item.name }}">
+                <div class="dropdown action-dropdown" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="left" data-bs-content="Actions">
+                    
+                    <button class="btn btn-sm" type="button" data-bs-toggle="dropdown"aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end py-1">
+                        <li class="d-flex justify-content-center align-items-center border-bottom border-secondary-subtle">
+                            <strong>Liste des actions</strong>
+                            <hr>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" (click)="gotoConfig(item.providerId)"><i class="fa-solid fa-gear mx-2"></i> Configurer</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">   
+            <p class="card-text mb-1">
+                <strong>Nom :</strong> {{ item.name }}
+            </p>
+            <p class="card-text mb-1">
+                <strong>Type :</strong> {{ item.providerType }}
+            </p>
+            <p class="card-text mb-1">
+                <strong>ID :</strong> {{ item.providerId }}
+            </p>
+        </div>
+    </div>
+  </div>    
+</div>
+
+
+
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">

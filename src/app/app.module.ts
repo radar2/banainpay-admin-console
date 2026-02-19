@@ -16,12 +16,17 @@ import {
   withAutoRefreshToken
 } from 'keycloak-angular';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { AppPaymentMethodConfigListComponent } from './payment-method/app-payment-method-config-list/app-payment-method-config-list.component';
+import { PaymentMethodConfigListComponent } from './payment-method/payment-method-config-list/payment-method-config-list.component';
 
 
 
 
 @NgModule({
-    declarations:[],
+    declarations:[
+    AppPaymentMethodConfigListComponent,
+    PaymentMethodConfigListComponent
+  ],
     imports:[
         BrowserAnimationsModule,
         BrowserModule,

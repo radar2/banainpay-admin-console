@@ -1,0 +1,209 @@
+[
+  {
+    "providerId": "wave-ci",
+    "name": "Wave",
+    "providerType": "payment-provider",
+    "configProperties": [
+      {
+        "name": "apiUrl",
+        "type": "String",
+        "label": "Endpoint",
+        "helperText": "Base API URL de Wave.",
+        "defaultValue": "https://api.wave.com/v1/checkout/sessions",
+        "options": [],
+        "secret": false,
+        "required": false,
+        "readOnly": false
+      },
+      {
+        "name": "currency",
+        "type": "MultivaluedList",
+        "label": "Devise",
+        "helperText": "Devise monetaire",
+        "defaultValue": "XOF;EUR",
+        "options": [
+          "XOF",
+          "USD",
+          "EUR"
+        ],
+        "secret": false,
+        "required": false,
+        "readOnly": false
+      },
+      {
+        "name": "apiKey",
+        "type": "String",
+        "label": "Cle API",
+        "helperText": "Clé API fourni par WAVE",
+        "defaultValue": null,
+        "options": [],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      },
+      {
+        "name": "callbackUrl",
+        "type": "String",
+        "label": "API Callback",
+        "helperText": "API Callback",
+        "defaultValue": null,
+        "options": [],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      },
+      {
+        "name": "Option avec select",
+        "type": "List",
+        "label": "Option Select",
+        "helperText": "Option avec select",
+        "defaultValue": null,
+        "options": [
+          "Option 1",
+          "Option 2"
+        ],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      }
+    ]
+  },  
+  {
+    "providerId": "orange-ci",
+    "name": "Orange",
+    "providerType": "payment-provider",
+    "configProperties": [
+      {
+        "name": "apiUrl",
+        "type": "String",
+        "label": "Endpoint",
+        "helperText": "Base API URL de Wave.",
+        "defaultValue": "https://api.wave.com/v1/checkout/sessions",
+        "options": [],
+        "secret": false,
+        "required": false,
+        "readOnly": false
+      },
+      {
+        "name": "currency",
+        "type": "MultivaluedList",
+        "label": "Devise",
+        "helperText": "Devise monetaire",
+        "defaultValue": "XOF;EUR",
+        "options": [
+          "XOF",
+          "USD",
+          "EUR"
+        ],
+        "secret": false,
+        "required": false,
+        "readOnly": false
+      },
+      {
+        "name": "apiKey",
+        "type": "String",
+        "label": "Cle API",
+        "helperText": "Clé API fourni par WAVE",
+        "defaultValue": null,
+        "options": [],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      },
+      {
+        "name": "callbackUrl",
+        "type": "String",
+        "label": "API Callback",
+        "helperText": "API Callback",
+        "defaultValue": null,
+        "options": [],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      },
+      {
+        "name": "Option avec select",
+        "type": "List",
+        "label": "Option Select",
+        "helperText": "Option avec select",
+        "defaultValue": null,
+        "options": [
+          "Option 1",
+          "Option 2"
+        ],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      }
+    ]
+  },  
+  {
+    "providerId": "moov-ci",
+    "name": "Moov",
+    "providerType": "payment-provider",
+    "configProperties": [
+      {
+        "name": "apiUrl",
+        "type": "String",
+        "label": "Endpoint",
+        "helperText": "Base API URL de Wave.",
+        "defaultValue": "https://api.wave.com/v1/checkout/sessions",
+        "options": [],
+        "secret": false,
+        "required": false,
+        "readOnly": false
+      },
+      {
+        "name": "currency",
+        "type": "MultivaluedList",
+        "label": "Devise",
+        "helperText": "Devise monetaire",
+        "defaultValue": "XOF;EUR",
+        "options": [
+          "XOF",
+          "USD",
+          "EUR"
+        ],
+        "secret": false,
+        "required": false,
+        "readOnly": false
+      },
+      {
+        "name": "apiKey",
+        "type": "String",
+        "label": "Cle API",
+        "helperText": "Clé API fourni par WAVE",
+        "defaultValue": null,
+        "options": [],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      },
+      {
+        "name": "callbackUrl",
+        "type": "String",
+        "label": "API Callback",
+        "helperText": "API Callback",
+        "defaultValue": null,
+        "options": [],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      },
+      {
+        "name": "Option avec select",
+        "type": "List",
+        "label": "Option Select",
+        "helperText": "Option avec select",
+        "defaultValue": null,
+        "options": [
+          "Option 1",
+          "Option 2"
+        ],
+        "secret": false,
+        "required": true,
+        "readOnly": false
+      }
+    ]
+  }
+]
