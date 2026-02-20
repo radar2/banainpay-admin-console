@@ -21,13 +21,22 @@ export class PaymentMethodService {
     }
 
     getFormConfig(): Observable<ConfigForm[]> {
-        const url = `${environment.apiUrl}/server-infos/providers`;
-        return this.httpClient.get<ConfigForm[]>(url);
+        return this.httpClient.get<ConfigForm[]>(this.jsonUrl);
+
+        // const url = `${environment.apiUrl}/server-infos/providers`;
+        // return this.httpClient.get<ConfigForm[]>(url); 
+    }
+
+    getProviderComponentsDetail(item:string): Observable<ConfigForm[]> {
+        return this.httpClient.get<ConfigForm[]>(this.jsonUrl);
+        // const url = `${environment.apiUrl}/server-infos/providers/components`;
+        // return this.httpClient.get<ConfigForm[]>(url);
     }
 
     getProviderComponents(): Observable<ConfigForm[]> {
-    const url = `${environment.apiUrl}/server-infos/providers/components`;
-    return this.httpClient.get<ConfigForm[]>(url);
+        return this.httpClient.get<ConfigForm[]>(this.jsonUrl);
+        // const url = `${environment.apiUrl}/server-infos/providers/components`;
+        // return this.httpClient.get<ConfigForm[]>(url);
     }
 
     public getList():Observable<Method[]> {

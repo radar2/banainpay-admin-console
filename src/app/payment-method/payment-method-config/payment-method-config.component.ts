@@ -22,14 +22,17 @@ export class PaymentMethodConfigComponent {
     configProperties: []
   };
 
+  configForm!:FormGroup;
   list:ConfigForm[] = [];
+
+  detail!:any;
+  configDetail!:FormGroup;
 
   fb = inject(NonNullableFormBuilder);
 
   constructor(private route:ActivatedRoute,private router:Router,
      private paymentMethodService:PaymentMethodService,private store: StoreConfigService) {}
 
-     configForm!:FormGroup;
 
   ngAfterViewInit() {
     new bootstrap.Tooltip(document.body, {
@@ -39,11 +42,22 @@ export class PaymentMethodConfigComponent {
 
   ngOnInit(): void {
     this.p1 = this.route.snapshot.paramMap.get('p1');
+
     this.configForm = this.fb.group({
       countryCode: ['', [Validators.required]],
       providerId: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      providerType: ['', [Validators.required]]
+      providerType: ['', [Validators.required]],
+      configs: this.fb.group({})
+    });
+
+    this.configDetail = this.fb.group({
+      id: ['', [Validators.required]],
+      countryCode: ['', [Validators.required]],
+      providerId: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      providerType: ['', [Validators.required]],
+      configs: this.fb.group({})
     });
     if (this.p1) {      
       this.loadConfigList(this.p1);
@@ -59,58 +73,83 @@ export class PaymentMethodConfigComponent {
         error: err => console.error('ERREUR JSON', err)
       });
   }
+  
+  loadConfigurations(id: any) {
 
-  loadConfigurations(id:any) {
-    let data1 = this.store.getByProviderId(this.p1);
-    let data = data1['configProperties'];
-    // this.configurations = this.store.getByProviderId(this.p1)['configProperties'];
-    this.configurations = data1;
-    
+    const data = this.store.getByProviderId(id);
+    this.configurations = data;
+
+    const configsGroup = this.configForm.get('configs') as FormGroup;
+  
+    Object.keys(configsGroup.controls).forEach(key =>
+      configsGroup.removeControl(key)
+    );
+  
+    data.configProperties.forEach((conf: any) => {
+
+      const validators = conf.required ? [Validators.required, Validators.minLength(1)] : [];
+
+      configsGroup.addControl(
+        conf.name,
+        new FormControl(
+          { value: '', disabled: conf.readOnly },
+          validators
+        )
+      );
+    });
+  
     this.configForm.patchValue({
-      providerId: data1.providerId,
-      name: data1.name,
-      providerType: data1.providerType,
+      // countryCode: data.countryCode,
+      providerId: data.providerId,
+      name: data.name,
+      providerType: data.providerType
+    });
+  
+    const configsValues: any = {};
+    data.configProperties.forEach((conf: any) => {
+      configsValues[conf.name] = conf.defaultValue ?? '';
     });
 
-    data.forEach((conf:any) => {
-
-        let value: any = '';
-
-        // valeur par défaut
-        if (conf.defaultValue) {
-
-          if (conf.type === 'MultivaluedList') {
-            value = conf.defaultValue.split(';');
-          } else {
-            value = conf.defaultValue;
-          }
-        }
-
-        const validators = [];
-        if (conf.required) {
-          validators.push(Validators.required);
-        }
-
-        this.configForm.addControl(
-          conf.name,
-          new FormControl({ value, disabled: conf.readOnly }, validators)
-        );
-      });
-
+    configsGroup.patchValue(configsValues);
   }
 
-  onCheckboxChange(event: any, name: string, value: string) {
-    const control = this.configForm.get(name);
-    let values = control?.value || [];
+  isChecked(name: string, value: string): boolean {
+    const control = this.configForm.get('configs.' + name);
+    if (!control?.value) return false;
 
-    if (event.target.checked) {
-      values.push(value);
+    return control.value.split(';').includes(value);
+  }
+
+  onCheckboxChange(event: Event, name: string, value: string) {
+
+    const control = this.configForm.get('configs.' + name);
+    if (!control) return;
+
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+
+    // Convertir "a;b;c" → ["a","b","c"]
+    let current: string[] = control.value
+      ? control.value.split(';').filter(Boolean)
+      : [];
+
+    if (target.checked) {
+      if (!current.includes(value)) {
+        current.push(value);
+      }
     } else {
-      values = values.filter((v: string) => v !== value);
+      current = current.filter(v => v !== value);
     }
 
-    control?.setValue(values);
-    control?.markAsTouched();
+    // Convertir ["a","b","c"] → "a;b;c"
+    const newValue = current.join(';');
+
+    // 🔥 mise à jour Angular
+    control.setValue(newValue);
+    control.markAsDirty();
+    control.markAsTouched();
+    control.updateValueAndValidity();
+
   }
 
   getConfig(id:string) {
@@ -122,6 +161,215 @@ export class PaymentMethodConfigComponent {
     }
    
   }
+
+  openEditModal(item: any) {
+    this.paymentMethodService.getProviderComponentsDetail(item).subscribe({
+      next: (res: any) => {
+        // 👉 si l'API retourne déjà les données
+        // this.detail = res;
+
+        // 👉 données mock (temporaire)
+        this.detail = {
+            id: '84c12f12-1bc7-4cdd-a863-9a8e34559290',
+            name: 'Wave CI',
+            providerId: 'wave-ci',
+            providerType: 'payment-provider',
+            countryCode: 'CI',
+            Optionavecselect: 'Option 1',
+            configs: {
+              apiKey: 'feifuegrfye',
+              apiUrl :"https://api.wave.com/v1/checkout/sessions",
+              callbackUrl : "https://api.wave.com/v1/checkout/sessions",
+              currency: 'XOF'
+            },
+            supportedCountriesAsList: ['CI', 'SN']
+          };
+
+          console.log(this.detail);
+
+        this.tryLoadConfigDetail();
+
+      },
+      error: err => {
+        console.error('ERREUR JSON', err);
+      }
+    });
+
+    // this.loadConfigDetail();
+
+  }
+
+  tryLoadConfigDetail(): void {
+    if (
+      this.detail &&
+      this.configurations?.configProperties?.length
+    ) {
+      this.loadConfigDetail();
+    }
+  }
+
+  loadConfigDetail(): void {
+  if (
+    !this.detail ||
+    !this.configurations ||
+    !this.configurations.configProperties ||
+    this.configurations.configProperties.length === 0
+  ) {
+    return;
+  }
+
+  let data = this.detail;
+  let configDetail = this.configDetail.get('configs') as FormGroup;
+  
+
+  // reset
+  Object.keys(configDetail.controls).forEach(key =>
+    configDetail.removeControl(key)
+  );
+
+  // création dynamique des champs
+  this.configurations.configProperties.forEach((conf: any) => {
+    configDetail.addControl(
+      conf.name,
+      new FormControl(
+        { value: '', disabled: conf.readOnly },
+        conf.required ? [Validators.required] : []
+      )
+    );
+  });
+
+  // patch principal
+  this.configDetail.patchValue({
+    id: data.id,
+    countryCode: data.countryCode,
+    providerId: data.providerId,
+    name: data.name,
+    providerType: data.providerType
+  });
+
+  // patch configs
+  const configsValues: any = {};
+  this.configurations.configProperties.forEach((conf: any) => {
+    console.log(configsValues[conf.name]);
+    console.log(data.configs?.[conf.name]);
+    configsValues[conf.name] = data.configs?.[conf.name] ?? '';
+  });
+
+  configDetail.patchValue(configsValues);
+
+  // ouverture modal
+  const modalElement = document.getElementById('editModal');
+  if (modalElement) {
+    new bootstrap.Modal(modalElement).show();
+  }
+}
+
+//   loadConfigDetail(): void {
+
+//     console.log('DETAIL', this.detail);
+//     console.log('CONFIGURATIONS', this.configurations);
+//     console.log('PROPERTIES', this.configurations?.configProperties);
+
+//   const data = this.detail;
+//   const config = this.configurations;
+
+//   if (!data || !config) return;
+
+//   const configDetail = this.configDetail.get('configs') as FormGroup;
+
+//   // 🔁 reset dynamique
+//   Object.keys(configDetail.controls).forEach(key =>
+//     configDetail.removeControl(key)
+//   );
+
+//   // ➕ création des champs dynamiques
+//   config.configProperties.forEach((conf: any) => {
+//     const validators = conf.required ? [Validators.required] : [];
+
+//     configDetail.addControl(
+//       conf.name,
+//       new FormControl(
+//         { value: '', disabled: conf.readOnly },
+//         validators
+//       )
+//     );
+//   });
+
+//   // 🧩 patch des champs simples
+//   this.configDetail.patchValue({
+//     id: data.id,
+//     countryCode: data.countryCode,
+//     providerId: data.providerId,
+//     name: data.name,
+//     providerType: data.providerType
+//   });
+
+//   // 🧩 patch configs
+//   const configsValues: any = {};
+//   config.configProperties.forEach((conf: any) => {
+//     configsValues[conf.name] = data.configs?.[conf.name] ?? '';
+//   });
+
+//   configDetail.patchValue(configsValues);
+
+//   // 🪟 ouverture du modal
+//   const modalElement = document.getElementById('editModal');
+//   if (modalElement) {
+//     new bootstrap.Modal(modalElement).show();
+//   }
+// }
+
+  // loadConfigDetail() {
+
+  //   let data = this.detail;
+  //   let config = this.configurations; 
+
+  //   const configDetail = this.configDetail.get('configs') as FormGroup;
+  
+  //   Object.keys(configDetail.controls).forEach(key =>
+  //     configDetail.removeControl(key)
+  //   );
+  
+  //   config.configProperties.forEach((conf: any) => {
+
+  //     const validators = conf.required ? [Validators.required, Validators.minLength(1)] : [];
+
+  //     configDetail.addControl(
+  //       conf.name,
+  //       new FormControl(
+  //         { value: '', disabled: conf.readOnly },
+  //         validators
+  //       )
+  //     );
+  //   });
+  
+  //   this.configDetail.patchValue({
+  //     id: data.id,
+  //     countryCode: data.countryCode,
+  //     providerId: data.providerId,
+  //     name: data.name,
+  //     providerType: data.providerType
+  //   });
+  
+  //   const configsValues: any = {};
+  //   // data.configs.forEach((conf: any) => {
+  //   //   configsValues[conf.name] = conf.defaultValue ?? '';
+  //   // });
+
+
+  //   config.configProperties.forEach((conf: any) => {
+  //     configsValues[conf.name] = data.configs[conf.name] ?? '';
+  //   });
+
+  //   configDetail.patchValue(configsValues);
+    
+  //   // ✅ ouvrir le modal APRÈS chargement des données
+  //   const modalElement = document.getElementById('editModal');
+  //   if (modalElement) {
+  //     const modal = new bootstrap.Modal(modalElement);
+  //     modal.show();
+  //   }
+  // }
 
   getLogoUrl(name:string) {
     return getPaymentMethodLogo(name);
@@ -144,21 +392,10 @@ export class PaymentMethodConfigComponent {
 
   buildPayload() {
     const formValue = this.configForm.getRawValue();
+    formValue['id']=this.configurations?.id ?? null;
 
-    const configs: any = {};
-    this.configurations.configProperties.forEach((conf: any) => {
-      configs[conf.name] = formValue[conf.name];
-    });
-
-    return {
-      id: this.configurations?.id ?? null,
-      name: formValue.name,
-      providerId: formValue.providerId,
-      providerType: formValue.providerType,
-      configs
-    };
+    return formValue;
   }
-
 
   save() {
 
@@ -167,8 +404,7 @@ export class PaymentMethodConfigComponent {
 
     console.log(payload);
     // console.log(this.configForm.value);
-    // return;
-
+    return;
     if (this.p1) {
       this.paymentMethodService.saveConfiguration(payload).subscribe(
           (success) => {
