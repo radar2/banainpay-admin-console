@@ -1,8 +1,20 @@
 export interface Method {
-    id: string,
     name: string,
-    description:string,
     providerId:string,
-    type:string,
-    enabled:boolean
+    providerType:string;
+    configProperties:ConfigurationProperty[];
+
+}
+
+
+export interface ConfigurationProperty{
+    name:string;
+    type:string;
+    lable:string;
+    helperText:string;
+    defaultValue:string;
+    options:any[];
+    required:boolean;
+    readonly:boolean;
+    secret:string
 }

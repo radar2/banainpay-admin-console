@@ -4,6 +4,18 @@ export interface Application {
     description:string;
     countryCode:string;
     active:boolean;
-    webhookUrl:string;
+    webhook:Webhook;
+    settlement:Settlement;
     createdDate:string;
+}
+
+export interface Settlement {
+    type:string;
+    fundingNumber:string;
+}
+
+
+export interface Webhook {
+    url:string;
+    hmacKey:string;
 }

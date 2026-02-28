@@ -33,8 +33,8 @@
                     <tr>
                         <td>{{payment.occurredOn}}</td>
                         <th scope="row">{{convertMoney(payment?.amount)}}</th>
-                        <th scope="row">{{payment.paymentMethod | uppercase}}</th>
-                        <th scope="row">{{payment.paymentMethodType}}</th>
+                        <th scope="row">{{payment.paymentMethod?.name}}</th>
+                        <th scope="row">{{payment.paymentMethod?.type}}</th>
                         <td>
                             <span *ngIf="payment.state=='PENDING'"  class="badge bg-secondary">Initié</span>
                             <span *ngIf="payment.state=='FAILED'" class="badge bg-danger">Echoué</span>

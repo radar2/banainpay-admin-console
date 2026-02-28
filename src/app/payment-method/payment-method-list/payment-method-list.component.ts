@@ -21,8 +21,12 @@ export class PaymentMethodListComponent implements OnInit{
   list:Method[] = []; 
 
   ngOnInit(): void {
-    this.pmService.getList().subscribe(
-      (data) => this.list = data
+    // this.pmService.getList().subscribe(
+    //   (data) => this.list = data
+    // )
+
+    this,this.pmService.getPaymentProviders().subscribe(
+      (data) => {this.list = data; console.log(data)}
     )
   }
 
@@ -31,7 +35,6 @@ export class PaymentMethodListComponent implements OnInit{
   }
 
   gotoConfig(id:string) {
-    // const path = this.pathOf(name);
     if (id) {
     
        const route = `/methods/${id}/configuration`;

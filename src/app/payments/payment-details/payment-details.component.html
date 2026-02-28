@@ -54,8 +54,8 @@
                 <td><label for="">Fournisseur</label></td>
                 <td>
                     @if(payment) {
-                       <span style="font-weight: bold;"> {{payment.paymentMethod}}</span> <br>
-                        <img [src]="getLogoUrl(payment.paymentMethod)" width="50px" alt="">
+                       <span style="font-weight: bold;"> {{payment.paymentMethod?.name}}</span> <br>
+                        <img [src]="getLogoUrl(payment.paymentMethod.name)" width="50px" alt="">
                     }
                 </td>
             </tr>

@@ -8,11 +8,11 @@
         
         <div class="row py-3">
             <div class="col-md-6 ">
-                <label for="">ID de l'application</label> <br>
+                <label for="">ID Application</label> <br>
                 <span>{{application?.id}}</span>
             </div>
             <div class="col-md-6 key">
-                <label for="">Clé sécrete</label>
+                <label for="">Clé API</label>
                 <span class="ms-2" (click)="showKey()"><i class="fa fa-eye"></i></span>
                 <!-- <small (click)="showKey()" class="show ">Afficher</small> -->
                 <br>
@@ -21,12 +21,13 @@
 
             </div>
         </div>
-        <div class="py-3">
+        <!-- <div class="py-3">
             <button class="btn btn-sm btn-primary">Générer un jeton d'accès</button>
-        </div>
+        </div> -->
     </div>
 
     <hr class="my-4">
+    <form [formGroup]="settingForm" action="" class="form">
 
     <div class="webhook py-4">
         <h3><i class="fa fa-link"></i> Webhook</h3>
@@ -35,14 +36,34 @@
 le système déclenchera une requête HTTP POST (webhook) vers l’URL configurée par l’application cliente. <br>
 Le corps de la requete est JSON.
         </p>
-        <div class=" form-group col-md-4" [ngClass]="{'input-error': webhookUrl.errors && 
+        <div class=" form-group col-md-5" [ngClass]="{'input-error': webhookUrl.errors && 
             (webhookUrl.touched || webhookUrl.dirty)}">
             <label for="">Adresse URL</label> <br>
-            <input [formControl]="webhookUrl" type="text" class="form-control">
+            <input formControlName="webhookUrl" type="text" class="form-control">
             @if(webhookUrl.errors && webhookUrl.touched || webhookUrl.dirty) {
                 <div>
                     @if(webhookUrl.hasError('required')) {
                         <small class="text-danger">L' adresse URL du webhook  est requis.</small>
+                    }
+                </div>
+            }
+        </div>
+
+         <div class=" form-group" [ngClass]="{'input-error': webhookHmacKey.errors && 
+            (webhookHmacKey.touched || webhookHmacKey.dirty)}">
+            <label for="">HMAC Key</label> <br>
+            <div class="d-flex">
+                <div class="col-md-5">
+                <input formControlName="webhookHmacKey" type="text" class="form-control"/>
+            </div>
+            <div class="ps-1">
+                <button (click)="generateNewHmacKey()" class="btn btn-sm btn-secondary rounded"><i class="fa fa-key"></i> générer une clé</button>
+            </div>
+            </div>
+            @if(webhookHmacKey.errors && webhookHmacKey.touched || webhookHmacKey.dirty) {
+                <div>
+                    @if(webhookHmacKey.hasError('required')) {
+                        <small class="text-danger">Champ  est requis.</small>
                     }
                 </div>
             }
@@ -58,10 +79,10 @@ Le corps de la requete est JSON.
         <p>
             Pourcentage des frais prélévés sur chaque paiement.
         </p>
-        <div class=" form-group col-md-4" [ngClass]="{'input-error': rate.errors && 
+        <div class=" form-group col-md-5" [ngClass]="{'input-error': rate.errors && 
             (rate.touched || rate.dirty)}">
             <label for="">Taux</label> <br>
-            <input [formControl]="rate" type="text" class="form-control col-md-3">
+            <input formControlName="rate" type="text" class="form-control col-md-3">
             @if(rate.errors && rate.touched || rate.dirty) {
                 <div>
                     @if(rate.hasError('required')) {
@@ -71,9 +92,9 @@ Le corps de la requete est JSON.
             }
         </div>
         <!-- <div>
-            <button (click)="changeWebhookUrl()" class="btn btn-sm btn-primary">
+            <button  class="btn btn-sm btn-primary">
                 @if(!loading) {
-                    Configurer
+                    Modifier le taux
                 }@else{
                     <span class="spinner-border" role="status"></span>
                 }
@@ -81,43 +102,46 @@ Le corps de la requete est JSON.
         </div> -->
     </div>
 
-     <div class="feesRate py-4">
+
+    <!-- <hr class="py-4"> -->
+
+     <div class="">
         <h3><i class="fa fa-mobile"></i>Versement</h3>
         <p>
             Ce numéro sera utiliser pour recevoir de l'argent
         </p>
-        <div class=" form-group col-md-4" [ngClass]="{'input-error': receivingMode.errors && 
-            (receivingMode.touched || receivingMode.dirty)}">
+        <div class=" form-group col-md-5" [ngClass]="{'input-error': settlementType.errors && 
+            (settlementType.touched || settlementType.dirty)}">
             <label for="">Mode de versement</label> <br>
-           <select name="" id="" class="form-control">
-            <option value="">A la demande</option>
-            <option value="">Chaque jour</option>
-            <option value="">Chaque Semaine</option>
-            <option value="">Chaque Mois</option>
-            <option value="">Chaque Trimestre</option>
+           <select name="" id="" class="form-control" formControlName="settlementType">
+            <option value="ON_DEMAND">A la demande</option>
+            <option value="DAILY">Chaque jour</option>
+            <option value="WEEKLY">Chaque Semaine</option>
+            <option value="MONTHLY">Chaque Mois</option>
+            <option value="QUARTERLY">Chaque Trimestre</option>
            </select>
-            @if(receivingMode.errors && receivingMode.touched || receivingMode.dirty) {
+            @if(settlementType.errors && settlementType.touched || settlementType.dirty) {
                 <div>
-                    @if(receivingMode.hasError('required')) {
-                        <small class="text-danger">Le taux est obligatoire</small>
+                    @if(settlementType.hasError('required')) {
+                        <small class="text-danger">Le mode de versement est obligatoire.</small>
                     }
                 </div>
             }
         </div>
-        <div class=" form-group col-md-4" [ngClass]="{'input-error': receivingPhoneNumber.errors && 
-            (receivingPhoneNumber.touched || receivingPhoneNumber.dirty)}">
+        <div class=" form-group col-md-5" [ngClass]="{'input-error': fundingNumber.errors && 
+            (fundingNumber.touched || fundingNumber.dirty)}">
             <label for="">Numéro mobile money</label> <br>
-            <input [formControl]="receivingPhoneNumber" type="text" class="form-control col-md-3">
-            @if(receivingPhoneNumber.errors && receivingPhoneNumber.touched || receivingPhoneNumber.dirty) {
+            <input formControlName="fundingNumber" type="text" class="form-control col-md-3">
+            @if(fundingNumber.errors && fundingNumber.touched || fundingNumber.dirty) {
                 <div>
-                    @if(receivingPhoneNumber.hasError('required')) {
+                    @if(fundingNumber.hasError('required')) {
                         <small class="text-danger">Le numéro mobile money est obligatoire</small>
                     }
                 </div>
             }
         </div>
         <div>
-            <button (click)="changeWebhookUrl()" class="btn btn-sm btn-primary">
+            <button (click)="saveSettings()" class="btn btn-sm btn-primary">
                 @if(!loading) {
                     Enregistrer les modifications
                 }@else{
@@ -126,4 +150,5 @@ Le corps de la requete est JSON.
             </button>
         </div>
     </div>
+    </form>
 </div>

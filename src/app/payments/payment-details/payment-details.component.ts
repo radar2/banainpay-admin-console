@@ -35,6 +35,7 @@ export class PaymentDetailsComponent  implements OnInit, OnChanges{
   loadPaymentDetails(paymentId:string) {
     this.paymentService.getPaymentDetails(paymentId).subscribe(
       (data) =>{
+        console.log(data)
         this.payment = data 
         this.events = data.events
       }
