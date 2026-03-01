@@ -5,8 +5,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PaymentMethodService } from '../payment-method.service';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { getPaymentMethodLogo } from '../../utility/utility';
-import { ConfigForm } from '../method.model';
+import { ConfigurationProperty, PaymentProvider } from '../method.model';
 import { StoreConfigService } from '../store-config.service';
+import { Observable, of } from 'rxjs';
 declare var bootstrap: any;
 
 @Component({
@@ -16,18 +17,24 @@ declare var bootstrap: any;
   styleUrl: './payment-method-config.component.scss',
 })
 export class PaymentMethodConfigComponent {
+  providerSelected:PaymentProvider | null = null;
   p1:any;
   p2:any;
   configurations: any = {
     configProperties: []
   };
 
-  list:ConfigForm[] = [];
+
+
+  list:PaymentProvider[] = [];
+  providersList$:Observable<PaymentProvider[]> = of([]);
 
   fb = inject(NonNullableFormBuilder);
 
   constructor(private route:ActivatedRoute,private router:Router,
-     private paymentMethodService:PaymentMethodService,private store: StoreConfigService) {}
+     private paymentMethodService:PaymentMethodService,private store: StoreConfigService) {
+
+     }
 
      configForm!:FormGroup;
 
@@ -46,17 +53,63 @@ export class PaymentMethodConfigComponent {
       providerType: ['', [Validators.required]]
     });
     if (this.p1) {      
-      this.loadConfigList(this.p1);
-      this.loadConfigurations(this.p1);
+      // this.loadConfigList(this.p1);
+      // this.loadConfigurations(this.p1);
+    
     }
+
+     this.providersList$ = this.paymentMethodService.getPaymentProviders();
   }
 
   loadConfigList(id:any) {
-      this.paymentMethodService.getProviderComponents().subscribe({
+      this.paymentMethodService.getPaymentProviders().subscribe({
         next: res => {
           this.list = res;
         },
         error: err => console.error('ERREUR JSON', err)
+      });
+  }
+
+  // Selectionner un fournisseur
+  selectProvider(provider:PaymentProvider) {
+    if (provider) {
+        this.providerSelected = provider;
+        this.configForm.patchValue({
+          providerId: provider.providerId,
+          name: provider.name,
+          providerType: provider.providerType,
+        });
+
+        console.log(provider.configProperties)
+        this.showConfigProperties(provider.configProperties)
+    }
+  }
+
+  // Charge le formliare de configuration
+  showConfigProperties(configs:ConfigurationProperty[]) {
+    configs.forEach((conf:any) => {
+
+        let value: any = '';
+
+        // valeur par défaut
+        if (conf.defaultValue) {
+
+          if (conf.type === 'MultivaluedList') {
+            value = conf.defaultValue.split(';');
+          } else {
+            value = conf.defaultValue;
+          }
+        }
+
+        const validators = [];
+        if (conf.required) {
+          validators.push(Validators.required);
+        }
+
+        this.configForm.addControl(
+          conf.name,
+          new FormControl({ value, disabled: conf.readOnly }, validators)
+        );
       });
   }
 

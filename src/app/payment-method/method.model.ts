@@ -1,30 +1,30 @@
 export interface Method {
-    id: string,
+    id:string;
     name: string,
-    description:string,
-    provider:string,
-    type:string,
-    enabled:boolean
+    providerId:string,
+    providerType:string;
+    type:string;
+    enabled:boolean;
+    configProperties:any[];
+
 }
 
-export interface ConfigForm {
 
-    providerId: string,
-    name: string,
-    providerType: string,
-    configProperties: ConfigPropertiesForm[]
+export interface ConfigurationProperty{
+    name:string;
+    type:string;
+    label:string;
+    helperText:string;
+    defaultValue:string;
+    options:any[];
+    required:boolean;
+    readOnly:boolean;
+    secret:string
 }
 
-export interface ConfigPropertiesForm {
-
+export interface PaymentProvider {
     name: string,
-    type: string,
-    label: string,
-    helperText: string,
-    defaultValue: string,
-    options: [],
-    secret: boolean,
-    required: boolean,
-    readOnly: boolean
- 
-  }
+    providerId:string,
+    providerType:string;
+    configProperties:ConfigurationProperty[];
+}

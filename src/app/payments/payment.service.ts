@@ -12,7 +12,7 @@ export class PaymentService {
     }
 
     getPaymentsHistory():Observable<Payment[]> {
-        const url = `${environment.apiUrl}/payments`;
+        const url = `${environment.apiUrl}/admin/payments`;
         return this.httpClient.get<Payment[]>(url).pipe(
             catchError(err => {
                 if (err && err instanceof HttpErrorResponse && err.status == 404) {
@@ -25,7 +25,7 @@ export class PaymentService {
     }
 
     getPaymentsOfApplication(applicationId:string):Observable<Payment[]> {
-        const url = `${environment.apiUrl}/payments/applications/${applicationId}`;
+        const url = `${environment.apiUrl}/admin/payments/applications/${applicationId}`;
 
         return this.httpClient.get<Payment[]>(url);
     }
@@ -60,10 +60,12 @@ export class PaymentService {
     }
 
     getPaymentDetails(paymentId:string):Observable<Payment> {
-        const url = `${environment.apiUrl}/payments/${paymentId}`;
+        const url = `${environment.apiUrl}/admin/payments/${paymentId}`;
 
         return this.httpClient.get<Payment>(url);
     }
+
+
         
 
 }

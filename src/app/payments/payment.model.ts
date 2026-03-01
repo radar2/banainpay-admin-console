@@ -5,7 +5,7 @@ export interface Payment {
     currency:string;
     appId:string;
     reason?:string;
-    paymentMethod:string;
+    paymentMethod:PaymentMethod;
     paymentMethodType:string;
     occurredOn:string;
     state:string;
@@ -14,6 +14,12 @@ export interface Payment {
     payer?:any;
     fees:Fees;
     events:any[];
+}
+
+export interface PaymentMethod {
+    name:string;
+    type:string;
+    providerId:string
 }
 
 export interface Fees {

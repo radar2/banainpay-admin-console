@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { PaymentMethodService } from '../payment-method.service';
 import { Observable } from 'rxjs';
-import { ConfigForm, Method } from '../method.model';
+import {  Method, PaymentProvider } from '../method.model';
 import { PaymentMethodConfigComponent } from '../payment-method-config/payment-method-config.component';
 import { Router, RouterModule } from '@angular/router';
 import {getPaymentMethodLogo} from './../../utility/utility'
@@ -11,7 +11,7 @@ import { StoreConfigService } from '../store-config.service';
 
 @Component({
   selector: 'app-payment-method-list',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PaymentMethodConfigComponent],
   templateUrl: './payment-method-list.component.html',
   styleUrl: './payment-method-list.component.scss',
 })
@@ -21,17 +21,27 @@ export class PaymentMethodListComponent implements OnInit{
   constructor(private router:Router,
     private store: StoreConfigService,private http:HttpClient){}
 
-  // list:Method[] = []; 
-  list:ConfigForm[] = []; 
+  list:PaymentProvider[] = []; 
+  list1:PaymentProvider[] = []; 
 
   ngOnInit(): void {
-    this.pmService.getFormConfig().subscribe({
-        next: res => {
-          this.list = res;
-          this.store.providers = res; // 👈 setter global
-        },
-        error: err => console.error('ERREUR JSON', err)
-      });
+    // this.pmService.getFormConfig().subscribe({
+    //     next: res => {
+    //       this.list1 = res;
+    //       this.store.providers = res; // 👈 setter global
+    //     },
+    //     error: err => console.error('ERREUR JSON', err)
+    //   });
+    // this.pmService.getList().subscribe(
+    //   (data) => this.list = data
+    // )
+
+    this,this.pmService.getPaymentProviders().subscribe(
+      (data) => {
+        this.list = data; console.log(data);
+        this.store.providers = data; 
+      }
+    )
   }
 
   getLogoUrl(name:string) {
@@ -39,7 +49,6 @@ export class PaymentMethodListComponent implements OnInit{
   }
 
   gotoConfig(id:string) {
-    // const path = this.pathOf(name);
     if (id) {
     
        const route = `/methods/${id}/configuration`;

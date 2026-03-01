@@ -1,65 +1,143 @@
-<div class="wp-component py-4 px-3 mb-3">
-    <div class="d-flex justify-content-between align-items-center">
-
-      <h2 class="wp-component-title mb-0">
-        Liste des configurations de :
-        <strong>{{ p1 }}</strong>
-      </h2>
-
-      <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#paramForm" >
-        <i class="fa fa-plus"></i> Nouveau paramètre
-      </button>
-
-    </div>
-</div>
-
-<div class="row row-cols-1 row-cols-md-2 g-4">
-  <div class="col-md-3" *ngFor="let item of list">
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
-                <img [src]="getLogoUrl(item.name)" class="logoSize" alt="{{ item.name }}">
-                <div class="dropdown action-dropdown" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="left" data-bs-content="Actions">
-                    
-                    <button class="btn btn-sm" type="button" data-bs-toggle="dropdown"aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-
-                    <ul class="dropdown-menu dropdown-menu-end py-1">
-                        <li class="d-flex justify-content-center align-items-center border-bottom border-secondary-subtle">
-                            <strong>Liste des actions</strong>
-                            <hr>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" (click)="getConfig(item.providerId)"><i class="fa-solid fa-pen mx-2"></i> Modifier</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" (click)="getConfig(item.providerId)"><i class="fa-solid fa-circle-check mx-2"></i> Activer</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-danger" (click)="getConfig(item.providerId)"><i class="fa-solid fa-x mx-2"></i>Désactiver</a>
-                        </li>
-                    </ul>
-                </div>
+<div class="d-flex flex-wrap">
+    @for(provider of providersList$ | async; track provider.providerId) {
+        <div class="px-1 my-1 provider-item" style="cursor: pointer;" (click)="selectProvider(provider)">
+        <div class="card" [ngClass]="{'border-primary': providerSelected?.providerId==provider.providerId}">
+            <div class="card-body">
+                {{provider.name}} <br><span class="badge bg-secondary">{{provider.providerId}}</span>
             </div>
         </div>
-        <div class="card-body">   
-            <p class="card-text mb-1">
-                <strong>Nom :</strong> {{ item.name }}
-            </p>
-            <p class="card-text mb-1">
-                <strong>Type :</strong> {{ item.providerType }}
-            </p>
-            <p class="card-text mb-1">
-                <strong>ID :</strong> {{ item.providerId }}
-            </p>
+    </div>
+    }
+    <div class="px-1 my-1">
+        <div class="card ">
+            <div class="card-body">
+                Orange Money <br> <span class="badge bg-secondary">om-ci</span>
+            </div>
         </div>
     </div>
-  </div>    
+    <div class="px-1 ny-1">
+        <div class="card ">
+            <div class="card-body">
+                Moov Africa <br> <span class="badge bg-secondary">moov-ci</span>
+            </div>
+        </div>
+    </div>
+    <div class="px-1 my-1">
+        <div class="card ">
+            <div class="card-body">
+                Momo Money <br> <span class="badge bg-secondary">momo-ci</span>
+            </div>
+        </div>
+    </div>
+    
 </div>
 
+
+    <div *ngIf="providerSelected" class="py-3">
+         <form [formGroup]="configForm" class="from">
+            <div class="d-flex justify-content-between">
+                            <div class="align-middle">
+                                <strong class="fs-3 lead">Configuration {{ providerSelected.providerId }}</strong>
+
+                                <!-- <span class="badge text-bg-secondary text-light ms-1">
+                                    {{ providerSelected.providerType }}
+                                </span> -->
+                            </div>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                        </div>
+                                    <div class="form-group" class="py-2">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control" formControlName="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Pays</label>
+                            <select class="form-control" formControlName="countryCode">
+                                <option value="" disabled selected>Choisir un pays</option>
+                                <option value="CI">Cote Ivoire</option>
+                                <option value="ML">MALI</option>
+                                <option value="SN">Senegal</option>
+                            </select>
+                        </div>
+                    
+                        @for (conf of providerSelected.configProperties; track conf.name) {
+
+                        @switch (conf.type) {
+
+                        @case ('String') {
+                        <div class="form-group mb-0">
+                            <label for="">
+                                {{ conf.label }}
+                                <span *ngIf="conf.required" class="text-danger mx-1">*</span>
+                                <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    [attr.data-bs-title]="conf.helperText">
+                                </i>
+                            </label>
+                            <input type="text" class="form-control" [class.form-control]="!conf.readOnly"
+                                [class.form-control-plaintext]="conf.readOnly" [formControlName]="conf.name"
+                                [readonly]="conf.readOnly" [required]="conf.required">
+                        </div>
+                        }
+
+                        @case ('MultivaluedList') {
+
+                        <div class="form-group mb-0">
+                            <label class="d-block">
+                                {{ conf.label }}
+                                <span *ngIf="conf.required" class="text-danger mx-1">*</span>
+                                <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    [attr.data-bs-title]="conf.helperText">
+                                </i>
+                            </label>
+
+                            @for (opt of conf.options; track opt) {
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" [id]="conf.name + '_' + opt"
+                                    [checked]="configForm.get(conf.name)?.value?.includes(opt)"
+                                    (change)="onCheckboxChange($event, conf.name, opt)" />
+                                <label class="form-check-label" [for]="conf.name + '_' + opt">
+                                    {{ opt }}
+                                </label>
+                            </div>
+                            }
+                        </div>
+                        }
+
+                        @case ('List') {
+
+                        <div class="form-group mb-0">
+
+                            <label for="">
+                                {{ conf.label }}
+                                <span *ngIf="conf.required" class="text-danger mx-1">*</span>
+                                <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    [attr.data-bs-title]="conf.helperText">
+                                </i>
+                            </label>
+                            <select class="form-select" [formControlName]="conf.name" [required]="conf.required">
+                                <option value="" disabled>Sélectionner un élèment</option>
+                                @for (opt of conf.options; track opt) {
+                                <option [value]="opt">{{ opt }}</option>
+                                }
+                            </select>
+                        </div>
+                        }
+
+                        }
+
+                        }
+
+
+                </form>
+    </div>
+
+
 <!-- Modal -->
-<div class="modal fade" id="paramForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="paramFormLabel" aria-hidden="true">
+<div class="modal fade" id="paramForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="paramFormLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-body">
@@ -72,19 +150,19 @@
                                 <span class="badge text-bg-secondary text-light ms-1">
                                     {{ config.providerType }}
                                 </span>
-                            </div> 
+                            </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> 
+                        </div>
                         <hr>
 
                         <div class="form-group" class="mt-5">
                             <label for="">Name</label>
                             <input type="text" class="form-control" formControlName="name">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="">Pays</label>
-                            <select class="form-control" formControlName="countryCode">                                
+                            <select class="form-control" formControlName="countryCode">
                                 <option value="" disabled selected>Choisir un pays</option>
                                 <option value="CI">Cote Ivoire</option>
                                 <option value="ML">MALI</option>
@@ -94,67 +172,71 @@
 
                         @for (conf of config?.configProperties; track conf.name) {
 
-                            @switch (conf.type) {
+                        @switch (conf.type) {
 
-                                @case ('String') {
-                                    <div class="form-group mb-0">
-                                        <label for="" >
-                                            {{ conf.label }} 
-                                            <span *ngIf="conf.required" class="text-danger mx-1">*</span>
-                                            <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" [attr.data-bs-title]="conf.helperText">
-                                            </i>
-                                        </label>
-                                        <input type="text" class="form-control" [class.form-control]="!conf.readOnly" 
-                                            [class.form-control-plaintext]="conf.readOnly"
-                                            [formControlName]="conf.name" [readonly]="conf.readOnly" [required]="conf.required">
-                                    </div>
-                                }
+                        @case ('String') {
+                        <div class="form-group mb-0">
+                            <label for="">
+                                {{ conf.label }}
+                                <span *ngIf="conf.required" class="text-danger mx-1">*</span>
+                                <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    [attr.data-bs-title]="conf.helperText">
+                                </i>
+                            </label>
+                            <input type="text" class="form-control" [class.form-control]="!conf.readOnly"
+                                [class.form-control-plaintext]="conf.readOnly" [formControlName]="conf.name"
+                                [readonly]="conf.readOnly" [required]="conf.required">
+                        </div>
+                        }
 
-                                @case ('MultivaluedList') { 
-                                    
-                                    <div class="form-group mb-0">
-                                        <label class="d-block">
-                                            {{ conf.label }} 
-                                            <span *ngIf="conf.required" class="text-danger mx-1">*</span>
-                                            <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" [attr.data-bs-title]="conf.helperText">
-                                            </i>
-                                        </label>
+                        @case ('MultivaluedList') {
 
-                                        @for (opt of conf.options; track opt) {
-                                            <div class="form-check form-check-inline">
-                                                <input type="checkbox" class="form-check-input" [id]="conf.name + '_' + opt" [checked]="configForm.get(conf.name)?.value?.includes(opt)" 
-                                                (change)="onCheckboxChange($event, conf.name, opt)"/>
-                                                <label class="form-check-label" [for]="conf.name + '_' + opt">
-                                                    {{ opt }}
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                }
+                        <div class="form-group mb-0">
+                            <label class="d-block">
+                                {{ conf.label }}
+                                <span *ngIf="conf.required" class="text-danger mx-1">*</span>
+                                <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    [attr.data-bs-title]="conf.helperText">
+                                </i>
+                            </label>
 
-                                @case ('List') {
-
-                                    <div class="form-group mb-0">
-                                        
-                                        <label for="">
-                                            {{ conf.label }} 
-                                            <span *ngIf="conf.required" class="text-danger mx-1">*</span>
-                                            <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" [attr.data-bs-title]="conf.helperText">
-                                            </i>
-                                        </label>
-                                        <select class="form-select" [formControlName]="conf.name" [required]="conf.required">
-                                            <option value="" disabled>Sélectionner un élèment</option>
-                                            @for (opt of conf.options; track opt) {
-                                                <option [value]="opt">{{ opt }}</option>
-                                            }
-                                        </select>
-                                    </div>
-                                }
-
+                            @for (opt of conf.options; track opt) {
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" [id]="conf.name + '_' + opt"
+                                    [checked]="configForm.get(conf.name)?.value?.includes(opt)"
+                                    (change)="onCheckboxChange($event, conf.name, opt)" />
+                                <label class="form-check-label" [for]="conf.name + '_' + opt">
+                                    {{ opt }}
+                                </label>
+                            </div>
                             }
+                        </div>
+                        }
+
+                        @case ('List') {
+
+                        <div class="form-group mb-0">
+
+                            <label for="">
+                                {{ conf.label }}
+                                <span *ngIf="conf.required" class="text-danger mx-1">*</span>
+                                <i *ngIf="conf.helperText" class="fa-solid fa-info-circle text-primary ms-1"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    [attr.data-bs-title]="conf.helperText">
+                                </i>
+                            </label>
+                            <select class="form-select" [formControlName]="conf.name" [required]="conf.required">
+                                <option value="" disabled>Sélectionner un élèment</option>
+                                @for (opt of conf.options; track opt) {
+                                <option [value]="opt">{{ opt }}</option>
+                                }
+                            </select>
+                        </div>
+                        }
+
+                        }
 
                         }
 

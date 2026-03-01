@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpParams, HttpRequest } from "@angular/common/http";
 import { BehaviorSubject, catchError, map, Observable, of, shareReplay, tap, throwError } from "rxjs";
 import { Application } from "./application.model";
 import { inject, Injectable } from "@angular/core";
@@ -93,9 +93,17 @@ export class ApplicationService {
         return this.httpClient.get(url);
     }
 
-    public changeApplicationWebhookUrl(id:string, webhookUrl:string) {
-        const url = `${environment.apiUrl}/apps/${id}/webhook?url=${webhookUrl}`;
+    public saveSettings(id:string, data:any) {
+        const url = `${environment.apiUrl}/apps/${id}/configurations`;
+        return this.httpClient.post(url, JSON.stringify(data), {
+           headers:{"Content-Type": "application/json"}
+        });
+    }
 
-        return this.httpClient.post(url, null);
+
+    public generateHmacKey(applicationId:string):Observable<any> {
+        const url = `${environment.apiUrl}/apps/${applicationId}/configurations/generate-key`;
+
+        return this.httpClient.post<any>(url, null);
     }
 }

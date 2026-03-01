@@ -20,8 +20,8 @@
                 @for(method of basicTable.data; track method.id) {
                     <tr>
                     <td><img width="50px" [src]="getLogo(method.name)" alt=""></td>
-                    <th scope="row">{{method.name}}</th>
-                    <td>{{method.provider}}</td>
+                    <th scope ="row">{{method.name}}</th>
+                    <th scope ="row" >{{method.providerId}}</th>
                     <th scope="row" class="text-primary">
                         <i class="fa fa-wallet"></i>
                         {{method.type}}

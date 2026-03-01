@@ -172,7 +172,6 @@ export class DashboardComponent implements OnInit {
             )
         })
 
-        console.log(this.totalPaymentAmountPerProvider)
       }
     )
 
@@ -196,7 +195,6 @@ export class DashboardComponent implements OnInit {
         this.calculateMerchandbalance();
       }
     )
-
 
   }
 

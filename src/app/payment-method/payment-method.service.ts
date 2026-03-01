@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, shareReplay } from "rxjs";
-import { ConfigForm, Method } from "./method.model";
+import { Observable, shareReplay, of } from "rxjs";
+import { Method, PaymentProvider } from "./method.model";
 import { environment } from "../../environments/environment";
 
 @Injectable({providedIn: 'root'})
@@ -9,8 +9,11 @@ export class PaymentMethodService {
     private jsonUrl = 'assets/data.json';
 
     private list$:Observable<Method[]> = new Observable()
+    private providersList$:Observable<PaymentProvider[]> = of([]);
+
     constructor(private httpClient:HttpClient) {
         this.list$ = this.buildRequest();
+        this.providersList$ = this.buildPaymentProviders();
     }
 
     public buildRequest():Observable<Method[]>{
@@ -20,14 +23,14 @@ export class PaymentMethodService {
         )
     }
 
-    getFormConfig(): Observable<ConfigForm[]> {
-        const url = `${environment.apiUrl}/server-infos/providers`;
-        return this.httpClient.get<ConfigForm[]>(url);
+    getFormConfig(): Observable<PaymentProvider[]> {
+        const url = `${environment.apiUrl}/spi/providers`;
+        return this.httpClient.get<PaymentProvider[]>(url);
     }
 
-    getProviderComponents(): Observable<ConfigForm[]> {
-    const url = `${environment.apiUrl}/server-infos/providers/components`;
-    return this.httpClient.get<ConfigForm[]>(url);
+    getProviderComponents(): Observable<PaymentProvider[]> {
+    const url = `${environment.apiUrl}/spi/providers/components`;
+    return this.httpClient.get<PaymentProvider[]>(url);
     }
 
     public getList():Observable<Method[]> {
@@ -43,7 +46,7 @@ export class PaymentMethodService {
         // .set("encrypted", data.encrypted);
         
         
-        const url = `${environment.apiUrl}/server-infos`;
+        const url = `${environment.apiUrl}/spi`;
 
         return this.httpClient.post(url, JSON.stringify(data), {
             headers:{"Content-Type":"application/json"}
@@ -53,5 +56,15 @@ export class PaymentMethodService {
     public getConfigurations(id:string) {
         const url = `${environment.apiUrl}/payment-methods/${id}/configurations`
         return this.httpClient.get(url);
+    }
+
+    private buildPaymentProviders():Observable<PaymentProvider[]> {
+        const url = `${environment.apiUrl}/spi`;
+
+        return this.httpClient.get<PaymentProvider[]>(url);
+    }
+
+    getPaymentProviders():Observable<PaymentProvider[]>{
+        return this.providersList$;
     }
 }

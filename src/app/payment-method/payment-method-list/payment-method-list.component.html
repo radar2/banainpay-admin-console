@@ -2,19 +2,72 @@
     <div class="wp-component-header border-bottom">
         <div class="d-flex flex-column align-items-start">
             <div class="">
-                <h2 class="wp-component-title">Methodes de paiements</h2>
+                <h2 class="wp-component-title">Fournisseurs de services de paiements</h2>
             </div>
         </div>
 
     </div>
 
     <div class="wp-component-content">
-        <p class="">Liste des methodes de ppaiements enregistrées dans le systeme. <br> Veuillez configurer chaque
-            methode de avec les paremtres d'accèss du fournisseur.</p>
+        
+        <p class="">Liste des fournisseurs de services paiements pris en charge dans le systeme. <br> Veuillez configurer chaque
+            service avec les parametres d'accèss fournis par le fournisseur.</p>
+        
+        <button class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"aria-controls="offcanvasRight">
+            <i class="fa fa-gear"> </i> Configurer une nouvelle méthode de paiement
+        </button>
+        <div class="py-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                         <th>Identifiant</th>
+                        <th>Nom</th>
+                         <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(method of list; track method.providerId) {
+                    <tr>
+                        <td> <img class="logo" width="50px" [src]="getLogoUrl(method.providerId)" alt=""></td>
+                        <th scope="row">{{method.providerId}}</th>
+                         
+                        <th scope="row">
+                            {{method.name}}
+                        </th>
+                        <td><span class="badge bg-secondary">{{method.providerType}}</span></td>
+
+                        <td>
+                            <div class="dropdown">
+                                <span class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-vertical"></i>
+                                </span>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                   
+                                    <li data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                        aria-controls="offcanvasRight"><span class="dropdown-item"><i
+                                                class="fa fa-screwdriver-wrench"></i> Configurer</span></li>
+
+                                                <!-- <li><span class="dropdown-item">
+                                                    <a (click)="gotoConfig(method.providerId)" class="nav-link"><i
+                                                class="fa fa-screwdriver-wrench"></i> Configurations</a>
+                                                </span></li> -->
+                                </ul>
+                            </div>
+                        </td>
+                    
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
+<!-- <div class="row row-cols-1 row-cols-md-2 g-4">
   <div class="col-md-3" *ngFor="let item of list">
     <div class="card">
         <div class="card-header">
@@ -51,7 +104,7 @@
         </div>
     </div>
   </div>    
-</div>
+</div> -->
 
 
 
@@ -62,6 +115,6 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <!-- <app-payment-method-config></app-payment-method-config> -->
+        <app-payment-method-config></app-payment-method-config>
     </div>
 </div>
