@@ -36,7 +36,7 @@
                         <th scope="row">{{payment.paymentMethod?.name}}</th>
                         <th scope="row">{{payment.paymentMethod?.type}}</th>
                         <td>
-                            <span *ngIf="payment.state=='PENDING'"  class="badge bg-secondary">Initié</span>
+                            <span *ngIf="payment.state=='PENDING'" class="badge bg-secondary">Initié</span>
                             <span *ngIf="payment.state=='FAILED'" class="badge bg-danger">Echoué</span>
                             <span *ngIf="payment.state=='PROCESSING'" class="badge bg-primary">En cours</span>
                             <span *ngIf="payment.state=='COMPLETED'" class="badge bg-success">Terminé</span>
