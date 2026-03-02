@@ -9,11 +9,13 @@
     </div>
 
     <div class="wp-component-content">
-        
-        <p class="">Liste des fournisseurs de services paiements pris en charge dans le systeme. <br> Veuillez configurer chaque
+
+        <p class="">Liste des fournisseurs de services paiements pris en charge dans le systeme. <br> Veuillez
+            configurer chaque
             service avec les parametres d'accèss fournis par le fournisseur.</p>
-        
-        <button class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"aria-controls="offcanvasRight">
+
+        <button class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+            aria-controls="offcanvasRight">
             <i class="fa fa-gear"> </i> Configurer une nouvelle méthode de paiement
         </button>
         <div class="py-3">
@@ -21,23 +23,23 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                         <th>Identifiant</th>
                         <th>Nom</th>
-                         <th>Type</th>
+                        <th>Fournisseur</th>
+                        <th>Type</th>
+                        <th>Pays</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for(method of list; track method.providerId) {
+                    @for(method of paymentsProviders; track method.providerId) {
                     <tr>
                         <td> <img class="logo" width="50px" [src]="getLogoUrl(method.providerId)" alt=""></td>
-                        <th scope="row">{{method.providerId}}</th>
-                         
                         <th scope="row">
                             {{method.name}}
                         </th>
-                        <td><span class="badge bg-secondary">{{method.providerType}}</span></td>
-
+                        <th scope="row">{{method.providerId}}</th>
+                        <td><span class="badge bg-secondary">{{method.paymentMethodType}}</span></td>
+                        <td> {{method.supportedCountries}}</td>
                         <td>
                             <div class="dropdown">
                                 <span class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -45,19 +47,27 @@
                                     <i class="fa fa-ellipsis-vertical"></i>
                                 </span>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                   
+
                                     <li data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                         aria-controls="offcanvasRight"><span class="dropdown-item"><i
-                                                class="fa fa-screwdriver-wrench"></i> Configurer</span></li>
+                                                class="fa fa-gear"></i> Configurer</span></li>
 
-                                                <!-- <li><span class="dropdown-item">
-                                                    <a (click)="gotoConfig(method.providerId)" class="nav-link"><i
-                                                class="fa fa-screwdriver-wrench"></i> Configurations</a>
-                                                </span></li> -->
+                                    <li>
+                                        <span class="dropdown-item"> <a class="nav-link"><i class="fa fa-check"></i>
+                                                Activer</a></span>
+                                    </li>
+                                    <li>
+                                        <span class="dropdown-item"> <a class="nav-link"><i class="fa fa-check"></i>
+                                                Désactiver</a></span>
+                                    </li>
+                                    <li>
+                                        <span class="dropdown-item"> <a class="nav-link"><i class="fa fa-trash"></i>
+                                                Supprimer</a></span>
+                                    </li>
                                 </ul>
                             </div>
                         </td>
-                    
+
                     </tr>
                     }
 

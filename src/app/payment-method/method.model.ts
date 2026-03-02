@@ -1,10 +1,12 @@
-export interface Method {
+export interface PaymentProvider {
     id:string;
     name: string,
     providerId:string,
     providerType:string;
+    paymentMethodType:string;
     type:string;
     enabled:boolean;
+    supportedCountries:string;
     configProperties:any[];
 
 }
@@ -22,7 +24,7 @@ export interface ConfigurationProperty{
     secret:string
 }
 
-export interface PaymentProvider {
+export interface PaymentSpi {
     name: string,
     providerId:string,
     providerType:string;

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PaymentMethodService } from '../payment-method.service';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { getPaymentMethodLogo } from '../../utility/utility';
-import { ConfigurationProperty, PaymentProvider } from '../method.model';
+import { ConfigurationProperty, PaymentProvider, PaymentSpi } from '../method.model';
 import { StoreConfigService } from '../store-config.service';
 import { Observable, of } from 'rxjs';
 declare var bootstrap: any;
@@ -17,7 +17,7 @@ declare var bootstrap: any;
   styleUrl: './payment-method-config.component.scss',
 })
 export class PaymentMethodConfigComponent {
-  providerSelected:PaymentProvider | null = null;
+  spiSelected:PaymentSpi | null = null;
   p1:any;
   p2:any;
   configurations: any = {
@@ -27,7 +27,7 @@ export class PaymentMethodConfigComponent {
 
 
   list:PaymentProvider[] = [];
-  providersList$:Observable<PaymentProvider[]> = of([]);
+  paymentsSpiList$:Observable<PaymentSpi[]> = of([]);
 
   fb = inject(NonNullableFormBuilder);
 
@@ -58,7 +58,7 @@ export class PaymentMethodConfigComponent {
     
     }
 
-     this.providersList$ = this.paymentMethodService.getPaymentProviders();
+     this.paymentsSpiList$ = this.paymentMethodService.getPaymentSpi();
   }
 
   loadConfigList(id:any) {
@@ -71,9 +71,9 @@ export class PaymentMethodConfigComponent {
   }
 
   // Selectionner un fournisseur
-  selectProvider(provider:PaymentProvider) {
+  selectProvider(provider:PaymentSpi) {
     if (provider) {
-        this.providerSelected = provider;
+        this.spiSelected = provider;
         this.configForm.patchValue({
           providerId: provider.providerId,
           name: provider.name,

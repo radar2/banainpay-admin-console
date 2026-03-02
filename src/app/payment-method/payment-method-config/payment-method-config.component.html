@@ -1,14 +1,14 @@
 <div class="d-flex flex-wrap">
-    @for(provider of providersList$ | async; track provider.providerId) {
+    @for(provider of paymentsSpiList$ | async; track provider.providerId) {
         <div class="px-1 my-1 provider-item" style="cursor: pointer;" (click)="selectProvider(provider)">
-        <div class="card" [ngClass]="{'border-primary': providerSelected?.providerId==provider.providerId}">
+        <div class="card" [ngClass]="{'border-primary': spiSelected?.providerId==provider.providerId}">
             <div class="card-body">
                 {{provider.name}} <br><span class="badge bg-secondary">{{provider.providerId}}</span>
             </div>
         </div>
     </div>
     }
-    <div class="px-1 my-1">
+    <!-- <div class="px-1 my-1">
         <div class="card ">
             <div class="card-body">
                 Orange Money <br> <span class="badge bg-secondary">om-ci</span>
@@ -28,16 +28,16 @@
                 Momo Money <br> <span class="badge bg-secondary">momo-ci</span>
             </div>
         </div>
-    </div>
+    </div> -->
     
 </div>
 
 
-    <div *ngIf="providerSelected" class="py-3">
+    <div *ngIf="spiSelected" class="py-3">
          <form [formGroup]="configForm" class="from">
             <div class="d-flex justify-content-between">
                             <div class="align-middle">
-                                <strong class="fs-3 lead">Configuration {{ providerSelected.providerId }}</strong>
+                                <strong class="fs-3 lead">Configuration {{ spiSelected.providerId }}</strong>
 
                                 <!-- <span class="badge text-bg-secondary text-light ms-1">
                                     {{ providerSelected.providerType }}
@@ -60,7 +60,7 @@
                             </select>
                         </div>
                     
-                        @for (conf of providerSelected.configProperties; track conf.name) {
+                        @for (conf of spiSelected.configProperties; track conf.name) {
 
                         @switch (conf.type) {
 

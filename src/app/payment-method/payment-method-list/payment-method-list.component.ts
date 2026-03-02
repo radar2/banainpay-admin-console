@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { PaymentMethodService } from '../payment-method.service';
 import { Observable } from 'rxjs';
-import {  Method, PaymentProvider } from '../method.model';
+import {  PaymentProvider, PaymentSpi } from '../method.model';
 import { PaymentMethodConfigComponent } from '../payment-method-config/payment-method-config.component';
 import { Router, RouterModule } from '@angular/router';
 import {getPaymentMethodLogo} from './../../utility/utility'
@@ -21,8 +21,8 @@ export class PaymentMethodListComponent implements OnInit{
   constructor(private router:Router,
     private store: StoreConfigService,private http:HttpClient){}
 
-  list:PaymentProvider[] = []; 
-  list1:PaymentProvider[] = []; 
+  paymentsProviders:PaymentProvider[] = []; 
+  list1:PaymentSpi[] = []; 
 
   ngOnInit(): void {
     // this.pmService.getFormConfig().subscribe({
@@ -38,8 +38,8 @@ export class PaymentMethodListComponent implements OnInit{
 
     this,this.pmService.getPaymentProviders().subscribe(
       (data) => {
-        this.list = data; console.log(data);
-        this.store.providers = data; 
+        this.paymentsProviders = data; console.log(data);
+        
       }
     )
   }

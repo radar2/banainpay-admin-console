@@ -3,7 +3,7 @@ import { BehaviorSubject, catchError, map, Observable, of, shareReplay, tap, thr
 import { Application } from "./application.model";
 import { inject, Injectable } from "@angular/core";
 import {environment} from './../../environments/environment';
-import { Method } from "../payment-method/method.model";
+import { PaymentProvider } from "../payment-method/method.model";
 
 @Injectable(
     {
@@ -71,10 +71,10 @@ export class ApplicationService {
             )
     }
 
-    public getPaymentMethods(id:string):Observable<Method[]> {
+    public getPaymentMethods(id:string):Observable<PaymentProvider[]> {
         const url = `${environment.apiUrl}/apps/${id}/methods`;
 
-        return this,this.httpClient.get<Method[]>(url);
+        return this,this.httpClient.get<PaymentProvider[]>(url);
     }
 
     public updateApplication(body:any, applicationId:any) {
