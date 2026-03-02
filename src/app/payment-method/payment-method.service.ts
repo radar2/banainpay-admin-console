@@ -33,6 +33,11 @@ export class PaymentMethodService {
     return this.httpClient.get<PaymentProvider[]>(url);
     }
 
+    getPaymentProviderConfig(providerId:string):Observable<PaymentProvider> {
+        const url = `${environment.apiUrl}/spi/providers/${providerId}/configs`;
+        return this.httpClient.get<PaymentProvider>(url);
+    }
+
 
     public saveConfiguration(data:any) {
         

@@ -170,6 +170,8 @@
                             </select>
                         </div>
 
+                        <div formGroupName="configs">    
+ 
                         @for (conf of config?.configProperties; track conf.name) {
 
                         @switch (conf.type) {
@@ -240,15 +242,14 @@
 
                         }
 
-
-
+                        </div>
 
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button (click)="save()" type="button" class="btn btn-primary">Enregistrer</button>
+                <button (click)="save()" type="button" class="btn btn-primary" [disabled]="configForm.invalid">Enregistrer</button>
             </div>
         </div>
     </div>
