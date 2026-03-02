@@ -31,7 +31,7 @@
                             <hr>
                         </li>
                         <li>
-                            <a class="dropdown-item" (click)="openEditModal(item)"><i class="fa-solid fa-pen mx-2"></i> Modifier</a>
+                            <a class="dropdown-item" (click)="resetChildForm()"><i class="fa-solid fa-pen mx-2"></i> Modifier</a>
                         </li>
                         <li>
                             <a class="dropdown-item" (click)="getConfig(item.providerId)"><i class="fa-solid fa-circle-check mx-2"></i> Activer</a>
@@ -62,137 +62,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-body">
-        <!-- Formulaire -->
-        <form [formGroup]="configDetail" class="from">
-            <div *ngIf="configurations as config">
-                        <div class="d-flex justify-content-between">
-                            <div class="align-middle">
-                                <strong class="fs-1">{{ config.providerId }}</strong>
-
-                                <span class="badge text-bg-secondary text-light ms-1">
-                                    {{ config.providerType }}
-                                </span>
-                            </div> 
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div> 
-                        <hr>
-
-                        <div class="form-group" class="mt-5">
-                            <label for="">Name</label>
-                            <input type="text" class="form-control" formControlName="name">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="">
-                                Pays <span class="text-danger mx-1">*</span>
-                            </label>
-                            <select class="form-control" formControlName="countryCode" [required]="true">                                
-                                <option value="" disabled selected>Choisir un pays</option>
-                                <option value="CI">Cote Ivoire</option>
-                                <option value="ML">MALI</option>
-                                <option value="SN">Senegal</option>
-                            </select>
-                        </div>
-
-                        <div formGroupName="configs">    
- 
-                        @for (confD of config?.configProperties; track confD.name) {
-
-                            @switch (confD.type) {
-
-                                @case ('String') {
-                                    <div class="form-group mb-0">
-                                        <label for="" >
-                                            {{ confD.label }} 
-                                            <span *ngIf="confD.required" class="text-danger mx-1">*</span>
-                                            <i *ngIf="confD.helperText" class="fa-solid fa-info-circle text-primary ms-1"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" [attr.data-bs-title]="confD.helperText">
-                                            </i>
-                                        </label>
-                                        <input type="text" class="form-control" [class.form-control]="!confD.readOnly" 
-                                            [class.form-control-plaintext]="confD.readOnly"
-                                            [formControlName]="confD.name" [readonly]="confD.readOnly" [required]="confD.required" [class.is-invalid]="
-                                                configDetail.get('configsD.' + confD.name)?.invalid &&
-                                                configDetail.get('configsD.' + confD.name)?.touched
-                                            "
-                                            />
-
-                                        <div class="invalid-feedback">
-                                        {{ confD.label }} est obligatoire
-                                        </div>
-                                    </div>
-                                }
-
-                                @case ('MultivaluedList') { 
-                                    
-                                    <div class="form-group mb-0">
-                                        <label class="d-block">
-                                            {{ confD.label }} 
-                                            <span *ngIf="confD.required" class="text-danger mx-1">*</span>
-                                            <i *ngIf="confD.helperText" class="fa-solid fa-info-circle text-primary ms-1"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" [attr.data-bs-title]="confD.helperText">
-                                            </i>
-                                        </label>
-
-                                        @for (opt of confD.options; track opt) {
-                                            <div class="form-check form-check-inline">
-                                                <input type="checkbox"
-                                                    class="form-check-input"
-                                                    [id]="confD.name + '_' + opt"
-                                                    [checked]="isChecked(confD.name, opt)"
-                                                    (change)="onCheckboxChange($event, confD.name, opt)" [class.is-invalid]="
-                                                            configDetail.get('configsD.' + confD.name)?.invalid &&
-                                                            configDetail.get('configsD.' + confD.name)?.touched
-                                                        "
-                                                />
-
-                                                <div class="invalid-feedback">
-                                                {{ confD.label }} est obligatoire
-                                                </div>
-
-                                                
-                                                <label class="form-check-label" [for]="confD.name + '_' + opt">
-                                                    {{ opt }}
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-
-                                @case ('List') {
-
-                                    <div class="form-group mb-0">
-                                        
-                                        <label for="">
-                                            {{ confD.label }} 
-                                            <span *ngIf="confD.required" class="text-danger mx-1">*</span>
-                                            <i *ngIf="confD.helperText" class="fa-solid fa-info-circle text-primary ms-1"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" [attr.data-bs-title]="confD.helperText">
-                                            </i>
-                                        </label>
-                                        <select class="form-select" [formControlName]="confD.name" [required]="confD.required" [class.is-invalid]="
-                                                configDetail.get('configsD.' + confD.name)?.invalid &&
-                                                configDetail.get('configsD.' + confD.name)?.touched
-                                            ">
-                                            <option value="" disabled>Sélectionner un élèment</option>
-                                            @for (opt of confD.options; track opt) {
-                                                <option [value]="opt">{{ opt }}</option>
-                                            }
-                                             </select>
-                                        <div class="invalid-feedback">
-                                        {{ confD.label }} est obligatoire
-                                        </div>
-                                    </div>
-                                }
-
-                            }
-
-                        }
-
-                        </div>
-
-            </div> 
-        </form>
+        <app-payment-method-config-edit #editChild (saveSuccess)="onEdit()" (resetSuccess)="onReset()"></app-payment-method-config-edit>
       </div>
 
       <div class="modal-footer">
