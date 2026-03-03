@@ -36,8 +36,8 @@ export class AppplicationPaymentHistoryComponent implements OnInit{
       }
     )
 
-    this.balance$ = this.state.get().pipe(
-       switchMap(app => this.paymentServcice.getBalanceOfApplication(app?.id!)));
+    this.balance$ = this.state.getApplicationId().pipe(
+       switchMap(id => this.paymentServcice.getBalanceOfApplication(id!)));
   }
 
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, shareReplay, of } from "rxjs";
+import { Observable, shareReplay, of, filter, find, map } from "rxjs";
 import { PaymentProvider, PaymentSpi } from "./method.model";
 import { environment } from "../../environments/environment";
 
@@ -57,5 +57,14 @@ export class PaymentMethodService {
 
     getPaymentSpi():Observable<PaymentSpi[]>{
         return this.paymentsSpi$;
+    }
+
+    getPaymentSpiById(id:string):Observable<PaymentSpi | null> {
+        return this.paymentsSpi$.pipe(
+            map(list => list.find(spi => spi.providerId == id) ?? null))
+    }
+
+    reload() {
+        this.paymentsSpi$ = this.buildPaymentProvidersInterfaceRequest();
     }
 }

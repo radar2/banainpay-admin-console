@@ -51,8 +51,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="">Methode de payment</label>
+                            <select class="form-control" formControlName="paymentMethodType">
+                                <option value="" disabled selected>Choisir le type</option>
+                                <option value="MOBILE_MONEY">Mobile Money</option>
+                                <option value="CARD">Carte de crédit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="">Pays</label>
-                            <select class="form-control" formControlName="countryCode">
+                            <select class="form-control" formControlName="supportedCountries">
                                 <option value="" disabled selected>Choisir un pays</option>
                                 <option value="CI">Cote Ivoire</option>
                                 <option value="ML">MALI</option>
@@ -60,7 +69,8 @@
                             </select>
                         </div>
                     
-                        @for (conf of spiSelected.configProperties; track conf.name) {
+                        <div formGroupName="configs">
+                            @for (conf of spiSelected.configProperties; track conf.name) {
 
                         @switch (conf.type) {
 
@@ -95,7 +105,7 @@
                             @for (opt of conf.options; track opt) {
                             <div class="form-check form-check-inline">
                                 <input type="checkbox" class="form-check-input" [id]="conf.name + '_' + opt"
-                                    [checked]="configForm.get(conf.name)?.value?.includes(opt)"
+                                    [checked]="configs.get(conf.name)?.value?.includes(opt)"
                                     (change)="onCheckboxChange($event, conf.name, opt)" />
                                 <label class="form-check-label" [for]="conf.name + '_' + opt">
                                     {{ opt }}
@@ -130,13 +140,15 @@
 
                         }
 
+                        </div>
 
+                        <button (click)="save()" type="button" class="btn btn-primary" [disabled]="configForm.invalid"> <i class="fa fa-gear"></i> Configurez</button>
                 </form>
     </div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="paramForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="paramFormLabel"
+<!-- <div class="modal fade" id="paramForm" data-bs-backdrop="static" tabindex="-1" aria-labelledby="paramFormLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -253,4 +265,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

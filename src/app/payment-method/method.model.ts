@@ -7,7 +7,7 @@ export interface PaymentProvider {
     type:string;
     enabled:boolean;
     supportedCountries:string;
-    configProperties:any[];
+    configs:any;
 
 }
 

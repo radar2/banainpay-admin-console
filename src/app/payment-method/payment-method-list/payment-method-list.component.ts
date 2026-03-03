@@ -16,6 +16,8 @@ import { StoreConfigService } from '../store-config.service';
   styleUrl: './payment-method-list.component.scss',
 })
 export class PaymentMethodListComponent implements OnInit{
+  p1 = 0;
+  providerId:any; 
   pmService = inject(PaymentMethodService);
 
   constructor(private router:Router,
@@ -38,7 +40,7 @@ export class PaymentMethodListComponent implements OnInit{
 
     this,this.pmService.getPaymentProviders().subscribe(
       (data) => {
-        this.paymentsProviders = data; console.log(data);
+        this.paymentsProviders = data;
         
       }
     )
@@ -48,15 +50,9 @@ export class PaymentMethodListComponent implements OnInit{
     return getPaymentMethodLogo(name);
   }
 
-  gotoConfig(id:string) {
-    if (id) {
-    
-       const route = `/methods/${id}/configuration`;
-      // const route = `/methods/${id}/config-list`;
-
-      this.router.navigateByUrl(route)
-    }
-   
+  configure(p1:number, id:any) {
+    this.p1 = p1;
+    this.providerId = id;
   }
 
 

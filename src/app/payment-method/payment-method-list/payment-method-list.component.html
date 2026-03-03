@@ -14,7 +14,7 @@
             configurer chaque
             service avec les parametres d'accèss fournis par le fournisseur.</p>
 
-        <button class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+        <button (click)="configure(0, null)" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
             aria-controls="offcanvasRight">
             <i class="fa fa-gear"> </i> Configurer une nouvelle méthode de paiement
         </button>
@@ -31,14 +31,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(method of paymentsProviders; track method.providerId) {
+                    @for(method of paymentsProviders; track method.id) {
                     <tr>
                         <td> <img class="logo" width="50px" [src]="getLogoUrl(method.providerId)" alt=""></td>
                         <th scope="row">
                             {{method.name}}
                         </th>
                         <th scope="row">{{method.providerId}}</th>
-                        <td><span class="badge bg-secondary">{{method.paymentMethodType}}</span></td>
+                        <th><span class="text-primary">{{method.paymentMethodType}}</span></th>
                         <td> {{method.supportedCountries}}</td>
                         <td>
                             <div class="dropdown">
@@ -48,7 +48,7 @@
                                 </span>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-                                    <li data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    <li (click)="configure(1, method.id)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                         aria-controls="offcanvasRight"><span class="dropdown-item"><i
                                                 class="fa fa-gear"></i> Configurer</span></li>
 
@@ -125,6 +125,6 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <app-payment-method-config></app-payment-method-config>
+        <app-payment-method-config [p1]="p1" [providerId]="providerId"></app-payment-method-config>
     </div>
 </div>
