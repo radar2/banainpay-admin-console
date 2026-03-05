@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, shareReplay, of, filter, find, map } from "rxjs";
+import { Observable, shareReplay, of, filter, find, map, BehaviorSubject, switchMap } from "rxjs";
 import { PaymentProvider, PaymentSpi } from "./method.model";
 import { environment } from "../../environments/environment";
 
@@ -9,11 +9,20 @@ export class PaymentMethodService {
     private jsonUrl = 'assets/data.json';
 
     // private list$:Observable<PaymentProvider[]> = new Observable()
-    private paymentsSpi$:Observable<PaymentSpi[]> = of([]);
+    private providersTrigger$ = new BehaviorSubject<void>(undefined); 
+    private providers$:Observable<PaymentProvider[]> 
+    public paymentsSpi$:Observable<PaymentSpi[]>;
 
     constructor(private httpClient:HttpClient) {
-        // this.list$ = this.buildRequest();
-        this.paymentsSpi$ = this.buildPaymentProvidersInterfaceRequest();
+        this.paymentsSpi$ = this.buildPaymentProvidersInterfaceRequest().pipe(
+            shareReplay(1)
+        )
+        
+        this.providers$ = this.providersTrigger$.pipe(
+            switchMap(() => this.buildPaymentProviderRequest()),
+            shareReplay(1)
+        )
+        
     }
 
     // public buildRequest():Observable<PaymentProvider[]>{
@@ -29,13 +38,17 @@ export class PaymentMethodService {
     }
 
     getPaymentProviders(): Observable<PaymentProvider[]> {
-    const url = `${environment.apiUrl}/spi/providers`;
-    return this.httpClient.get<PaymentProvider[]>(url);
+        return this.providers$;
     }
 
     getPaymentProviderConfig(providerId:string):Observable<PaymentProvider> {
         const url = `${environment.apiUrl}/spi/providers/${providerId}/configs`;
         return this.httpClient.get<PaymentProvider>(url);
+    }
+
+    private buildPaymentProviderRequest() {
+        const url = `${environment.apiUrl}/spi/providers`;
+        return this.httpClient.get<PaymentProvider[]>(url);
     }
 
 
@@ -51,7 +64,6 @@ export class PaymentMethodService {
 
     private buildPaymentProvidersInterfaceRequest():Observable<PaymentSpi[]> {
         const url = `${environment.apiUrl}/spi`;
-
         return this.httpClient.get<PaymentSpi[]>(url);
     }
 
@@ -65,6 +77,6 @@ export class PaymentMethodService {
     }
 
     reload() {
-        this.paymentsSpi$ = this.buildPaymentProvidersInterfaceRequest();
+        this.providersTrigger$.next();
     }
 }

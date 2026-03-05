@@ -8,8 +8,8 @@
      <div class="wp-component-content">
         <div class="typeDescription py-4">
             <p><span style="font-weight: 800;">PAYMENT</span>  : <span> Montant de paiement effectué pour une application.</span></p>
-            <p><span style="font-weight: 800;">PROVIDER_FEES </span>  : <span> Montant des frais prélévés par le fournisseur de de paiement.</span></p>
-            <p><span style="font-weight: 800;">PLATFORM_FEES </span>  : <span> Montant des frais prélévés par la plateforme.</span></p>
+            <!-- <p><span style="font-weight: 800;">FEES </span>  : <span> Montant des frais prélévés par le fournisseur de de paiement.</span></p> -->
+            <p><span style="font-weight: 800;">FEES </span>  : <span> Montant des frais prélévés par la plateforme.</span></p>
 
         </div>
         <nz-table class="table" #basicTable [nzData]="transactions">
@@ -30,7 +30,7 @@
                         <td> 
                             @if(transaction.type=='PAYMENT') {
                                 <span class="text-success">+ {{convertMoney(transaction.amount)}}</span>
-                            }@else if(transaction.type=='PLATFORM_FEES' || transaction.type=='PROVIDER_FEES'){
+                            }@else if(transaction.type=='FEES'){
                                 <span class="text-danger">- {{convertMoney(transaction.amount)}}</span>
                             }                            
                         </td>

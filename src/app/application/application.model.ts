@@ -6,6 +6,7 @@ export interface Application {
     active:boolean;
     webhook:Webhook;
     settlement:Settlement;
+    feesRate:number;
     createdDate:string;
 }
 

@@ -5,9 +5,13 @@
     <table class="table table-borderless align-middle">
         <tbody>
             <tr>
-            <td><label for="">Référence</label></td>
-            <td><span style="font-weight: bold;">{{payment?.reference}}</span></td>
-        </tr>
+                <td><label for="">ID</label></td>
+                <td><span style="font-weight: bold;">{{payment?.id}}</span></td>
+            </tr>
+            <tr>
+                <td><label for="">Référence</label></td>
+                <td><span style="font-weight: bold;">{{payment?.reference}}</span></td>
+            </tr>
         <tr>
             <td><label for="">Status</label></td>
             <td>
@@ -23,16 +27,26 @@
             <td class="lead">{{payment?.occurredOn}}</td>
         </tr>
         <tr>
+            <td><label for="">Devise</label></td>
+            <td class="lead">{{payment?.currency}}</td>
+        </tr>
+        <tr>
             <td><label for="">Montant</label></td>
             <td class="lead">{{payment?.amount}}</td>
         </tr>
         <tr>
-            <td><label for="">Devise</label></td>
-            <td class="lead">{{payment?.currency}}</td>
+            <td><label for="">Pourcentage du frais</label></td>
+            <td class="lead">{{payment?.feesRate}} % </td>
         </tr>
-         <tr>
+        
+        <tr>
             <td><label for="">Frais</label></td>
-            <td class="lead">{{payment?.fees?.number}} </td>
+            <td class="lead">{{payment?.fees}} </td>
+        </tr>
+
+        <tr>
+            <td><label for="">Net</label></td>
+            <td class="lead">{{payment?.netAmount}}</td>
         </tr>
         <tr>
             <td><label for="">Application</label></td>
@@ -53,15 +67,15 @@
             <tr>
                 <td><label for="">Fournisseur</label></td>
                 <td>
-                    @if(payment) {
-                       <span style="font-weight: bold;"> {{payment.paymentMethod?.name}}</span> <br>
+                    @if(payment && payment.paymentMethod) {
+                       <span style="font-weight: bold;"> {{payment?.paymentMethod?.name}}</span> <br>
                         <img [src]="getLogoUrl(payment.paymentMethod.name)" width="50px" alt="">
                     }
                 </td>
             </tr>
              <tr>
                 <td><label for="">Type</label></td>
-                <td class="lead">{{payment?.paymentMethodType}}</td>
+                <td class="lead">{{payment?.paymentMethod?.type}}</td>
             </tr>
             <tr>
                 <td><label for="">Pays</label></td>
@@ -79,10 +93,10 @@
            <nz-steps [nzCurrent]="(events.length - 1)" nzStatus="process" nzProgressDot nzDirection="vertical">
                 @for(evt of events; track evt.paymentId) {
                     @if(evt.state == 'PENDING') {
-                    <nz-step nzTitle="Initiation de paiement" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Montant: ' + evt.amount"></nz-step>
+                    <nz-step nzTitle="Initiation de paiement" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Montant: ' + convertMoney(evt.amount)"></nz-step>
                     }
                     @if(evt.state == 'PROCESSING') {
-                    <nz-step nzTitle="Choix de mode paiement" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Fournisseur : ' + evt.provider"></nz-step>
+                    <nz-step nzTitle="Choix de mode paiement" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Methode : ' + evt.paymentMethod.name"></nz-step>
                     }
 
                     @if(evt.state == 'COMPLETED') {
@@ -90,7 +104,7 @@
                     }
 
                     @if(evt.state == 'FAILED') {
-                    <nz-step nzTitle="Échoué" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="evt.reason"></nz-step>
+                    <nz-step nzTitle="Échoué" [nzSubtitle]="formatDate(evt.occurredOn)" [nzDescription]="'Raison: ' + evt.reason"></nz-step>
                     }
                     
         

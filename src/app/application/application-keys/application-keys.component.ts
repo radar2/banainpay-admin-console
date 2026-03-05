@@ -27,7 +27,7 @@ export class ApplicationKeysComponent implements OnInit, OnDestroy{
   settingForm = this.fb.group({
     webhookUrl: this.fb.control(""),
     webhookHmacKey: this.fb.control(""),
-    rate:  this.fb.control('0.0', [Validators.required]),
+    rate:  this.fb.control(0.0, [Validators.required]),
     settlementType:this.fb.control('ON_DEMAND', [Validators.required]),
     fundingNumber:this.fb.control("", [this.requiredPhoneNumberValidator()])
   })
@@ -51,7 +51,8 @@ export class ApplicationKeysComponent implements OnInit, OnDestroy{
             webhookUrl: this.application.webhook?.url,
             webhookHmacKey: this.application.webhook?.hmacKey,
             settlementType: this.application.settlement.type,
-            fundingNumber: this.application.settlement.fundingNumber
+            fundingNumber: this.application.settlement.fundingNumber,
+            rate: this.application.feesRate
           });
         }
       }

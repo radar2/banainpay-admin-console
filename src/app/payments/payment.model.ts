@@ -3,6 +3,10 @@ export interface Payment {
     reference:string;
     amount:number;
     currency:string;
+    fees:number;
+    feesRate:number;
+    netAmount:number;
+    
     appId:string;
     reason?:string;
     paymentMethod:PaymentMethod;
@@ -12,7 +16,6 @@ export interface Payment {
     failureReason?:string;
     country:string;
     payer?:any;
-    fees:Fees;
     events:any[];
 }
 

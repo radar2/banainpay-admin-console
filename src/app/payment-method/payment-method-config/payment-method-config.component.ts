@@ -22,14 +22,8 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
   spiSelected:PaymentSpi | null = null;
   // p1 = 0;
   // providerId:any;
-  paymentsSpiList$:Observable<PaymentSpi[]> = of([]);
-  configForm:FormGroup = this.fb.group({
-      supportedCountries: ['', [Validators.required]],
-      providerId: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      paymentMethodType: ['', [Validators.required]],
-      configs: this.fb.group({})
-    });;
+  paymentsSpiList$!:Observable<PaymentSpi[]>;
+  configForm!:FormGroup
 
     @Input() p1 = 0
     @Input() providerId:any = null
@@ -47,12 +41,16 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
   }
 
   ngOnInit(): void {
+    this.initConfigurationForm();
+    // this.paymentMethodService.reload();
+
      this.paymentsSpiList$ = this.paymentMethodService.getPaymentSpi();
+
      (document.querySelector(".btn-close") as HTMLButtonElement).addEventListener('click', () => this.resetForm())
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.resetForm()
+    // this.resetForm()
     this.p1 = changes['p1']? changes['p1']?.currentValue : this.p1;
     
     if (this.p1 == 1) {
@@ -64,10 +62,19 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
   }
 
 
+  initConfigurationForm() {
+    this.configForm = this.fb.group({
+      supportedCountries: ['', [Validators.required]],
+      providerId: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      paymentMethodType: ['', [Validators.required]],
+      configs: this.fb.group({})
+    });;
+  }
 
   // Selectionner un fournisseur
   selectProvider(provider:PaymentSpi) {
-
+    this.initConfigurationForm();
     if (provider) {
         this.spiSelected = provider;
         this.configForm.patchValue({
@@ -109,6 +116,8 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
         );
        
       });
+
+  
   }
 
 
@@ -125,7 +134,8 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
                   providerId: data.providerId,
                   name: data.name,
                   providerType: data.providerType,
-                  supportedCountries: data.supportedCountries
+                  supportedCountries: data.supportedCountries,
+                  paymentMethodType: data.paymentMethodType
               });
 
                 Object.entries(data.configs).forEach(([k, v]) =>{
@@ -207,6 +217,7 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
           (success) => {
               this.resetForm();
               // this.loadConfigurations(this.p1);
+              this.paymentMethodService.reload();
               this.closeModal();
           }
         )
@@ -225,7 +236,7 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
   }
 
   resetForm() {
-    this.configForm.reset();
+    // this.configForm.reset();
     this.spiSelected = null;
     this.providerId = null;
   }

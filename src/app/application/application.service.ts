@@ -72,7 +72,7 @@ export class ApplicationService {
     }
 
     public getPaymentMethods(id:string):Observable<PaymentProvider[]> {
-        const url = `${environment.apiUrl}/apps/${id}/methods`;
+        const url = `${environment.apiUrl}/apps/${id}/payment-providers`;
 
         return this,this.httpClient.get<PaymentProvider[]>(url);
     }
@@ -82,10 +82,16 @@ export class ApplicationService {
         // return this.httpClient.put(url, JSON.stringify(body));
     }
 
-    public activateMethod(applicationId:string, methodId:string) {
-        const url = `${environment.apiUrl}/apps/${applicationId}/payment-methods/${methodId}/enable`;
+    public addPaymentProviderToApplication(applicationId:string, providerId:string) {
+        const url = `${environment.apiUrl}/apps/${applicationId}/payment-providers/${providerId}`;
 
         return this.httpClient.post(url, null);
+    }
+
+    public removePaymentProviderFromApplication(applicationId:string, providerId:string) {
+        const url = `${environment.apiUrl}/apps/${applicationId}/payment-providers/${providerId}`;
+
+        return this.httpClient.delete(url);
     }
 
     public showKey(applicationId:string) {
