@@ -16,7 +16,7 @@ export const routes:Route[] = [
         
       },
       {
-        path: 'list',
+        path: ':p1/:p2/list',
         loadComponent:() =>import('./appplication-list/appplication-list.component').then(c => c.AppplicationListComponent), 
         data: {
          title:  "Liste"

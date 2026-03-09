@@ -20,13 +20,19 @@ export class ApplicationService {
         10000
         )
     }
-
-
     private getApplications():Observable<Application[]>{
         const url = environment.apiUrl  + "/apps";
         return  this.httpClient.get<Application[]>(url).pipe(
             shareReplay(1)
         )
+    }
+
+    public getCurrentMarchandApps():Observable<Application[]>{
+        const url = environment.apiUrl  + "/merchants/applications";
+        this.list$ =  this.httpClient.get<Application[]>(url).pipe(
+            // shareReplay(1)
+        )
+        return  this.list$;
     }
 
     private reloadApplications(){
@@ -69,6 +75,12 @@ export class ApplicationService {
         return this.list$.pipe(
                 map(list => list.find(app => app.id === id) ?? null)
             )
+    }
+
+    public getAppsByMarchands(id:string):Observable<Application[]> {
+        const url = `${environment.apiUrl}/merchants/${id}/applications`;
+
+        return this,this.httpClient.get<Application[]>(url);
     }
 
     public getPaymentMethods(id:string):Observable<PaymentProvider[]> {

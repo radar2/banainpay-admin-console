@@ -11,7 +11,7 @@ export const routes:Routes = [
         loadComponent: () => import('./merchand-list/merchand-list.component').then(c =>c.MerchandListComponent)
     },
     {
-        path:'resgiter',
+        path:'regiter',
         loadComponent: () => import('./merchand-register/merchand-register.component').then(c =>c.MerchandRegisterComponent)
     }
 ]

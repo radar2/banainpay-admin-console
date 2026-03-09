@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core/primitives/di';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {ApplicationService} from './../application.service';
 import { Application } from '../application.model';
 import { Observable, subscribeOn } from 'rxjs';
@@ -21,14 +21,48 @@ export class AppplicationListComponent implements OnInit{
   list$:Observable<Application[]> = new Observable();
   applications:Application[] = [];
 
-  constructor(private router: Router, private applicationService:ApplicationService){}
+  constructor(private router: Router, private applicationService:ApplicationService,private route:ActivatedRoute){}
+
+  idMarchand:any;
+  p1:any = 0;
 
   ngOnInit(): void {
-    this.list$ = this.applicationService.list$;
 
-    this.list$.subscribe(
-      (data) => this.applications = data
-    )
+    
+     this.p1 = this.route.snapshot.paramMap.get('p1');
+
+    if ( this.p1==0 ) {
+      this.idMarchand = this.route.snapshot.paramMap.get('p2');
+      
+      if(this.idMarchand){      
+          this.applicationService.getAppsByMarchands(this.idMarchand).subscribe(
+            (data) =>{ 
+              this.applications = data;
+              console.log(this.applications);
+            }
+          )
+
+      }
+    }else if ( this.p1==1 ) {
+      this.applicationService.list$.subscribe(
+        (data) => this.applications = data
+      )
+    }
+    else if ( this.p1==2 ) {
+      this.applicationService.getCurrentMarchandApps().subscribe(
+        (data) => {this.applications = data;
+          console.log(this.applications);
+        }
+      )
+    }
+
+
+
+
+
+
+
+ 
   }
 
   activateApplication(id:string) {

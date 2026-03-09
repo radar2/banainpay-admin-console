@@ -18,7 +18,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Application',
-    url: '/applications',
+    url: '/applications/1/0/list',
     iconComponent: { name: 'cil-cursor' }
   },
   {
@@ -482,7 +482,7 @@ export const merchandNavItems: INavData[] = [
   },
   {
     name: 'Applications',
-    url: '/applications',
+    url: '/applications/2/0/list',
     iconComponent: { name: 'cil-speedometer' }
   },
   {

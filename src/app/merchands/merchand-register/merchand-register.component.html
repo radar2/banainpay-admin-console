@@ -1,1 +1,129 @@
-<p>merchand-register works!</p>
+<div class="wp-component">
+    <div class="wp-component-header">
+        <h3 class="wp-component-title">Creer une nouvelle application</h3>
+    </div>
+    <div class="wp-component-content">
+     
+        <form [formGroup]="applicationForm" action="" class="form">
+            <div class="form-group col-md-6" 
+                [ngClass]="{'input-error': applicationForm.get('name')?.errors && 
+                (applicationForm.get('name')?.touched || applicationForm.get('name')?.dirty)}">
+                <label for="name">Nom du marchand</label>
+                <input type="text" class="form-control" formControlName="name">
+                @if(applicationForm.get('name')?.errors && 
+                (applicationForm.get('name')?.touched || applicationForm.get('name')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('name')?.hasError('required')) {
+                            <small  class="text-danger">le nom du marchand est réquise.</small>
+                        }
+                    </div>
+                }
+                
+            </div>
+            <div class="form-group col-md-6" 
+                [ngClass]="{'input-error': applicationForm.get('representationFirstName')?.errors && 
+                (applicationForm.get('representationFirstName')?.touched || applicationForm.get('representationFirstName')?.dirty)}">
+                <label for="name">Nom du répresentant</label>
+                <input type="text" class="form-control" formControlName="representationFirstName">
+                @if(applicationForm.get('representationFirstName')?.errors && 
+                (applicationForm.get('representationFirstName')?.touched || applicationForm.get('representationFirstName')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('representationFirstName')?.hasError('required')) {
+                            <small  class="text-danger">le nom du répresentant est réquise.</small>
+                        }
+                    </div>
+                }
+                
+            </div>
+            <div class="form-group col-md-6" 
+                [ngClass]="{'input-error': applicationForm.get('representationLastName')?.errors && 
+                (applicationForm.get('representationLastName')?.touched || applicationForm.get('representationLastName')?.dirty)}">
+                <label for="name">Prénoms du répresentant</label>
+                <input type="text" class="form-control" formControlName="representationLastName">
+                @if(applicationForm.get('representationLastName')?.errors && 
+                (applicationForm.get('representationLastName')?.touched || applicationForm.get('representationLastName')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('representationLastName')?.hasError('required')) {
+                            <small  class="text-danger">le prénnoms du répresentant est réquise.</small>
+                        }
+                    </div>
+                }
+                
+            </div>
+            
+            <div class="form-group col-md-6" 
+                [ngClass]="{'input-error': applicationForm.get('city')?.errors && 
+                (applicationForm.get('city')?.touched || applicationForm.get('city')?.dirty)}">
+                <label for="name">Ville</label>
+                <input type="text" class="form-control" formControlName="city">
+                @if(applicationForm.get('city')?.errors && 
+                (applicationForm.get('city')?.touched || applicationForm.get('city')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('city')?.hasError('required')) {
+                            <small  class="text-danger">la ville est réquise.</small>
+                        }
+                    </div>
+                }
+                
+            </div>
+            <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('country')?.errors && 
+                (applicationForm.get('country')?.touched || applicationForm.get('country')?.dirty)}">
+                <label for="name">Pays</label>
+                <select name="" id="" class="form-control" formControlName="country">
+                    <option value="" >Selectionner un pays</option>
+                    <option value="CI">Cote d'Ivoire</option>
+                    <option value="ML">Mali</option>
+                    <option value="RDC">Republique démocratique du Congo</option>
+                </select>
+                @if(applicationForm.get('country')?.errors && (applicationForm.get('country')?.touched || applicationForm.get('country')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('country')?.hasError('required')) {
+                            <small  class="text-danger">le pays est réquis.</small>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('email')?.errors && 
+                (applicationForm.get('email')?.touched || applicationForm.get('email')?.dirty)}">
+                <label for="name">Email</label>
+                <input type="text" class="form-control" formControlName="email">
+                @if(applicationForm.get('email')?.errors && (applicationForm.get('email')?.touched || applicationForm.get('email')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('email')?.hasError('required')) {
+                            <small  class="text-danger">l'email est réquis.</small>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('telephone')?.errors && 
+                (applicationForm.get('telephone')?.touched || applicationForm.get('telephone')?.dirty)}">
+                <label for="name">N° Téléphone </label>
+                <input type="text" class="form-control" formControlName="telephone">
+
+                @if(applicationForm.get('telephone')?.errors && (applicationForm.get('telephone')?.touched || applicationForm.get('telephone')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('telephone')?.hasError('required')) {
+                            <small  class="text-danger">le telephone est réquise.</small>
+                        }
+                    </div>
+                }
+            </div>
+
+            
+            <div class="form-group form-group col-md-6">
+                <label for="description" >Description</label>
+                <textarea class="form-control" formControlName="description" name="" id="" placeholder="Saisi la description"></textarea>
+            </div>
+            <div class="py-3">
+                <button [disabled]="loading" (click)="submit()" class="btn btn-sm btn-primary">
+                    @if(!loading) {
+                        Créer <i class="typcn typcn-arrow-right"></i>
+                        
+                    }@else{
+                        <span class="spinner-border" role="status"></span>
+                    }
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
