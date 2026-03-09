@@ -2,21 +2,71 @@
     <div class="wp-component-header pb-2 border-bottom  align-items-end">
         <div class="d-flex flex-column align-items-start">
             <div class="">
-                 <small style="color: #777;">Application</small>
-                <h2  class="wp-component-title">{{application?.name}}</h2>
-               
+                <small style="color: #777;">Application</small>
+                <h2 class="wp-component-title">{{application?.name}}</h2>
+
             </div>
         </div>
 
         <div class="px-4">
-             <a (click)="goToPayments()" class="btn btn-sm btn-outline-primary mx-2"><i class="fa fa-sack-dollar"></i>Historique de paiements</a>
-             <!-- <a  class="btn btn-sm btn-outline-primary mx-2"><i class="fa fa-chart-bar"></i> Statistiques</a> -->
-            <a (click)="goToGeneral()" class="btn btn-sm btn-outline-primary"><i class="fa fa-info"></i> Informations génerales</a>
+            <a (click)="goToPayments()" class="btn btn-sm btn-outline-primary mx-2"><i
+                    class="fa fa-sack-dollar"></i>Historique de paiements</a>
+            <!-- <a  class="btn btn-sm btn-outline-primary mx-2"><i class="fa fa-chart-bar"></i> Statistiques</a> -->
+            <a (click)="goToGeneral()" class="btn btn-sm btn-outline-primary"><i class="fa fa-info"></i> Informations
+                génerales</a>
         </div>
     </div>
 
     <div class="wp-component-content">
-        <router-outlet></router-outlet>
-         
+        <!-- <router-outlet></router-outlet> -->
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="payment-history-tab" data-bs-toggle="tab"
+                    data-bs-target="#payment-history" type="button" role="tab" aria-controls="payment-history"
+                    aria-selected="true"><i class="fa fa-sack-dollar"></i> Historique de paiements</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="payment-history-tab" data-bs-toggle="tab"
+                    data-bs-target="#payment-history" type="button" role="tab" aria-controls="payment-history"
+                    aria-selected="true"><i class="fa fa-sack-dollar"></i> Historique de transactions</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#details"
+                    type="button" role="tab" aria-controls="details" aria-selected="true"><i class="fa fa-info"></i>
+                    Informations generele</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#pm" type="button"
+                    role="tab" aria-controls="pm" aria-selected="false"><i class="fa fa-credit-card"></i> Methodes de
+                    paiement</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button"
+                    role="tab" aria-controls="settings" aria-selected="false"><i class="fa fa-gear"></i>
+                    Configuration</button>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button"
+            role="tab" aria-controls="logs" aria-selected="false"><i class="fa fa-file"></i>Historiques des activités</button>
+    </li> -->
+            <!-- <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button"
+            role="tab" aria-controls="logs" aria-selected="false"><i class="fa fa-file"></i>Historiques des paiements</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button"
+            role="tab" aria-controls="logs" aria-selected="false"><i class="fa fa-file"></i>Historiques des activités</button>
+    </li> -->
+        </ul>
+        <div class="tab-content py-4" id="myTabContent">
+            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">dhrhe
+            </div>
+            <div class="tab-pane fade" id="pm" role="tabpanel" aria-labelledby="pm-tab">Payment method</div>
+            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">application keys
+            </div>
+            <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="settings-tab">Journalisations></div>
+        </div>
+
     </div>
 </div>

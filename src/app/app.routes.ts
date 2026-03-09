@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { canActiveAuthRoles } from './guard/auth-role.guard';
 
 export const routes: Routes = [
   {
@@ -20,10 +21,16 @@ export const routes: Routes = [
       {
         path:'applications',
         loadChildren:() => import('./application/application.routes').then(m => m.routes),
+        canActivate: [canActiveAuthRoles],
+        data: {role: ['Administrator', 'Merchand'],}
       },
       {
         path:'methods',
-        loadChildren:() =>import('./payment-method/payment-method.route').then(m =>m.routes)
+        loadChildren:() => import('./payment-method/payment-method.route').then(m =>m.routes)
+      },
+      {
+        path:'merchands',
+        loadChildren:() => import('./merchands/merchands.routes').then(m => m.routes)
       },
       
       {

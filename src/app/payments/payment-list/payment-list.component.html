@@ -29,8 +29,8 @@
                     <tr>
                         <td scope="row">{{payment.occurredOn}}</td>
                         <th scope="row">{{formatAmount(payment.amount)}}</th>
-                        <th>{{payment.paymentMethod}}</th>
-                        <td>{{payment.paymentMethodType}}</td>
+                        <th>{{payment.paymentMethod?.name}}</th>
+                        <td>{{payment.paymentMethod?.type}}</td>
                         <td>
                             <span *ngIf="payment.state=='PENDING'" class="badge bg-secondary">Initié</span>
                             <span *ngIf="payment.state=='FAILED'" class="badge bg-danger">Echoué</span>

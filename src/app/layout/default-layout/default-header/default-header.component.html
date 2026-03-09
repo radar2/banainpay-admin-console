@@ -1,4 +1,4 @@
-<!--<c-header class="mb-4 d-print-none" position="sticky">-->
+<!-- <c-header class="mb-4 d-print-none" position="sticky"> -->
 <ng-container>
   <c-container [fluid]="true" class="border-bottom px-4">
     <button
@@ -7,21 +7,19 @@
       class="btn"
       toggle="visible"
       style="margin-inline-start: -14px;"
-      aria-label="Toggle sidebar navigation"
-    >
+      aria-label="Toggle sidebar navigation">
       <svg cIcon name="cilMenu" size="lg"></svg>
     </button>
-    <!-- <c-header-nav class="d-none d-md-flex">
-      <c-nav-item>
-        <a cNavLink routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <c-header-nav class="">
+      <c-nav-item class="dropdown">
+        <span class="lead dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Novelia</span>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li class="dropdown-item">Novelia Assurance</li>
+            <li class="dropdown-item">Waize Education</li>
+          </ul>
       </c-nav-item>
-      <c-nav-item>
-        <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
-      </c-nav-item>
-      <c-nav-item>
-        <a cNavLink routerLink="/settings" routerLinkActive="active">Settings</a>
-      </c-nav-item>
-    </c-header-nav> -->
+     
+    </c-header-nav>
 
     <!-- <c-header-nav class="d-none d-md-flex ms-auto ">
       <a cNavLink>

@@ -1,0 +1,12 @@
+// button.btn {
+//     padding-bottom: 5px !important;
+//     padding-top: 5px !important;
+// }
+
+.dropdown-toggle::after {
+
+    content: "\25BC";
+    border: none;
+    vertical-align: middle;
+    cursor: pointer;
+}

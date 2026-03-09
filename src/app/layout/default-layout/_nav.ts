@@ -12,6 +12,11 @@ export const navItems: INavData[] = [
   },
 
   {
+    name: 'Marchands',
+    url: '/merchands',
+    iconComponent: { name: 'cil-cursor' }
+  },
+  {
     name: 'Application',
     url: '/applications',
     iconComponent: { name: 'cil-cursor' }
@@ -42,7 +47,7 @@ export const navItems: INavData[] = [
     name: 'Parametres',
     url: '/',
     iconComponent: { name: 'cil-cog' }
-  },
+  }
   // {
   //   title: true,
   //   name: 'Theme'
@@ -462,4 +467,33 @@ export const navItems: INavData[] = [
   //   iconComponent: { name: 'cil-description' },
   //   attributes: { target: '_blank' }
   // }
+];
+
+
+export const merchandNavItems: INavData[] = [
+  {
+    name: 'Tableau de bord',
+    url: '/merchands/dashboard',
+    iconComponent: { name: 'cil-speedometer' }
+    // badge: {
+    //   color: 'info',
+    //   text: 'NEW'
+    // }
+  },
+  {
+    name: 'Applications',
+    url: '/applications',
+    iconComponent: { name: 'cil-speedometer' }
+  },
+  {
+    name: 'Paiements',
+    url: '/payments/history',
+    iconComponent: { name: 'cil-speedometer' }
+  },
+  {
+    name: 'Transactions',
+    url: '/payments/transactions',
+    iconComponent: { name: 'cil-speedometer' }
+  }
+  
 ];

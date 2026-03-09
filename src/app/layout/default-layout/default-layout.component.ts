@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 
 import { IconDirective } from '@coreui/icons-angular';
 import {
   ContainerComponent,
+  INavData,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
   SidebarComponent,
@@ -16,7 +17,8 @@ import {
 } from '@coreui/angular';
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
-import { navItems } from './_nav';
+import { navItems, merchandNavItems } from './_nav';
+import Keycloak from 'keycloak-js'
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -24,6 +26,7 @@ function isOverflown(element: HTMLElement) {
     element.scrollWidth > element.clientWidth
   );
 }
+
 
 @Component({
   selector: 'app-dashboard',
@@ -47,6 +50,23 @@ function isOverflown(element: HTMLElement) {
     ShadowOnScrollDirective
   ]
 })
-export class DefaultLayoutComponent {
-  public navItems = [...navItems];
+export class DefaultLayoutComponent implements OnInit{
+  private readonly keycloak = inject(Keycloak)
+
+  public navItems:INavData[] = [];
+
+  async ngOnInit() {
+    if (this.keycloak.authenticated) {
+      if (this.keycloak.hasRealmRole("Merchand")) {
+        this.navItems = [...merchandNavItems]
+        // const profile = await this.keycloak.loadUserInfo();
+        // console.log(profile['groups'])
+      }
+      if(this.keycloak.hasRealmRole("Administrator")) {
+        this.navItems = [...navItems]
+      }
+      
+    }
+  }
+
 }
