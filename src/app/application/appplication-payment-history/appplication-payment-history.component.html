@@ -1,55 +1,7 @@
-<div>
-    <div class=" text-center wallet border-bottom">
-        <span><i class="fa fa-sack-dollar"></i> Solde</span>
-        <h2 class="amount">
-            {{ convertMoney((balance$ | async)?.amount) }}
-        </h2>
-        <div>
-            <span class="lastModifiedDate text-primary">Dernière Mise à jours: {{(balance$ | async)?.lastModifiedDate}}</span>
-        </div>
-        <button [routerLink]="['/applications/details/',application?.id, 'transactions']" class="btn btn-sm btn-outline-secondary">Historique des transactions <i class="fa fa-arrow-right"></i></button>
-    </div>
+<div>    
 
-
-    <div class="py-3">
-        <h4 class="lead">Vérification par Statut</h4>
-        <div class="row py-2">
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body d-flex flex-column align-items-center " style="background-color: #e6e6e6; font-size: 12px;">
-                        <span class=" px-2 py-2 bg-danger text-white rounded-circle">15</span>
-                        <div class="">
-                            <span>Echoués</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body d-flex flex-column align-items-center " style="background-color: #e6e6e6; font-size: 12px;">
-                        <span class=" px-2 py-2 bg-secondary text-white rounded-circle">15</span>
-                        <div class="">
-                            <span>En cours</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body d-flex flex-column align-items-center " style="background-color: #e6e6e6; font-size: 12px;">
-                        <span class=" px-2 py-2 bg-success text-white rounded-circle">15</span>
-                        <div class="">
-                            <span>Succès</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="history">
-        <div class="py-3">
-            <h3> Historique de paiements</h3>
+ <div class="">
+             <h4><i class="fa fa-sack-dollar"></i> Paiements</h4>
         </div>
         <nz-table class="py-3" #basicTable [nzData]="paymentsList">
             <thead>
@@ -89,8 +41,7 @@
                  
             </tbody>
         </nz-table>
-    </div>
-
+   
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">

@@ -34,21 +34,29 @@ export const routes:Route[] = [
         children:[
           {
             path:'',
-            redirectTo:'/applications/details/:p1/payments',
-            pathMatch:"full"
+           loadComponent: () => import('./appplication-analistics/appplication-analistics.component').then(c =>c.AppplicationAnalisticsComponent)
           },
           {
             path:'infos',
-            loadComponent:() => import('./application-gemeral/application-gemeral.component').then(m => m.ApplicationGemeralComponent)
+            loadComponent:() => import('./application-gemeral/application-gemeral.component').then(m => m.ApplicationGemeralComponent),
+             data: {
+              title: 'Informations'
+            }
           },
           {
             path:'payment-methods',
-            loadComponent:() => import('./appplication-payment-method/appplication-payment-method.component').then(m => m.AppplicationPaymentMethodComponent)
+            loadComponent:() => import('./appplication-payment-method/appplication-payment-method.component').then(m => m.AppplicationPaymentMethodComponent),
+             data: {
+              title: 'Methode de paiements'
+            }
           },
 
           {
             path:'payments',
-            loadComponent:() => import('./appplication-payment-history/appplication-payment-history.component').then(m => m.AppplicationPaymentHistoryComponent)
+            loadComponent:() => import('./appplication-payment-history/appplication-payment-history.component').then(m => m.AppplicationPaymentHistoryComponent),
+            data: {
+              title: 'Paiements'
+            }
           },
           {
             path:'transactions',
@@ -56,7 +64,30 @@ export const routes:Route[] = [
             data: {
               title: 'Transactions'
             }
+          },
+           {
+            path:'keys',
+            loadComponent:() => import('./application-secrets/application-secrets.component').then(c => c.ApplicationSecretComponent),
+            data: {
+              title: 'Clés'
+            }
+          },
+          
+           {
+            path:'webhook',
+            loadComponent:() => import('./application-webhook/application-webhook.component').then(c => c.ApplicationWebhookComponent),
+            data: {
+              title: 'Webhook'
+            }
+          },
+          {
+            path:'settlement',
+            loadComponent:() => import('./application-settlement/application-settlement.component').then(c => c.ApplicationSettlementComponent),
+            data: {
+              title: 'Reglements'
+            }
           }
+          
       
         ]
       },

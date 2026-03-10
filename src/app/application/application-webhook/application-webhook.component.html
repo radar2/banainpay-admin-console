@@ -1,0 +1,48 @@
+<div>
+     <h4><i class="fa fa-link"></i> Webhook</h4>
+    <form [formGroup]="settingForm" action="" class="form">
+
+        <div class="webhook py-4">
+           
+            <p>
+                À chaque évolution du paiement,
+                le système déclenchera une requête HTTP POST (webhook) vers l’URL configurée par l’application cliente. <br>
+                Le corps de la requete est JSON.
+            </p>
+            <div class=" form-group col-md-5" [ngClass]="{'input-error': webhookUrl.errors && 
+                (webhookUrl.touched || webhookUrl.dirty)}">
+                <label for="">Adresse URL</label> <br>
+                <input formControlName="webhookUrl" type="text" class="form-control">
+                @if(webhookUrl.errors && webhookUrl.touched || webhookUrl.dirty) {
+                    <div>
+                        @if(webhookUrl.hasError('required')) {
+                            <small class="text-danger">L' adresse URL du webhook  est requis.</small>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class=" form-group" [ngClass]="{'input-error': webhookHmacKey.errors && 
+                (webhookHmacKey.touched || webhookHmacKey.dirty)}">
+                <label for="">HMAC Key</label> <br>
+                <div class="d-flex">
+                    <div class="col-md-5">
+                    <input formControlName="webhookHmacKey" type="text" class="form-control"/>
+                </div>
+                <div class="ps-1">
+                    <button (click)="generateNewHmacKey()" class="btn btn-sm btn-secondary rounded"><i class="fa fa-key"></i> générer une clé</button>
+                </div>
+                </div>
+                @if(webhookHmacKey.errors && webhookHmacKey.touched || webhookHmacKey.dirty) {
+                    <div>
+                        @if(webhookHmacKey.hasError('required')) {
+                            <small class="text-danger">Champ  est requis.</small>
+                        }
+                    </div>
+                }
+            </div>
+        
+        </div>
+
+    </form>
+</div>

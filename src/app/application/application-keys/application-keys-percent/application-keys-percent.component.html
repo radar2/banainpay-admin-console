@@ -1,0 +1,35 @@
+<div>
+    <form [formGroup]="settingForm" action="" class="form">
+
+        <!-- <hr class="my-4"> -->
+
+        <div class="feesRate py-4">
+            <h3><i class="fa fa-percent"></i> Taux de frais</h3>
+            <p>
+                Pourcentage des frais prélévés sur chaque paiement.
+            </p>
+            <div class=" form-group col-md-5" [ngClass]="{'input-error': rate.errors && 
+                (rate.touched || rate.dirty)}">
+                <label for="">Taux</label> <br>
+                <input formControlName="rate" type="text" class="form-control col-md-3">
+                @if(rate.errors && rate.touched || rate.dirty) {
+                    <div>
+                        @if(rate.hasError('required')) {
+                            <small class="text-danger">Le taux est obligatoire</small>
+                        }
+                    </div>
+                }
+            </div>
+            <!-- <div>
+                <button  class="btn btn-sm btn-primary">
+                    @if(!loading) {
+                        Modifier le taux
+                    }@else{
+                        <span class="spinner-border" role="status"></span>
+                    }
+                </button>
+            </div> -->
+        </div>
+
+    </form>
+</div>

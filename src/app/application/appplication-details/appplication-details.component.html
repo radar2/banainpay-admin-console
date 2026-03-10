@@ -1,14 +1,11 @@
 <div class="wp-component">
     <div class="wp-component-header pb-2 border-bottom justify-content-between  align-items-end w-100">
         <div class="d-flex flex-column align-items-start">
-            <div class="">
-                <small style="color: #777;">Application</small>
-                <h2 class="wp-component-title">{{application?.name}}</h2>
-
-            </div>
+            <small style="color: #777;">Application</small>
+            <h2 class="wp-component-title"><a class="nav-link" [routerLink]="['/applications/details',application?.id]">{{application?.name}} </a></h2>
         </div>
 
-        <!-- <div class="px-4 w-auto  d-flex justify-content-between">
+        <div class="px-4 w-auto  d-flex justify-content-between">
             <a (click)="goToPayments()" class="btn btn-sm btn-outline-primary mx-2"><i
                     class="fa fa-sack-dollar"></i> Historique de paiements</a>
             <div class="dropdown">
@@ -19,12 +16,12 @@
                     <li class="dropdown-item"><i class="fa fa-key"></i> Clé API</li>
                 </ul>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <nav>
         <ul class="wp-component-menu border-bottom">
-           <li><a class="nav-link" [routerLink]="['/applications/details',application?.id ,'payments']"
+           <li><a class="nav-link" [routerLink]="['/applications/details',application?.id]"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }">
                 <i class="fa fa-home"></i> Accueil</a></li> 
@@ -40,14 +37,18 @@
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-bank"></i> Methodes de peiements</a></li> 
-           <li><a href="#" class="nav-link" [routerLink]=""
+           <li><a href="#" class="nav-link" [routerLink]="['/applications/details', application?.id, 'keys']"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-key"></i> Clés</a></li> 
-           <li><a href="#" class="nav-link" [routerLink]=""
+           <li><a href="#" class="nav-link" [routerLink]="['/applications/details', application?.id, 'webhook']"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"> 
             <i class="fa fa-link"></i> Webhook</a></li> 
+            <li><a href="#" class="nav-link" [routerLink]="['/applications/details', application?.id, 'settlement']"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"> 
+            <i class="fa fa-link"></i> Versements</a></li> 
         </ul>
     </nav>
 

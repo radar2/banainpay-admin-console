@@ -6,6 +6,10 @@ import { CommonModule } from '@angular/common';
 import { ApplicationService } from '../application.service';
 import {ApplicationStateService} from '../application-state.service';
 import {ApplicationKeysComponent} from '../application-keys/application-keys.component';
+import { ApplicationSecretComponent } from '../application-secrets/application-secrets.component';
+import { ApplicationKeysPercentComponent } from '../application-keys/application-keys-percent/application-keys-percent.component';
+import { ApplicationSettlementComponent } from '../application-settlement/application-settlement.component';
+import { ApplicationWebhookComponent } from '../application-webhook/application-webhook.component';
 @Component({
   selector: 'app-application-gemeral',
   imports: [
@@ -14,6 +18,10 @@ import {ApplicationKeysComponent} from '../application-keys/application-keys.com
     AppplicationPaymentMethodComponent,
     AppplicationPaymentMethodComponent,
     ApplicationKeysComponent,
+    ApplicationSecretComponent,
+    ApplicationKeysPercentComponent,
+    ApplicationWebhookComponent,
+    ApplicationSettlementComponent,
     RouterModule
   ],
   templateUrl: './application-gemeral.component.html',

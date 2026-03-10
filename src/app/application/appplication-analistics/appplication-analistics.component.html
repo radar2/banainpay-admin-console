@@ -1,1 +1,62 @@
-<p>appplication-analistics works!</p>
+<div>
+    <div class=" text-center wallet border-bottom">
+        <span><i class="fa fa-sack-dollar"></i> Solde</span>
+        <h2 class="amount">
+            {{ convertMoney((balance$ | async)?.amount) }}
+        </h2>
+        <div>
+            <span class="lastModifiedDate text-primary">Dernière Mise à jours: {{(balance$ | async)?.lastModifiedDate}}</span>
+        </div>
+        <button [routerLink]="['/applications/details/',application?.id, 'transactions']" class="btn btn-sm btn-outline-secondary">Historique des transactions <i class="fa fa-arrow-right"></i></button>
+    </div>
+
+<!-- 
+    <div class="py-3">
+        <h4 class="lead">Vérification par Statut</h4>
+        <div class="row py-2">
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center " style="background-color: #e6e6e6; font-size: 12px;">
+                        <span class=" px-2 py-2 bg-danger text-white rounded-circle">15</span>
+                        <div class="">
+                            <span>Echoués</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center " style="background-color: #e6e6e6; font-size: 12px;">
+                        <span class=" px-2 py-2 bg-secondary text-white rounded-circle">15</span>
+                        <div class="">
+                            <span>En cours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center " style="background-color: #e6e6e6; font-size: 12px;">
+                        <span class=" px-2 py-2 bg-success text-white rounded-circle">15</span>
+                        <div class="">
+                            <span>Succès</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    -->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Détails paiement</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+   <payment-details [paymentId]="paymentId"></payment-details>
+  </div>
+</div>
+
+</div>
