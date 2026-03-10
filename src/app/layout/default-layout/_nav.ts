@@ -486,14 +486,9 @@ export const merchandNavItems: INavData[] = [
     iconComponent: { name: 'cil-speedometer' }
   },
   {
-    name: 'Paiements',
-    url: '/payments/history',
-    iconComponent: { name: 'cil-speedometer' }
-  },
-  {
-    name: 'Transactions',
-    url: '/payments/transactions',
-    iconComponent: { name: 'cil-speedometer' }
+    name: 'Utilisateurs',
+    url: '/applications/2/0/list',
+    iconComponent: { name: 'cil-user' }
   }
   
 ];

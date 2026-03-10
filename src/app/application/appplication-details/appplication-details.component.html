@@ -8,7 +8,7 @@
             </div>
         </div>
 
-        <div class="px-4 w-auto  d-flex justify-content-between">
+        <!-- <div class="px-4 w-auto  d-flex justify-content-between">
             <a (click)="goToPayments()" class="btn btn-sm btn-outline-primary mx-2"><i
                     class="fa fa-sack-dollar"></i> Historique de paiements</a>
             <div class="dropdown">
@@ -19,8 +19,37 @@
                     <li class="dropdown-item"><i class="fa fa-key"></i> Clé API</li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
+
+    <nav>
+        <ul class="wp-component-menu border-bottom">
+           <li><a class="nav-link" [routerLink]="['/applications/details',application?.id ,'payments']"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fa fa-home"></i> Accueil</a></li> 
+           <li><a href="#" class="nav-link" [routerLink]="['/applications/details',application?.id ,'payments']"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-sack-dollar"></i> Paiements</a></li> 
+           <li><a class="nav-link" [routerLink]="['/applications/details',application?.id ,'transactions']"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-list"></i> Transactions</a></li> 
+           <li><a href="#" class="nav-link" [routerLink]="['/applications/details', application?.id, 'payment-methods']"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-bank"></i> Methodes de peiements</a></li> 
+           <li><a href="#" class="nav-link" [routerLink]=""
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-key"></i> Clés</a></li> 
+           <li><a href="#" class="nav-link" [routerLink]=""
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"> 
+            <i class="fa fa-link"></i> Webhook</a></li> 
+        </ul>
+    </nav>
 
     <div class="wp-component-content">
         <router-outlet></router-outlet>

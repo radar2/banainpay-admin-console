@@ -9,15 +9,19 @@
     
 }
 
-.conf {
-    // &:hover {
-    //     .text {
-    //         display: inline;
-    //         transition: margin-right 2s ease-in-out;
-    //     }
-    // }
-    // .text {
-    //     transition: all 0.3s ease-in-out;
-    //     display: none;
-    // }
+.wp-component-menu {
+    list-style: none;
+    display: flex;
+    padding: 0px;
+    li a.nav-link {
+        padding: 5px 20px;
+        font-size: 13px;
+        &:hover {
+            background-color: #e6e6e6;
+        }
+        &.active {
+            border-bottom: 2px solid #e27641; // #207557
+        }
+    }
+
 }

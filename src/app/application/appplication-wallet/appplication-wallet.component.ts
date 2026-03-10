@@ -27,7 +27,6 @@ export class AppplicationWalletComponent implements OnInit{
     
     this.state.get().pipe(
     switchMap(app => {
-      console.log(app);
       return this.paymentService.getTransactionHistory(app?.id!)
     })
       

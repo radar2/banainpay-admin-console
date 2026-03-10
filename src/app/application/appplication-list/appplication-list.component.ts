@@ -53,7 +53,6 @@ export class AppplicationListComponent implements OnInit{
     else if ( this.p1==2 ) {
       this.applicationService.getCurrentMarchandApps().subscribe(
         (data) => {this.applications = data;
-          console.log(this.applications);
         }
       )
     }
