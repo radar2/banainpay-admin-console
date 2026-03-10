@@ -6,6 +6,8 @@ import {ApplicationService} from './../application.service';
 import { Application } from '../application.model';
 import { Observable, subscribeOn } from 'rxjs';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import { messages } from '../../messages';
 
 @Component({
   selector: 'app-appplication-list',
@@ -21,7 +23,7 @@ export class AppplicationListComponent implements OnInit{
   list$:Observable<Application[]> = new Observable();
   applications:Application[] = [];
 
-  constructor(private router: Router, private applicationService:ApplicationService,private route:ActivatedRoute){}
+  constructor(private message:NzMessageService, private router: Router, private applicationService:ApplicationService,private route:ActivatedRoute){}
 
   idMarchand:any;
   p1:any = 0;
@@ -68,8 +70,10 @@ export class AppplicationListComponent implements OnInit{
   activateApplication(id:string) {
       this.applicationService.activate(id).subscribe(
         (data) => {
+          this.message.success(messages.operation.success)
           console.log(data)
-        }
+        }, 
+        (err) =>  this.message.success(messages.operation.error)
       )
   }
 

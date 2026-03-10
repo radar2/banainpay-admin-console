@@ -13,7 +13,6 @@ export const routes:Route[] = [
         path: '',
         redirectTo:'/applications/list',
         pathMatch:'full'
-        
       },
       {
         path: ':p1/:p2/list',
@@ -21,6 +20,10 @@ export const routes:Route[] = [
         data: {
          title:  "Liste"
         }
+      },
+      {
+            path:'payments',
+            loadComponent:() => import('./appplication-payment-history/appplication-payment-history.component').then(m => m.AppplicationPaymentHistoryComponent)
       },
       {
         path: 'details/:p1',
@@ -37,6 +40,10 @@ export const routes:Route[] = [
           {
             path:'infos',
             loadComponent:() => import('./application-gemeral/application-gemeral.component').then(m => m.ApplicationGemeralComponent)
+          },
+          {
+            path:'payment-methods',
+            loadComponent:() => import('./appplication-payment-method/appplication-payment-method.component').then(m => m.AppplicationPaymentMethodComponent)
           },
 
           {

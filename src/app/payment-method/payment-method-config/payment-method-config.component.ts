@@ -8,6 +8,9 @@ import { getPaymentMethodLogo } from '../../utility/utility';
 import { ConfigurationProperty, PaymentProvider, PaymentSpi } from '../method.model';
 import { StoreConfigService } from '../store-config.service';
 import { Observable, of } from 'rxjs';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import { messages } from '../../messages';
 declare var bootstrap: any;
 
 @Component({
@@ -28,8 +31,14 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
     @Input() p1 = 0
     @Input() providerId:any = null
 
-  constructor(private route:ActivatedRoute,private router:Router,
-     private paymentMethodService:PaymentMethodService,private store: StoreConfigService) {
+  constructor(
+    private route:ActivatedRoute,
+    private router:Router,
+    private paymentMethodService:PaymentMethodService,
+    private store: StoreConfigService, 
+    private message:NzMessageService,
+    private notification:NzNotificationService
+    ) {
 
      }
 
@@ -215,11 +224,13 @@ export class PaymentMethodConfigComponent implements OnInit, OnChanges{
     if (this.p1 == 0) {
       this.paymentMethodService.saveConfiguration(payload).subscribe(
           (success) => {
+              this.message.success(messages.operation.success)
               this.resetForm();
               // this.loadConfigurations(this.p1);
               this.paymentMethodService.reload();
               this.closeModal();
-          }
+          },
+          (err) => this.message.error(messages.operation.error)
         )
     }  else {
 

@@ -56,4 +56,10 @@ export class AppplicationDetailsComponent implements OnInit{
       this.router.navigate(['/applications/details', this.application.id, 'infos'])
     }
   }
+
+  goToPaymentMethods() {
+   if (this.application) {
+      this.router.navigate(['/applications/details', this.application.id, 'payment-methods'])
+    }
+  }
 }

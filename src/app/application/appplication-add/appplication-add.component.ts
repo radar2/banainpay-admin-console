@@ -8,6 +8,8 @@ import { FormBuilder,
 import { Router, RouterModule } from '@angular/router';
 import { ApplicationService } from '../application.service';
 import { Application } from '../application.model';
+import {NzMessageService} from 'ng-zorro-antd/message'
+import { messages } from '../../messages';
 
 @Component({
   selector: 'app-appplication-add',
@@ -30,7 +32,10 @@ export class AppplicationAddComponent implements OnInit{
   errorMessage = null;
   
 
-  constructor(private router:Router, private applicaionService:ApplicationService) {}
+  constructor(
+    private router:Router,
+    private applicaionService:ApplicationService, 
+  private message:NzMessageService) {}
 
   ngOnInit(): void {
     
@@ -54,12 +59,13 @@ export class AppplicationAddComponent implements OnInit{
     this.applicaionService.createApplication(this.applicationForm.value).subscribe(
       (data:Application)=>{
         this.loading = false;
+        this.message.success(messages.operation.success);
         this.router.navigateByUrl(`/applications/details/${data.id}/infos`)
       },
       (err) => {
+        this.message.error(messages.operation.error)
         this.loading = false;
         this.hasError = true;
-        console.log(err)
         this.errorMessage = err
       }
     )

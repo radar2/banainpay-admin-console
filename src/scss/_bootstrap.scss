@@ -31,3 +31,8 @@
     border: none;
     border-radius: 0px;
 }
+
+.nav-tabs .nav-item .nav-link, .nav-tabs .nav-item .nav-link.active {
+    border: 1px solid rbg(219, 223, 230)
+
+}

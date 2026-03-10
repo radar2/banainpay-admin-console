@@ -7,7 +7,10 @@ import { PaymentProvider } from './../../payment-method/method.model';
 import { ApplicationStateService } from '../application-state.service';
 import {getPaymentMethodLogo} from './../../utility/utility';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import {NzMessageService} from 'ng-zorro-antd/message';
+
 import { PaymentMethodService } from '../../payment-method/payment-method.service';
+import { messages } from '../../messages';
 @Component({
   selector: 'appplication-payment-method',
   imports: [CommonModule, RouterModule, NzTableModule, NgOptimizedImage],
@@ -22,6 +25,7 @@ export class AppplicationPaymentMethodComponent implements OnInit{
 
   constructor(
     private state:ApplicationStateService,
+    private message:NzMessageService,
     private paymentMathodService:PaymentMethodService,
     private applicationService:ApplicationService) {
       
@@ -66,10 +70,11 @@ export class AppplicationPaymentMethodComponent implements OnInit{
   addProvider(provider:PaymentProvider) {
     this.applicationService.addPaymentProviderToApplication(this.applicationId, provider.id).subscribe(
       (data)=> {
+        this.message.success(messages.operation.success)
          this.allProviders = this.allProviders.filter(p => p.id != provider.id);
          this.lists.push(provider)
       },
-      (error) => console.error(error)
+      (error) => this.message.error(messages.operation.error)
       
     )
   }
@@ -77,10 +82,11 @@ export class AppplicationPaymentMethodComponent implements OnInit{
     removeProvider(provider:PaymentProvider) {
     this.applicationService.removePaymentProviderFromApplication(this.applicationId, provider.id).subscribe(
       (data)=> {
+        this.message.success(messages.operation.success);
          this.lists = this.lists.filter(p => p.id == provider.id);
          this.allProviders.push(provider)
       },
-      (error) => console.error(error)
+      (error) => this.message.error(messages.operation.error)
       
     )
   }
