@@ -1,40 +1,12 @@
 <div>
-    <h3><i class="fa fa-lock"></i> Parametres d'authentification de l'application</h3>
-    <div>
-        <p class="alert ">
-            Ces identifiants permettent d’obtenir un Jeton d'acces' via le endpoint d’authentification. <br>
-            Ils doivent être envoyés dans l’en-tête Authorization en utilisant le schéma Basic.
-        </p>
-        
-        <div class="row py-3">
-            <div class="col-md-6 ">
-                <label for="">ID Application</label> <br>
-                <span>{{application?.id}}</span>
-            </div>
-            <div class="col-md-6 key">
-                <label for="">Clé API</label>
-                <span class="ms-2" (click)="showKey()"><i class="fa fa-eye"></i></span>
-                <!-- <small (click)="showKey()" class="show ">Afficher</small> -->
-                <br>
-                <!-- <input type="text" class="form-control" [value]="key" disabled> -->
-                <span>{{key}}</span>
-
-            </div>
-        </div>
-        <!-- <div class="py-3">
-            <button class="btn btn-sm btn-primary">Générer un jeton d'accès</button>
-        </div> -->
-    </div>
-
-    <hr class="my-4">
     <form [formGroup]="settingForm" action="" class="form">
 
     <div class="webhook py-4">
         <h3><i class="fa fa-link"></i> Webhook</h3>
         <p>
             À chaque évolution du paiement,
-le système déclenchera une requête HTTP POST (webhook) vers l’URL configurée par l’application cliente. <br>
-Le corps de la requete est JSON.
+            le système déclenchera une requête HTTP POST (webhook) vers l’URL configurée par l’application cliente. <br>
+            Le corps de la requete est JSON.
         </p>
         <div class=" form-group col-md-5" [ngClass]="{'input-error': webhookUrl.errors && 
             (webhookUrl.touched || webhookUrl.dirty)}">

@@ -1,0 +1,50 @@
+<div>
+    <form [formGroup]="settingForm" action="" class="form">
+
+        <div class="">
+            <h3><i class="fa fa-mobile"></i>Versement</h3>
+            <p>
+                Ce numéro sera utiliser pour recevoir de l'argent
+            </p>
+            <div class=" form-group col-md-5" [ngClass]="{'input-error': settlementType.errors && 
+                (settlementType.touched || settlementType.dirty)}">
+                <label for="">Mode de versement</label> <br>
+            <select name="" id="" class="form-control" formControlName="settlementType">
+                <option value="ON_DEMAND">A la demande</option>
+                <option value="DAILY">Chaque jour</option>
+                <option value="WEEKLY">Chaque Semaine</option>
+                <option value="MONTHLY">Chaque Mois</option>
+                <option value="QUARTERLY">Chaque Trimestre</option>
+            </select>
+                @if(settlementType.errors && settlementType.touched || settlementType.dirty) {
+                    <div>
+                        @if(settlementType.hasError('required')) {
+                            <small class="text-danger">Le mode de versement est obligatoire.</small>
+                        }
+                    </div>
+                }
+            </div>
+            <div class=" form-group col-md-5" [ngClass]="{'input-error': fundingNumber.errors && 
+                (fundingNumber.touched || fundingNumber.dirty)}">
+                <label for="">Numéro mobile money</label> <br>
+                <input formControlName="fundingNumber" type="text" class="form-control col-md-3">
+                @if(fundingNumber.errors && fundingNumber.touched || fundingNumber.dirty) {
+                    <div>
+                        @if(fundingNumber.hasError('required')) {
+                            <small class="text-danger">Le numéro mobile money est obligatoire</small>
+                        }
+                    </div>
+                }
+            </div>
+            <div>
+                <button (click)="saveSettings()" class="btn btn-sm btn-primary">
+                    @if(!loading) {
+                        Enregistrer les modifications
+                    }@else{
+                        <span class="spinner-border" role="status"></span>
+                    }
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
