@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams, HttpRequest } from "@angular/common/http";
 import { BehaviorSubject, catchError, map, Observable, of, shareReplay, tap, throwError } from "rxjs";
-import { Application } from "./application.model";
+import { Application, Settlement, Webhook } from "./application.model";
 import { inject, Injectable } from "@angular/core";
 import {environment} from './../../environments/environment';
 import { PaymentProvider } from "../payment-method/method.model";
@@ -114,6 +114,18 @@ export class ApplicationService {
     public saveSettings(id:string, data:any) {
         const url = `${environment.apiUrl}/apps/${id}/configurations`;
         return this.httpClient.post(url, JSON.stringify(data), {
+           headers:{"Content-Type": "application/json"}
+        });
+    }
+
+    public changeWebhook(id:string, webhookUrl:any):Observable<Webhook> {
+        const url = `${environment.apiUrl}/apps/${id}/configs/webhook?url=${webhookUrl}`;
+        return this.httpClient.post<Webhook>(url, null);
+    }
+
+    public changeSettlement(id:string, data:any):Observable<Settlement> {
+       const url = `${environment.apiUrl}/apps/${id}/configs/settlement`;
+        return this.httpClient.post<Settlement>(url, JSON.stringify(data), {
            headers:{"Content-Type": "application/json"}
         });
     }

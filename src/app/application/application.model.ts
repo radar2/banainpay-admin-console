@@ -12,7 +12,7 @@ export interface Application {
 
 export interface Settlement {
     type:string;
-    fundingNumber:string;
+    mobileMoneyNumber:string;
 }
 
 

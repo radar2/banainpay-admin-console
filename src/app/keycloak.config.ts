@@ -10,7 +10,8 @@ import {
 import { environment } from '../environments/environment';
 
 const localhostCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
-  urlPattern: /^(http:\/\/192.168.0.108:8090)(\/.*)?$/i
+  // urlPattern: /^(https:\/\/payment.banianpay.com)(\/.*)?$/i
+  urlPattern: /^(http:\/\/localhost:8090)(\/.*)?$/i
 });
 
 export const provideKeycloakAngular = () =>

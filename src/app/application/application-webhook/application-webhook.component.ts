@@ -6,6 +6,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { ApplicationStateService } from '../application-state.service';
 import { Application } from '../application.model';
 import { ApplicationService } from '../application.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { messages } from '../../messages';
+import { keys } from 'lodash-es';
 
 @Component({
   selector: 'application-webhook',
@@ -19,19 +22,18 @@ export class ApplicationWebhookComponent implements OnInit, OnDestroy{
    private state = inject(ApplicationStateService);
 
    
-  key = '';
+  showHmacKey = false;
   application:Application | null = null;
   destroy$ = new Subject<void>();
   loading = false;
   settingForm = this.fb.group({
     webhookUrl: this.fb.control(""),
     webhookHmacKey: this.fb.control(""),
-    rate:  this.fb.control(0.0, [Validators.required]),
-    settlementType:this.fb.control('ON_DEMAND', [Validators.required]),
-    fundingNumber:this.fb.control("", [this.requiredPhoneNumberValidator()])
   })
 
-  constructor(private applicationService:ApplicationService) {}
+  constructor(
+    private message:NzMessageService,
+    private applicationService:ApplicationService) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -48,21 +50,14 @@ export class ApplicationWebhookComponent implements OnInit, OnDestroy{
           
           this.settingForm.patchValue({
             webhookUrl: this.application.webhook?.url,
-            webhookHmacKey: this.application.webhook?.hmacKey,
-            settlementType: this.application.settlement.type,
-            fundingNumber: this.application.settlement.fundingNumber,
-            rate: this.application.feesRate
+            webhookHmacKey: this.application.webhook?.hmacKey
           });
         }
       }
     )
 
-    this.rate.disable()
-    this.webhookHmacKey.disable()
+    this.webhookHmacKey.disable();
 
-    this.settlementType.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.settingForm.get('fundingNumber')!.updateValueAndValidity();
-    })
   }
 
 
@@ -70,72 +65,33 @@ export class ApplicationWebhookComponent implements OnInit, OnDestroy{
     return  this.settingForm.get("webhookUrl")!;
   }
 
-  get rate():AbstractControl  {
-    return  this.settingForm.get("rate")!;
-  }
-
-  get settlementType():AbstractControl {
-    return  this.settingForm.get("settlementType")!;
-  }
-
-  get fundingNumber():AbstractControl {
-    return  this.settingForm.get("fundingNumber")!;
-  }
 
   get webhookHmacKey():AbstractControl {
     return  this.settingForm.get("webhookHmacKey")!;
   }
 
-  public showKey() {
-    if (this.application) {
-      this.applicationService.showKey(this.application.id).subscribe(
-        (data:any) => {
-          this.key = data.key
-        }
-      )
-    }
-  }
-
-  requiredPhoneNumberValidator() {
-    return (control: AbstractControl): ValidationErrors | null => {
-
-    if (!control.parent) {
-      return null; 
-    }
-
-    const mode = control.parent.get('settlementType')?.value;
-    const value = control.value?.trim();
-
-    if (!value && mode !== 'ON_DEMAND') {
-      return { required: true };
-    }
-
-    return null;
-  };
-  }
+ 
 
 
-  saveSettings() {
-    console.log(this.settingForm.value)
-    console.log(this.fundingNumber)
-    if (!this.settingForm.valid) {
-      Object.values(this.settingForm.controls).forEach(control => {
-        if (!control.valid) {
-          control.markAllAsDirty();
-          control.updateValueAndValidity({onlySelf: true})
-        }
-      })
+  save() {
+    if (!this.webhookUrl.valid) {
+     this.webhookUrl.markAllAsDirty();
+      this.webhookUrl.updateValueAndValidity({onlySelf: true})
       return;
     }
     if (this.application) {
       this.loading = true;
-      this.applicationService.saveSettings(
-        this.application.id, this.settingForm.value!).subscribe(
-          (success) => {
+      this.applicationService.changeWebhook(
+        this.application.id, this.webhookUrl.value).subscribe(
+          (data) => {
+            this.message.success(messages.operation.success)
+            this.application!.webhook = data
+            this.state.set(this.application!);
+            this.showKey(data.hmacKey);
             this.loading = false;
           },
           (err)=> {
-            console.log(err);
+            this.message.error(messages.operation.error)
             this.loading = false;
           }
         )
@@ -146,11 +102,31 @@ export class ApplicationWebhookComponent implements OnInit, OnDestroy{
     if (this.application) {
       this.applicationService.generateHmacKey(this.application.id).subscribe(
         (data) => {
+          this.message.success(messages.operation.success)
           this.webhookHmacKey.patchValue(data.hmacKey);
+        },
+        (error) => {
+          this.message.error(messages.operation.error)
         }
       )
     }
   }
 
+  copy() {
+    let keySpan = document.querySelector('#key') as HTMLSpanElement;
+    if (keySpan) {
+      navigator.clipboard.writeText(keySpan.innerText).then(v => {
+      this.message.info('Copié')
+    } )
+    }
+    
+  }
 
+showKey(key:string) {
+  this.showHmacKey = true;
+  let keySpan = document.querySelector('#key') as HTMLSpanElement;
+  if (keySpan) {
+    keySpan.innerText = key;
+  }
+}
 }

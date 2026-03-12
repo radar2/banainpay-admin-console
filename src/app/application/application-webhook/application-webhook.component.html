@@ -9,6 +9,7 @@
                 le système déclenchera une requête HTTP POST (webhook) vers l’URL configurée par l’application cliente. <br>
                 Le corps de la requete est JSON.
             </p>
+
             <div class=" form-group col-md-5" [ngClass]="{'input-error': webhookUrl.errors && 
                 (webhookUrl.touched || webhookUrl.dirty)}">
                 <label for="">Adresse URL</label> <br>
@@ -21,26 +22,29 @@
                     </div>
                 }
             </div>
-
-            <div class=" form-group" [ngClass]="{'input-error': webhookHmacKey.errors && 
-                (webhookHmacKey.touched || webhookHmacKey.dirty)}">
-                <label for="">HMAC Key</label> <br>
-                <div class="d-flex">
-                    <div class="col-md-5">
-                    <input formControlName="webhookHmacKey" type="text" class="form-control"/>
-                </div>
-                <div class="ps-1">
-                    <button (click)="generateNewHmacKey()" class="btn btn-sm btn-secondary rounded"><i class="fa fa-key"></i> générer une clé</button>
-                </div>
-                </div>
-                @if(webhookHmacKey.errors && webhookHmacKey.touched || webhookHmacKey.dirty) {
-                    <div>
-                        @if(webhookHmacKey.hasError('required')) {
-                            <small class="text-danger">Champ  est requis.</small>
-                        }
-                    </div>
-                }
+            
+            <div *ngIf="showHmacKey" class="hmac">
+                <p class="alert alert-info px-2 col-md-6 my-1">
+                    <i class="fa fa-bell"></i> Veillez  copier votre clé de vérification  dès maintenant. Vous ne pourrez plus le voir par la suite!
+                </p>
+                <p class="alert alert-success my-1 px-2 col-md-6">
+                   <span id="key"> <i class="fa fa-check"></i> {{application?.webhook?.hmacKey}}</span> &nbsp;
+                    <span><i style="cursor:pointer;" (click)="copy()" class="fa fa-copy text-primary"></i></span>
+                </p>
             </div>
+
+
+            <div class="py-4">
+                <button [disabled]="loading" (click)="save()" class="btn btn-sm btn-primary">
+                    @if(!loading) {
+                        Enregister 
+                    }@else{
+                        <span class="spinner-border" role="status"></span>
+                    }
+                </button>
+            </div>
+
+            
         
         </div>
 

@@ -1,11 +1,12 @@
 <div class="wp-component">
     <div class="wp-component-header">
-        <h3 class="wp-component-title">Creer une nouvelle application</h3>
+        <h3 class="wp-component-title">Enregistrer un nouveau marchand</h3>
     </div>
     <div class="wp-component-content">
+        <p class="p-0">Veullez saisir les informations pour enregister un marchand.</p>
      
         <form [formGroup]="applicationForm" action="" class="form">
-            <div class="form-group col-md-6" 
+            <div class="form-group col-md-5" 
                 [ngClass]="{'input-error': applicationForm.get('name')?.errors && 
                 (applicationForm.get('name')?.touched || applicationForm.get('name')?.dirty)}">
                 <label for="name">Nom du marchand</label>
@@ -20,38 +21,8 @@
                 }
                 
             </div>
-            <div class="form-group col-md-6" 
-                [ngClass]="{'input-error': applicationForm.get('representationFirstName')?.errors && 
-                (applicationForm.get('representationFirstName')?.touched || applicationForm.get('representationFirstName')?.dirty)}">
-                <label for="name">Nom du répresentant</label>
-                <input type="text" class="form-control" formControlName="representationFirstName">
-                @if(applicationForm.get('representationFirstName')?.errors && 
-                (applicationForm.get('representationFirstName')?.touched || applicationForm.get('representationFirstName')?.dirty)) {
-                    <div>
-                        @if(applicationForm.get('representationFirstName')?.hasError('required')) {
-                            <small  class="text-danger">le nom du répresentant est réquise.</small>
-                        }
-                    </div>
-                }
-                
-            </div>
-            <div class="form-group col-md-6" 
-                [ngClass]="{'input-error': applicationForm.get('representationLastName')?.errors && 
-                (applicationForm.get('representationLastName')?.touched || applicationForm.get('representationLastName')?.dirty)}">
-                <label for="name">Prénoms du répresentant</label>
-                <input type="text" class="form-control" formControlName="representationLastName">
-                @if(applicationForm.get('representationLastName')?.errors && 
-                (applicationForm.get('representationLastName')?.touched || applicationForm.get('representationLastName')?.dirty)) {
-                    <div>
-                        @if(applicationForm.get('representationLastName')?.hasError('required')) {
-                            <small  class="text-danger">le prénnoms du répresentant est réquise.</small>
-                        }
-                    </div>
-                }
-                
-            </div>
-            
-            <div class="form-group col-md-6" 
+                        <div class="row">
+                            <div class="form-group col-md-5" 
                 [ngClass]="{'input-error': applicationForm.get('city')?.errors && 
                 (applicationForm.get('city')?.touched || applicationForm.get('city')?.dirty)}">
                 <label for="name">Ville</label>
@@ -66,7 +37,7 @@
                 }
                 
             </div>
-            <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('country')?.errors && 
+            <div class="form-group col-md-5" [ngClass]="{'input-error': applicationForm.get('country')?.errors && 
                 (applicationForm.get('country')?.touched || applicationForm.get('country')?.dirty)}">
                 <label for="name">Pays</label>
                 <select name="" id="" class="form-control" formControlName="country">
@@ -83,7 +54,45 @@
                     </div>
                 }
             </div>
-            <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('email')?.errors && 
+            </div>
+
+        
+            <div class="row">
+                <div class="form-group col-md-5" 
+                [ngClass]="{'input-error': applicationForm.get('representationFirstName')?.errors && 
+                (applicationForm.get('representationFirstName')?.touched || applicationForm.get('representationFirstName')?.dirty)}">
+                <label for="name">Nom</label>
+                <input type="text" class="form-control" formControlName="representationFirstName">
+                @if(applicationForm.get('representationFirstName')?.errors && 
+                (applicationForm.get('representationFirstName')?.touched || applicationForm.get('representationFirstName')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('representationFirstName')?.hasError('required')) {
+                            <small  class="text-danger">le nom du répresentant est réquise.</small>
+                        }
+                    </div>
+                }
+                
+            </div>
+        
+            <div class="form-group col-md-5" 
+                [ngClass]="{'input-error': applicationForm.get('representationLastName')?.errors && 
+                (applicationForm.get('representationLastName')?.touched || applicationForm.get('representationLastName')?.dirty)}">
+                <label for="name">Prénoms</label>
+                <input type="text" class="form-control" formControlName="representationLastName">
+                @if(applicationForm.get('representationLastName')?.errors && 
+                (applicationForm.get('representationLastName')?.touched || applicationForm.get('representationLastName')?.dirty)) {
+                    <div>
+                        @if(applicationForm.get('representationLastName')?.hasError('required')) {
+                            <small  class="text-danger">le prénnoms du répresentant est réquise.</small>
+                        }
+                    </div>
+                }
+                
+            </div>
+            </div>
+            
+
+            <div class="form-group col-md-5" [ngClass]="{'input-error': applicationForm.get('email')?.errors && 
                 (applicationForm.get('email')?.touched || applicationForm.get('email')?.dirty)}">
                 <label for="name">Email</label>
                 <input type="text" class="form-control" formControlName="email">
@@ -95,7 +104,7 @@
                     </div>
                 }
             </div>
-            <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('telephone')?.errors && 
+            <div class="form-group col-md-5" [ngClass]="{'input-error': applicationForm.get('telephone')?.errors && 
                 (applicationForm.get('telephone')?.touched || applicationForm.get('telephone')?.dirty)}">
                 <label for="name">N° Téléphone </label>
                 <input type="text" class="form-control" formControlName="telephone">
@@ -109,15 +118,11 @@
                 }
             </div>
 
-            
-            <div class="form-group form-group col-md-6">
-                <label for="description" >Description</label>
-                <textarea class="form-control" formControlName="description" name="" id="" placeholder="Saisi la description"></textarea>
-            </div>
+
             <div class="py-3">
                 <button [disabled]="loading" (click)="submit()" class="btn btn-sm btn-primary">
                     @if(!loading) {
-                        Créer <i class="typcn typcn-arrow-right"></i>
+                        Enregistrer <i class="typcn typcn-arrow-right"></i>
                         
                     }@else{
                         <span class="spinner-border" role="status"></span>

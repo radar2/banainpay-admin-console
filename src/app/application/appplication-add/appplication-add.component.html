@@ -3,6 +3,7 @@
         <h3 class="wp-component-title">Creer une nouvelle application</h3>
     </div>
     <div class="wp-component-content">
+        <p class="p-0">Veuillez saisir les informations pour créer une nouvelle application.</p>
         <p *ngIf="hasError" class="alert alert-danger p-3">
             {{errorMessage}}
         </p>
@@ -22,10 +23,6 @@
                 }
                 
             </div>
-            <div class="form-group form-group col-md-6">
-                <label for="description" >Description</label>
-                <textarea class="form-control" formControlName="description" name="" id="" placeholder="Saisi la description"></textarea>
-            </div>
             <div class="form-group col-md-6" [ngClass]="{'input-error': applicationForm.get('countryCode')?.errors && 
                 (applicationForm.get('countryCode')?.touched || applicationForm.get('countryCode')?.dirty)}">
                 <label for="name">Pays</label>
@@ -43,6 +40,11 @@
                     </div>
                 }
             </div>
+            <div class="form-group form-group col-md-6">
+                <label for="description" >Description</label>
+                <textarea class="form-control" formControlName="description" name="" id="" placeholder="Saisi la description"></textarea>
+            </div>
+            
 
             <div class="py-3">
                 <button [disabled]="loading" (click)="submit()" class="btn btn-sm btn-primary">

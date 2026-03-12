@@ -1,13 +1,13 @@
 <div>
-    <div class=" text-center wallet border-bottom">
-        <span><i class="fa fa-sack-dollar"></i> Solde</span>
+    <div class=" text-center wallet">
+        <span><i class="fa fa-sack-dollar"></i> Solde disponbible</span>
         <h2 class="amount">
             {{ convertMoney((balance$ | async)?.amount) }}
         </h2>
         <div>
             <span class="lastModifiedDate text-primary">Dernière Mise à jours: {{(balance$ | async)?.lastModifiedDate}}</span>
         </div>
-        <button [routerLink]="['/applications/details/',application?.id, 'transactions']" class="btn btn-sm btn-outline-secondary">Historique des transactions <i class="fa fa-arrow-right"></i></button>
+        <button class="btn btn-sm btn-outline-secondary">Demander un reglement <i class="fa fa-arrow-right"></i></button>
     </div>
 
 <!-- 

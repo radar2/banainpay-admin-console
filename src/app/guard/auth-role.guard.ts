@@ -28,7 +28,7 @@ const isAccessAllowed = async (
   }
 
   const router = inject(Router);
-  return router.parseUrl('/404');
+  return router.parseUrl('/403');
 };
 
 

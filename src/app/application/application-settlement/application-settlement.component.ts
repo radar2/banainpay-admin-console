@@ -6,6 +6,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { ApplicationStateService } from '../application-state.service';
 import { Application } from '../application.model';
 import { ApplicationService } from '../application.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { messages } from '../../messages';
 
 @Component({
   selector: 'application-settlement',
@@ -16,22 +18,19 @@ import { ApplicationService } from '../application.service';
 export class ApplicationSettlementComponent implements OnInit, OnDestroy{
   fb = inject(NonNullableFormBuilder);
 
-   private state = inject(ApplicationStateService);
-
-   
   key = '';
   application:Application | null = null;
   destroy$ = new Subject<void>();
   loading = false;
   settingForm = this.fb.group({
-    webhookUrl: this.fb.control(""),
-    webhookHmacKey: this.fb.control(""),
-    rate:  this.fb.control(0.0, [Validators.required]),
-    settlementType:this.fb.control('ON_DEMAND', [Validators.required]),
-    fundingNumber:this.fb.control("", [this.requiredPhoneNumberValidator()])
+    type:this.fb.control('ON_DEMAND', [Validators.required]),
+    mobileMoneyNumber:this.fb.control("", [this.requiredPhoneNumberValidator()])
   })
 
-  constructor(private applicationService:ApplicationService) {}
+  constructor(
+    private message:NzMessageService,
+    private state:ApplicationStateService,
+    private applicationService:ApplicationService) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -47,54 +46,28 @@ export class ApplicationSettlementComponent implements OnInit, OnDestroy{
           this.application = data!
           
           this.settingForm.patchValue({
-            webhookUrl: this.application.webhook?.url,
-            webhookHmacKey: this.application.webhook?.hmacKey,
-            settlementType: this.application.settlement.type,
-            fundingNumber: this.application.settlement.fundingNumber,
-            rate: this.application.feesRate
+            type: this.application.settlement.type,
+            mobileMoneyNumber: this.application.settlement.mobileMoneyNumber
           });
         }
       }
     )
 
-    this.rate.disable()
-    this.webhookHmacKey.disable()
 
-    this.settlementType.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.settingForm.get('fundingNumber')!.updateValueAndValidity();
+    this.type.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.settingForm.get('mobileMoneyNumber')!.updateValueAndValidity();
     })
   }
 
 
-  get webhookUrl():AbstractControl {
-    return  this.settingForm.get("webhookUrl")!;
+  get type():AbstractControl {
+    return  this.settingForm.get("type")!;
   }
 
-  get rate():AbstractControl  {
-    return  this.settingForm.get("rate")!;
+  get mobileMoneyNumber():AbstractControl {
+    return  this.settingForm.get("mobileMoneyNumber")!;
   }
 
-  get settlementType():AbstractControl {
-    return  this.settingForm.get("settlementType")!;
-  }
-
-  get fundingNumber():AbstractControl {
-    return  this.settingForm.get("fundingNumber")!;
-  }
-
-  get webhookHmacKey():AbstractControl {
-    return  this.settingForm.get("webhookHmacKey")!;
-  }
-
-  public showKey() {
-    if (this.application) {
-      this.applicationService.showKey(this.application.id).subscribe(
-        (data:any) => {
-          this.key = data.key
-        }
-      )
-    }
-  }
 
   requiredPhoneNumberValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -103,7 +76,7 @@ export class ApplicationSettlementComponent implements OnInit, OnDestroy{
       return null; 
     }
 
-    const mode = control.parent.get('settlementType')?.value;
+    const mode = control.parent.get('type')?.value;
     const value = control.value?.trim();
 
     if (!value && mode !== 'ON_DEMAND') {
@@ -115,9 +88,7 @@ export class ApplicationSettlementComponent implements OnInit, OnDestroy{
   }
 
 
-  saveSettings() {
-    console.log(this.settingForm.value)
-    console.log(this.fundingNumber)
+  save() {
     if (!this.settingForm.valid) {
       Object.values(this.settingForm.controls).forEach(control => {
         if (!control.valid) {
@@ -129,29 +100,21 @@ export class ApplicationSettlementComponent implements OnInit, OnDestroy{
     }
     if (this.application) {
       this.loading = true;
-      this.applicationService.saveSettings(
+      this.applicationService.changeSettlement(
         this.application.id, this.settingForm.value!).subscribe(
-          (success) => {
+          (data) => {
+            this.message.success(messages.operation.success)
+            this.application!.settlement = data;
+            this.state.set(this.application!)
             this.loading = false;
           },
           (err)=> {
-            console.log(err);
+            this.message.error(messages.operation.error)
             this.loading = false;
           }
         )
     } 
   }
-
-  generateNewHmacKey() {
-    if (this.application) {
-      this.applicationService.generateHmacKey(this.application.id).subscribe(
-        (data) => {
-          this.webhookHmacKey.patchValue(data.hmacKey);
-        }
-      )
-    }
-  }
-
 
 }
 

@@ -14,40 +14,52 @@ export const navItems: INavData[] = [
   {
     name: 'Marchands',
     url: '/merchands',
-    iconComponent: { name: 'cil-cursor' }
+    iconComponent: { name: 'cil-puzzle' }
   },
   {
     name: 'Application',
     url: '/applications/1/0/list',
     iconComponent: { name: 'cil-cursor' }
   },
+
   {
-    name: 'Historique',
+    name: 'Paiements',
     url: '/payments',
-    iconComponent: { name: 'cil-list' },
-    children: [
-      {
-        name: 'Paiements',
-        url: '/payments/history',
-        icon: 'nav-icon-bullet'
-      },
-      {
-        name: 'Transactions',
-        url: '/payments/transactions',
-        icon: 'nav-icon-bullet'
-      },
-    ]
+    iconComponent: { name: 'cil-list' }
   },
+
+  {
+    name: 'Transactions',
+    url: '/transactions',
+    iconComponent: { name: 'cil-list' },
+  },
+  // {
+  //   name: 'Historique',
+  //   url: '/payments',
+  //   iconComponent: { name: 'cil-list' },
+  //   children: [
+  //     {
+  //       name: 'Paiements',
+  //       url: '/payments',
+  //       icon: 'nav-icon-bullet'
+  //     },
+  //     {
+  //       name: 'Transactions',
+  //       url: '/transactions',
+  //       icon: 'nav-icon-bullet'
+  //     },
+  //   ]
+  // },
   {
     name: 'Methode de paiements',
     url: '/methods',
     iconComponent: { name: 'cil-credit-card' }
   },
-  {
-    name: 'Parametres',
-    url: '/',
-    iconComponent: { name: 'cil-cog' }
-  }
+  // {
+  //   name: 'Parametres',
+  //   url: '/',
+  //   iconComponent: { name: 'cil-cog' }
+  // }
   // {
   //   title: true,
   //   name: 'Theme'
@@ -483,7 +495,7 @@ export const merchandNavItems: INavData[] = [
   {
     name: 'Applications',
     url: '/applications/2/0/list',
-    iconComponent: { name: 'cil-speedometer' }
+    iconComponent: { name: 'cil-cursor' }
   },
   {
     name: 'Utilisateurs',

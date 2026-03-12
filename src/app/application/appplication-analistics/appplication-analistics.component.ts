@@ -12,7 +12,7 @@ import { ApplicationStateService } from '../application-state.service';
 import { Application } from '../application.model';
 
 @Component({
-  selector: 'app-appplication-analistics',
+  selector: 'appplication-analistics',
    imports: [CommonModule, RouterModule, PaymentDetailsComponent, NzTableModule],
   templateUrl: './appplication-analistics.component.html',
   styleUrl: './appplication-analistics.component.scss',

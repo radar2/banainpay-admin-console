@@ -1,9 +1,9 @@
 export const environment = {
-    production: false,
-    apiUrl: "http://locahost:8023",
-    walletApiUrl: "http://localhost:8090",
+    production: true,
+    apiUrl: "https://payment.banianpay.com",
+    walletApiUrl: "https://payment.banianpay",
     sso: {
-        url: "https://auth.waizeducation.com",
+        url: "https://sso.banianpay.com",
         realm: "baniangroup",
         clientId:"banianpay"
     }

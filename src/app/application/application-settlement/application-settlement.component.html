@@ -2,42 +2,42 @@
     <form [formGroup]="settingForm" action="" class="form">
 
         <div class="">
-            <h3><i class="fa fa-mobile"></i>Versement</h3>
+            <h3><i class="fa fa-mobile"></i>Mode de règlement</h3>
             <p>
                 Ce numéro sera utiliser pour recevoir de l'argent
             </p>
-            <div class=" form-group col-md-5" [ngClass]="{'input-error': settlementType.errors && 
-                (settlementType.touched || settlementType.dirty)}">
+            <div class=" form-group col-md-5" [ngClass]="{'input-error': type.errors && 
+                (type.touched || type.dirty)}">
                 <label for="">Mode de versement</label> <br>
-            <select name="" id="" class="form-control" formControlName="settlementType">
+            <select name="" id="" class="form-control" formControlName="type">
                 <option value="ON_DEMAND">A la demande</option>
                 <option value="DAILY">Chaque jour</option>
                 <option value="WEEKLY">Chaque Semaine</option>
                 <option value="MONTHLY">Chaque Mois</option>
                 <option value="QUARTERLY">Chaque Trimestre</option>
             </select>
-                @if(settlementType.errors && settlementType.touched || settlementType.dirty) {
+                @if(type.errors && type.touched || type.dirty) {
                     <div>
-                        @if(settlementType.hasError('required')) {
+                        @if(type.hasError('required')) {
                             <small class="text-danger">Le mode de versement est obligatoire.</small>
                         }
                     </div>
                 }
             </div>
-            <div class=" form-group col-md-5" [ngClass]="{'input-error': fundingNumber.errors && 
-                (fundingNumber.touched || fundingNumber.dirty)}">
+            <div class=" form-group col-md-5" [ngClass]="{'input-error': mobileMoneyNumber.errors && 
+                (mobileMoneyNumber.touched || mobileMoneyNumber.dirty)}">
                 <label for="">Numéro mobile money</label> <br>
-                <input formControlName="fundingNumber" type="text" class="form-control col-md-3">
-                @if(fundingNumber.errors && fundingNumber.touched || fundingNumber.dirty) {
+                <input formControlName="mobileMoneyNumber" type="text" class="form-control col-md-3">
+                @if(mobileMoneyNumber.errors && mobileMoneyNumber.touched || mobileMoneyNumber.dirty) {
                     <div>
-                        @if(fundingNumber.hasError('required')) {
+                        @if(mobileMoneyNumber.hasError('required')) {
                             <small class="text-danger">Le numéro mobile money est obligatoire</small>
                         }
                     </div>
                 }
             </div>
             <div>
-                <button (click)="saveSettings()" class="btn btn-sm btn-primary">
+                <button [disabled]="loading" (click)="save()" class="btn btn-sm btn-primary">
                     @if(!loading) {
                         Enregistrer les modifications
                     }@else{
@@ -47,4 +47,23 @@
             </div>
         </div>
     </form>
+
+    <hr>
+    <div class="py-4">
+        <h4>Historique de règlements</h4>
+        <div class="py-3">
+            <table class="table">
+            <thead>
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Methode paiement</th>
+                <th>Application</th>
+                <th>Statut</th>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        </div>
+    </div>
 </div>

@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { canActiveAuthRoles } from './guard/auth-role.guard';
+import { redirectRoleGuard } from './guard/redirect-role.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/payments/history',
+    redirectTo: '/merchands/dashboard',
     pathMatch: 'full'
   },
+ 
   {
     path: '',
     loadComponent: () => import('./layout').then(m => m.DefaultLayoutComponent),
@@ -15,8 +17,25 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: '',
+        redirectTo: '/merchands/dashboard',
+        pathMatch: 'full'
+      },
+       {
+        path:'empty',
+        loadComponent: () => import('./empty/empty.component').then(c => c.EmptyComponent)
+      },
+      {
         path:'payments',
-        loadChildren:() =>import('./payments/payment.route').then(m =>m.routes)
+        loadComponent:() => import('./payments/payment-list/payment-list.component').then(c => c.PaymentListComponent),
+        canActivate: [canActiveAuthRoles],
+        data: {title:'Paiments', role: ['Administrator', 'Merchand'],}
+      },
+      {
+        path:'transactions',
+        loadComponent:() => import('./payments/transactions/transactions.component').then(m => m.TransactionsComponent),
+        canActivate: [canActiveAuthRoles],
+        data: {title:'Transactions', role: ['Administrator', 'Merchand'],}
       },
       {
         path:'applications',
@@ -26,16 +45,35 @@ export const routes: Routes = [
       },
       {
         path:'methods',
-        loadChildren:() => import('./payment-method/payment-method.route').then(m =>m.routes)
+        loadChildren:() => import('./payment-method/payment-method.route').then(m =>m.routes),
+        canActivate: [canActiveAuthRoles],
+        data: {role: ['Administrator']}
       },
       {
         path:'merchands',
-        loadChildren:() => import('./merchands/merchands.routes').then(m => m.routes)
+        loadChildren:() => import('./merchands/merchands.routes').then(m => m.routes),
+        
       },
       
       {
         path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes),
+        canActivate: [canActiveAuthRoles],
+        data: {role: ['Administrator']}
+      },
+      {
+        path: '404',
+        loadComponent: () => import('./views/pages/page404/page404.component').then(m => m.Page404Component),
+        data: {
+          title: 'Page 404'
+        }
+      },
+      {
+        path: '403',
+        loadComponent: () => import('./errors/page403/page403.component').then(m => m.Page403Component),
+        data: {
+          title: 'Page 403'
+        }
       },
       {
         path: 'theme',
@@ -75,13 +113,7 @@ export const routes: Routes = [
       }
     ]
   },
-  {
-    path: '404',
-    loadComponent: () => import('./views/pages/page404/page404.component').then(m => m.Page404Component),
-    data: {
-      title: 'Page 404'
-    }
-  },
+  
   {
     path: '500',
     loadComponent: () => import('./views/pages/page500/page500.component').then(m => m.Page500Component),
@@ -103,5 +135,5 @@ export const routes: Routes = [
       title: 'Register Page'
     }
   },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '**', redirectTo: 'empty' }
 ];

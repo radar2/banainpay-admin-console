@@ -83,7 +83,7 @@ export class AppplicationPaymentMethodComponent implements OnInit{
     this.applicationService.removePaymentProviderFromApplication(this.applicationId, provider.id).subscribe(
       (data)=> {
         this.message.success(messages.operation.success);
-         this.lists = this.lists.filter(p => p.id == provider.id);
+         this.lists = this.lists.filter(p => p.id != provider.id);
          this.allProviders.push(provider)
       },
       (error) => this.message.error(messages.operation.error)

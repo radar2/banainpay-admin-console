@@ -4,19 +4,20 @@
     </div>
 
     <div class="wp-component-content">
+        <p>Liste des comptes marchands enregistrés dans le système permettant de recevoir et gérer les paiements des clients.</p>
         <div class="d-flex justify-content-end">
             <button [routerLink]="['/merchands/regiter']" class="btn btn-sm wp-btn btn-primary"><i
-                    class="typcn typcn-plus"></i> Créer un marchand</button>
+                    class="typcn typcn-plus"></i> Nouveau marchand</button>
         </div>
         <nz-table class=" my-3" #basicTable [nzData]="applications">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nom du marchand</th>
-                    <th>Répresentant</th>
-                    <th>Adresse</th>
-                    <th>Contact</th>
+                    <!-- <th>ID</th> -->
+                    <th>Nom</th>
+                    <th>Pays</th>
+                    <th>Téléphone</th>
                     <th>Email</th>
+                    <th>Répresentant</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -24,12 +25,13 @@
 
                 @for (application of basicTable.data; track application.id) {
                 <tr>
-                    <td>{{application.id}}</td>
+                    <!-- <td>{{application.id}}</td> -->
                     <th scope="row">{{application?.name}}</th>
-                    <th scope="row">{{application.representativeName?.firstName}}  {{application.representativeName?.lastName}}</th>
-                    <th scope="row">{{application.address?.country}} {{application.address?.city}}</th>
-                    <th scope="row">{{application?.telephone}}</th>
-                    <th scope="row">{{application?.email}}</th>
+                    <td>{{application.address?.country}}</td>
+                    <td>{{application?.telephone}}</td>
+                    <td>{{application?.email}}</td>
+                    <td>{{application.representativeName?.firstName}}  {{application.representativeName?.lastName}}</td>
+
                     <td>
                         <a [routerLink]="['/applications',0, application.id, 'list']">Voir les applications <i class="typcn typcn-arrow-right"></i></a>
                     </td>

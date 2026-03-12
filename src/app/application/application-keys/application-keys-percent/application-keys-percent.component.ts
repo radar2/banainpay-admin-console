@@ -50,7 +50,7 @@ export class ApplicationKeysPercentComponent implements OnInit, OnDestroy{
             webhookUrl: this.application.webhook?.url,
             webhookHmacKey: this.application.webhook?.hmacKey,
             settlementType: this.application.settlement.type,
-            fundingNumber: this.application.settlement.fundingNumber,
+            fundingNumber: this.application.settlement.mobileMoneyNumber,
             rate: this.application.feesRate
           });
         }
